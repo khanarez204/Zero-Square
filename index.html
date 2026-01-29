@@ -190,46 +190,84 @@
         .spinner { border: 4px solid var(--bg-hover); border-top: 4px solid var(--accent-green); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- MOBILE RESPONSIVE (LINKS VISIBLE) --- */
-    @media (max-width: 900px) {
-        
-        /* 1. Header ki setting */
-        header {
-            flex-direction: column; /* Upar Logo, Neeche Links */
-            gap: 10px;
-            padding: 15px;
-            height: auto;
+        @media (max-width: 900px) {
+            .hero-container, .founder-grid, .player-layout, .story-section { grid-template-columns: 1fr; text-align: center; flex-direction: column; }
+            .dash-sidebar { display: none; }
+            .dash-content { margin-left: 0; padding: 15px; }
+            .nav-actions { display: none; }
+            .mobile-menu-btn { display: block; font-size: 1.5rem; color: white; cursor: pointer; }
+            .footer-grid { grid-template-columns: 1fr; }
         }
+        .mobile-nav { position: fixed; top: 70px; left: 0; width: 100%; background: var(--bg-card); padding: 20px; display: none; flex-direction: column; gap: 15px; z-index: 999; border-bottom: 1px solid var(--border); }
+        .mobile-menu-btn { display: none; }
 
-        /* 2. Hamburger Button Chupa dein */
-        .mobile-menu-btn {
-            display: none !important;
-        }
 
-        /* 3. Nav Actions (Links) ko Show karein */
-        .nav-actions {
-            display: flex !important;
-            gap: 20px; /* Links ke darmiyan fasla */
-            justify-content: center;
-            width: 100%;
-        }
+        /* --- HEADER STYLES --- */
+header {
+    background: rgba(3, 7, 18, 0.95); /* Dark Glass Effect */
+    backdrop-filter: blur(10px);
+    padding: 15px 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 1000;
+    border-bottom: 1px solid var(--border);
+}
 
-        /* 4. Search Bar aur Login Buttons Chupa dein (Taake jagah banay) */
-        .search-bar, #auth-buttons {
-            display: none !important;
-        }
+.logo img { height: 45px; width: auto; cursor: pointer; }
 
-        /* 5. Links ka Size adjust karein */
-        .nav-link {
-            font-size: 14px;
-            font-weight: 600;
-            color: #ccc; /* Thora light color */
-        }
-        
-        .nav-link.active-link {
-            color: white; /* Active link white */
-        }
-    }
+/* Search Bar */
+.search-bar {
+    flex: 1; max-width: 400px; margin: 0 20px;
+    background: var(--bg-card); border-radius: 50px;
+    padding: 10px 20px; display: flex; align-items: center;
+    border: 1px solid var(--border);
+}
+.search-bar input { border: none; background: transparent; outline: none; width: 100%; margin-left: 10px; color: white; }
+.search-bar i { color: var(--text-muted); }
+
+/* Navigation Links */
+.nav-actions { display: flex; align-items: center; gap: 25px; }
+.nav-link { font-weight: 500; font-size: 14px; color: var(--text-muted); cursor: pointer; transition: 0.3s; }
+.nav-link:hover, .nav-link.active-link { color: var(--accent); } /* Neon Hover */
+
+/* Buttons */
+.btn-main {
+    background: var(--primary); color: white; padding: 10px 24px; border-radius: 50px; 
+    font-weight: 600; font-size: 14px; border: none; transition: 0.3s;
+}
+.btn-main:hover { background: var(--primary-hover); transform: translateY(-2px); }
+
+/* User Avatar */
+.user-avatar-small { 
+    width: 35px; height: 35px; background: var(--accent); color: black; 
+    border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+    font-weight: bold; 
+}
+
+/* --- MOBILE MENU STYLES --- */
+.mobile-menu-btn { display: none; font-size: 1.5rem; color: white; cursor: pointer; }
+
+.mobile-nav { 
+    position: fixed; top: 75px; left: 0; width: 100%; 
+    background: var(--bg-card); padding: 20px; 
+    display: none; flex-direction: column; gap: 15px; 
+    z-index: 999; border-bottom: 1px solid var(--border);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+.mobile-nav.open { display: flex; animation: slideDown 0.3s ease-out; }
+
+.m-link { 
+    color: white; font-size: 1.1rem; border-bottom: 1px solid var(--border); 
+    padding-bottom: 10px; cursor: pointer; 
+}
+.m-link:hover { color: var(--accent); }
+
+@keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* --- RESPONSIVE MEDIA QUERY --- */
+@media (max-width: 900px) {
+    .nav-actions, .search-bar { display: none; } /* Desktop chupa do */
+    .mobile-menu-btn { display: block; } /* Mobile button dikha do */
+}
     </style>
 </head>
 <body>
@@ -237,40 +275,56 @@
     <div id="loading-overlay" class="hidden"><div class="spinner"></div></div>
 
     <!-- Header -->
-    <header>
-        <div class="logo" onclick="navigateTo('home')">
-            <img src="logo.png" alt="Logo">
-        </div>
-        <div class="search-bar"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search courses..."></div>
-        
-        <div class="nav-actions">
-            <span class="nav-link active-link" onclick="navigateTo('home')" id="link-home">Home</span>
-            <span class="nav-link" onclick="navigateTo('courses')" id="link-courses">Courses</span>
-            <span class="nav-link" onclick="navigateTo('services')" id="link-services">Services</span>
-            <span class="nav-link" onclick="navigateTo('about')" id="link-about">About</span>
-            <span class="nav-link hidden" id="link-admin" onclick="navigateTo('admin')" style="color: #ef4444; font-weight:800;">Admin</span>
-
-            <div id="auth-buttons" style="display: flex; gap: 15px;">
-                <span class="nav-link" onclick="navigateTo('auth')" style="margin-top:5px; cursor: pointer;">Log in</span>
-                <button class="btn-main" onclick="navigateTo('auth')">Join Free</button>
-            </div>
-
-            <div id="user-profile" class="hidden" onclick="navigateTo('dashboard')" style="cursor: pointer;">
-                <div style="width:35px; height:35px; background:var(--accent-green); color:black; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:bold;">U</div>
-            </div>
-        </div>
-        <div class="mobile-menu-btn" onclick="toggleMobileMenu()"><i class="fa-solid fa-bars"></i></div>
-    </header>
-
-    <!-- Mobile Nav -->
-    <div id="mobile-menu" class="mobile-nav">
-        <span class="nav-link" onclick="mobileNav('home')">Home</span>
-        <span class="nav-link" onclick="mobileNav('courses')">Courses</span>
-        <span class="nav-link" onclick="mobileNav('services')">Services</span>
-        <span class="nav-link" onclick="mobileNav('about')">About</span>
-        <span class="nav-link" onclick="mobileNav('auth')">Login / Join</span>
-        <span class="nav-link hidden" id="m-dash" onclick="mobileNav('dashboard')">Dashboard</span>
+    <!-- HEADER START -->
+<header>
+    <!-- 1. LOGO -->
+    <div class="logo" onclick="navigateTo('home')">
+        <img src="logo.png" alt="Logo">
     </div>
+
+    <!-- 2. SEARCH BAR (Desktop Only) -->
+    <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Search courses...">
+    </div>
+
+    <!-- 3. DESKTOP LINKS & BUTTONS -->
+    <div class="nav-actions">
+        <span class="nav-link active-link" onclick="navigateTo('home')" id="link-home">Home</span>
+        <span class="nav-link" onclick="navigateTo('courses')" id="link-courses">Courses</span>
+        <span class="nav-link" onclick="navigateTo('services')" id="link-services">Services</span>
+        <span class="nav-link" onclick="navigateTo('about')" id="link-about">About</span>
+        
+        <!-- Admin Link (Hidden by default) -->
+        <span class="nav-link hidden" id="link-admin" onclick="navigateTo('admin')" style="color: #D4F614; font-weight: 800;">Admin</span>
+
+        <!-- Login/Join Buttons -->
+        <div id="auth-buttons" style="display: flex; gap: 15px; align-items: center;">
+            <span class="nav-link" onclick="navigateTo('auth')" style="cursor: pointer;">Log in</span>
+            <button class="btn-main" onclick="navigateTo('auth')">Join Free</button>
+        </div>
+
+        <!-- User Profile (After Login) -->
+        <div id="user-profile" class="hidden" onclick="navigateTo('dashboard')" style="cursor: pointer;">
+            <div class="user-avatar-small" id="header-avatar">U</div>
+        </div>
+    </div>
+
+    <!-- 4. MOBILE HAMBURGER BUTTON -->
+    <div class="mobile-menu-btn" onclick="toggleMobileMenu()">
+        <i class="fa-solid fa-bars"></i>
+    </div>
+</header>
+
+<!-- 5. MOBILE MENU DROPDOWN (Header ke neeche) -->
+<div id="mobile-menu" class="mobile-nav">
+    <span class="m-link" onclick="mobileNav('home')">Home</span>
+    <span class="m-link" onclick="mobileNav('courses')">Courses</span>
+    <span class="m-link" onclick="mobileNav('services')">Services</span>
+    <span class="m-link" onclick="mobileNav('about')">About</span>
+    <span class="m-link" onclick="mobileNav('auth')">Login / Join</span>
+    <span class="m-link hidden" id="m-dash" onclick="mobileNav('dashboard')">Dashboard</span>
+</div>
 
     <!-- 1. HOME PAGE (Aaghaz.ai Style) -->
     <div id="home-page" class="page-section active">
@@ -490,7 +544,7 @@
             <div class="grid-container">
                 <div class="team-card"><img src="Arez.png" class="team-img"><div class="team-name">Arez Khan</div><div class="team-role">Founder & CEO</div></div>
                 <div class="team-card"><img src="usman.jpeg" class="team-img"><div class="team-name">Usman Ali</div><div class="team-role">Head of Education</div></div>
-                <div class="team-card"><img src="hizam.jpeg" class="team-img"><div class="team-name">Hizam Ali</div><div class="team-role">Marketing Manager</div></div>
+                <div class="team-card"><img src="https://randomuser.me/api/portraits/men/85.jpg" class="team-img"><div class="team-name">Hizam Ali</div><div class="team-role">Marketing</div></div>
             </div>
         </section>
     </div>
@@ -604,15 +658,19 @@
         }
 
         // Mobile Nav
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('menu-open');
-        }
-        function mobileNav(page) { 
-            document.getElementById('mobile-menu').classList.remove('menu-open');
-            navigateTo(page);
-        }
+        // --- MOBILE MENU LOGIC ---
 
+// Menu Kholne/Band karne ke liye
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('open');
+}
+
+// Link par click karne ke baad menu band karne ke liye
+function mobileNav(pageId) { 
+    document.getElementById('mobile-menu').classList.remove('open');
+    navigateTo(pageId);
+}
         // Auth
         function toggleAuth(type) {
             if(type === 'login') {
