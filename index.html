@@ -325,7 +325,7 @@
         <span class="m-link hidden" id="m-dash" onclick="mobileNav('dashboard')">Dashboard</span>
     </div>
 
-    <!-- 1. HOME PAGE (Aaghaz.ai Style) -->
+    <!-- 1. HOME PAGE -->
     <div id="home-page" class="page-section active">
         
         <!-- HERO SECTION WITH INLINE CSS -->
@@ -695,8 +695,9 @@
         function logout() { auth.signOut().then(() => window.location.reload()); }
 
         // Data & Admin
-        const defaultCourses = []; // Fixed: Initialized empty array to prevent syntax error
-        
+        const defaultCourses = []; 
+        let globalCourses = {}; // Store currently active courses
+
         auth.onAuthStateChanged(user => {
             if(user) {
                 document.getElementById('auth-buttons').classList.add('hidden');
@@ -716,6 +717,9 @@
 
         db.ref('courses').on('value', snapshot => {
             const dbCourses = snapshot.val();
+            // Update global list
+            globalCourses = dbCourses || {};
+
             let allCourses = [...defaultCourses];
             const adminList = document.getElementById('admin-course-list');
             if(adminList) adminList.innerHTML = "";
@@ -728,6 +732,9 @@
                 });
             }
             renderCourses(allCourses);
+            
+            // Refresh dashboard if user is logged in to reflect deletions instantly
+            if(auth.currentUser) loadEnrolled(auth.currentUser.uid);
         });
 
         function renderCourses(courses) {
@@ -735,8 +742,8 @@
             const allGrid = document.getElementById('all-courses-grid');
             let html = "";
             courses.forEach(c => {
-                // Fixed: Added c.image to enroll function
-                html += `<div class="card"><div style="position:relative; height:180px;"><img src="${c.image}" class="card-img"></div><div class="card-body"><span class="card-cat">${c.category}</span><h3>${c.title}</h3><div class="card-footer"><span class="price">${c.price}</span></div><button class="btn-card" onclick="enroll('${c.title}', '${c.video}', '${c.image}')">Enroll Now</button></div></div>`;
+                // Fixed: Added c.id to enroll function call
+                html += `<div class="card"><div style="position:relative; height:180px;"><img src="${c.image}" class="card-img"></div><div class="card-body"><span class="card-cat">${c.category}</span><h3>${c.title}</h3><div class="card-footer"><span class="price">${c.price}</span></div><button class="btn-card" onclick="enroll('${c.title}', '${c.video}', '${c.image}', '${c.id}')">Enroll Now</button></div></div>`;
             });
             if(homeGrid) homeGrid.innerHTML = html;
             if(allGrid) allGrid.innerHTML = html;
@@ -756,11 +763,17 @@
 
         function deleteCourse(id) { if(confirm("Delete?")) db.ref('courses/'+id).remove(); }
 
-        // Fixed: Updated to accept and save 'img'
-        function enroll(title, vid, img) {
+        // Fixed: Added id parameter to save course ID
+        function enroll(title, vid, img, id) {
             const user = auth.currentUser;
             if(!user) return alert("Please Login");
-            db.ref('users/' + user.uid + '/enrolled').push({title: title, video: vid, image: img, date: new Date().toDateString()});
+            db.ref('users/' + user.uid + '/enrolled').push({
+                title: title, 
+                video: vid, 
+                image: img,
+                courseId: id, // Save ID to link with main database
+                date: new Date().toDateString()
+            });
             alert("Enrolled!");
         }
 
@@ -768,11 +781,29 @@
             db.ref('users/' + uid + '/enrolled').on('value', snap => {
                 const list = document.getElementById('my-courses-list');
                 list.innerHTML = "";
+                
                 if(snap.val()) {
                     Object.values(snap.val()).forEach(c => {
-                        // Fixed: Using c.image instead of hardcoded placeholder
-                        list.innerHTML += `<div class="my-course-card"><img src="${c.image}" class="mc-thumb"><div class="mc-info"><h4>${c.title}</h4><div class="progress-bar"><div class="progress-fill" style="width: 40%"></div></div><small>Enrolled: ${c.date}</small></div><button class="btn-main" style="width:auto; padding:8px 20px;" onclick="openPlayer('${c.title}', '${c.video}')">Continue</button></div>`;
+                        let shouldShow = false;
+
+                        // CHECK 1: If course has an ID, verify it exists in globalCourses
+                        if(c.courseId) {
+                            if(globalCourses[c.courseId]) shouldShow = true;
+                        } 
+                        // CHECK 2: Fallback for old courses (match by Title)
+                        else {
+                            const activeTitles = Object.values(globalCourses).map(x => x.title);
+                            if(activeTitles.includes(c.title)) shouldShow = true;
+                        }
+
+                        // Only render if the course still exists in the admin panel
+                        if(shouldShow) {
+                            list.innerHTML += `<div class="my-course-card"><img src="${c.image}" class="mc-thumb"><div class="mc-info"><h4>${c.title}</h4><div class="progress-bar"><div class="progress-fill" style="width: 40%"></div></div><small>Enrolled: ${c.date}</small></div><button class="btn-main" style="width:auto; padding:8px 20px;" onclick="openPlayer('${c.title}', '${c.video}')">Continue</button></div>`;
+                        }
                     });
+                    
+                    if(list.innerHTML === "") list.innerHTML = "<p style='color:gray'>No active courses enrolled.</p>";
+                    
                 } else list.innerHTML = "<p style='color:gray'>No courses enrolled.</p>";
             });
         }
