@@ -54,7 +54,7 @@
             background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(12px);
             padding: 15px 5%; display: flex; align-items: center; justify-content: space-between;
             position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border);
-            height: 75px; /* Fixed height for calculations */
+            height: 75px;
         }
         .logo img { height: 40px; width: auto; object-fit: contain; }
         
@@ -77,9 +77,9 @@
         }
         .btn-main:hover { background: var(--accent-hover); transform: scale(1.05); }
 
-        /* --- MOBILE MENU STYLES (FIXED) --- */
+        /* --- MOBILE MENU STYLES --- */
         .mobile-menu-btn { 
-            display: none; /* Hidden on desktop */
+            display: none; 
             font-size: 1.8rem; color: white; cursor: pointer; 
             padding: 5px;
         }
@@ -208,6 +208,9 @@
             width: 90%; max-width: 600px;
             border-radius: 20px; overflow: hidden;
             position: relative; box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            /* FIX FOR MOBILE SCROLLING */
+            max-height: 90vh;
+            overflow-y: auto;
         }
         .close-webinar {
             position: absolute; top: 15px; right: 20px;
@@ -268,7 +271,11 @@
             
             .footer-grid { grid-template-columns: 1fr; }
             .stats-grid { grid-template-columns: 1fr; }
+            
+            /* POPUP FIXES FOR MOBILE */
             .w-benefits { flex-direction: column; align-items: center; }
+            .w-footer { flex-direction: column; } /* Stack buttons vertically */
+            .btn-neon-full, .btn-dark-full { width: 100%; flex: none; margin-bottom: 10px; } /* Full width buttons */
         }
     </style>
 </head>
@@ -556,14 +563,14 @@
             </div>
         </section>
 
-        <!-- TEAM SECTION -->
+        <!-- TEAM SECTION (ADDED MORE MEMBERS) -->
         <section class="section" style="background: var(--bg-card);">
             <div class="section-header center"><h2>Meet Our Team</h2></div>
             <div class="grid-container">
                 <div class="team-card"><img src="Arez.png" class="team-img"><div class="team-name">Arez Khan</div><div class="team-role">Founder & CEO</div></div>
                 <div class="team-card"><img src="usman.jpeg" class="team-img"><div class="team-name">Usman Ali</div><div class="team-role">Head of Education</div></div>
-                <div class="team-card"><img src="hizam.jpeg" class="team-img"><div class="team-name">Hizam Ali</div><div class="team-role">Lead And Marketing Manager</div></div>
-                
+                <div class="team-card"><img src="https://randomuser.me/api/portraits/women/68.jpg" class="team-img"><div class="team-name">Sarah Ahmed</div><div class="team-role">Lead AI Engineer</div></div>
+                <div class="team-card"><img src="https://randomuser.me/api/portraits/women/23.jpg" class="team-img"><div class="team-name">Zainab Bibi</div><div class="team-role">Creative Director</div></div>
             </div>
         </section>
     </div>
@@ -682,8 +689,6 @@
         const auth = firebase.auth();
         const db = firebase.database();
         const ADMIN_EMAIL = "admin@zerosquare.com";
-        const ADMIN_EMAIL2 = "educationnext3@gmail.com";
-    
 
         // Navigation
         function navigateTo(pageId) {
@@ -825,7 +830,7 @@
             navigateTo('player');
         }
 
-        // --- NEW POPUP & REGISTRATION LOGIC ---
+        // --- POPUP & REGISTRATION LOGIC ---
         window.addEventListener('load', () => { setTimeout(() => { document.getElementById('webinar-popup').style.display = 'flex'; }, 500); });
         function closeWebinar() { document.getElementById('webinar-popup').style.display = 'none'; }
         function showStep(step) {
