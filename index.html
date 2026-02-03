@@ -208,9 +208,7 @@
             width: 90%; max-width: 600px;
             border-radius: 20px; overflow: hidden;
             position: relative; box-shadow: 0 0 50px rgba(0,0,0,0.8);
-            /* FIX FOR MOBILE SCROLLING */
-            max-height: 90vh;
-            overflow-y: auto;
+            max-height: 90vh; overflow-y: auto;
         }
         .close-webinar {
             position: absolute; top: 15px; right: 20px;
@@ -246,14 +244,6 @@
         .form-input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; background: #000; color: white; outline: none; margin-bottom: 15px; font-size: 1rem; }
         .form-input:focus { border-color: var(--accent-green); }
 
-        /* Step 3: Payment */
-        .pay-box { background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: center; color: black; }
-        .pay-number { font-size: 1.8rem; font-weight: 800; margin: 10px 0; letter-spacing: 1px; color: #000; }
-        .copy-btn { background: #eee; border: none; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; }
-        .upload-area { border: 2px dashed #444; background: #000; border-radius: 12px; padding: 30px; text-align: center; margin-bottom: 20px; cursor: pointer; color: #666; position: relative; }
-        .upload-area:hover { border-color: var(--accent-green); color: white; }
-        .upload-area input[type=file] { position: absolute; width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer; }
-
         /* Admin Table */
         .admin-table { width: 100%; border-collapse: collapse; margin-top: 20px; color: white; }
         .admin-table th { text-align: left; padding: 10px; border-bottom: 1px solid #333; color: var(--accent-green); }
@@ -274,8 +264,8 @@
             
             /* POPUP FIXES FOR MOBILE */
             .w-benefits { flex-direction: column; align-items: center; }
-            .w-footer { flex-direction: column; } /* Stack buttons vertically */
-            .btn-neon-full, .btn-dark-full { width: 100%; flex: none; margin-bottom: 10px; } /* Full width buttons */
+            .w-footer { flex-direction: column; } 
+            .btn-neon-full, .btn-dark-full { width: 100%; flex: none; margin-bottom: 10px; } 
         }
     </style>
 </head>
@@ -283,7 +273,7 @@
 
     <div id="loading-overlay" class="hidden"><div class="spinner"></div></div>
 
-    <!-- NEW 3-STEP WEBINAR POPUP -->
+    <!-- NEW 2-STEP REGISTRATION POPUP (FREE) -->
     <div id="webinar-popup" class="webinar-overlay">
         <div class="webinar-modal">
             <button class="close-webinar" onclick="closeWebinar()"><i class="fa-solid fa-xmark"></i></button>
@@ -291,40 +281,40 @@
             <!-- STEP 1: PROMO -->
             <div id="step-1">
                 <div class="w-header">
-                    <div><span class="w-badge">● LIVE SESSION</span> <span class="w-seats">✨ Only 10 seats left!</span></div>
-                    <div class="w-title">Join Our <span style="color:var(--accent-green)">2-Hour Live AI Workshop</span></div>
-                    <div class="w-sub">Master AI Fundamentals, AI Agents, Vibe Coding & Content Creation in just 2 hours!</div>
+                    <div><span class="w-badge">● REGISTRATION OPEN</span> <span class="w-seats">✨ Limited Seats!</span></div>
+                    <div class="w-title">Join <span style="color:var(--accent-green)">Zero Square</span> Today</div>
+                    <div class="w-sub">Unlock access to all premium courses: Web Dev, AI, Graphic Design & More.</div>
                 </div>
 
                 <div class="w-video-box">
                     <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600" style="width:100%; height:100%; object-fit:cover; opacity:0.6;">
                     <div class="w-play-btn"><i class="fa-solid fa-play"></i></div>
-                    <div style="position:absolute; bottom:10px; left:15px; font-weight:700; color:white;">AI Workshop Preview</div>
+                    <div style="position:absolute; bottom:10px; left:15px; font-weight:700; color:white;">Platform Preview</div>
                 </div>
 
                 <div class="stats-grid">
-                    <div class="stat-box"><i class="fa-regular fa-calendar stat-icon"></i><span class="stat-val">February 1, 2026</span><span class="stat-label">DATE</span></div>
-                    <div class="stat-box"><i class="fa-regular fa-clock stat-icon"></i><span class="stat-val">4:00 PM PKT</span><span class="stat-label">TIME</span></div>
-                    <div class="stat-box"><i class="fa-solid fa-user-group stat-icon"></i><span class="stat-val">1,33+</span><span class="stat-label">ENROLLED</span></div>
+                    <div class="stat-box"><i class="fa-solid fa-infinity stat-icon"></i><span class="stat-val">Lifetime</span><span class="stat-label">ACCESS</span></div>
+                    <div class="stat-box"><i class="fa-solid fa-video stat-icon"></i><span class="stat-val">100+</span><span class="stat-label">LESSONS</span></div>
+                    <div class="stat-box"><i class="fa-solid fa-user-group stat-icon"></i><span class="stat-val">Free</span><span class="stat-label">COST</span></div>
                 </div>
 
                 <div class="w-benefits">
-                    <div class="w-ben-item"><i class="fa-solid fa-bolt"></i> AI Fundamentals</div>
-                    <div class="w-ben-item"><i class="fa-solid fa-bolt"></i> AI Agents</div>
-                    <div class="w-ben-item"><i class="fa-solid fa-bolt"></i> Content Creation</div>
-                    <div class="w-ben-item"><i class="fa-solid fa-bolt"></i> Vibe Coding</div>
+                    <div class="w-ben-item"><i class="fa-solid fa-check-circle"></i> Practical Learning</div>
+                    <div class="w-ben-item"><i class="fa-solid fa-check-circle"></i> Mentor Support</div>
+                    <div class="w-ben-item"><i class="fa-solid fa-check-circle"></i> Verified Certificate</div>
+                    <div class="w-ben-item"><i class="fa-solid fa-check-circle"></i> Community Access</div>
                 </div>
 
                 <div class="w-footer">
-                    <button class="btn-neon-full" onclick="showStep(2)">Reserve My Seat Now <i class="fa-solid fa-arrow-right"></i></button>
+                    <button class="btn-neon-full" onclick="showStep(2)">Join for Free <i class="fa-solid fa-arrow-right"></i></button>
                     <button class="btn-dark-full" onclick="closeWebinar()">Maybe Later</button>
                 </div>
-                <div style="text-align:center; padding-bottom:15px; font-size:0.8rem; color:#666;">Starting at just <span style="color:var(--accent-green); font-weight:bold;">PKR 199</span> • Limited Time Offer</div>
+                <div style="text-align:center; padding-bottom:15px; font-size:0.8rem; color:#666;">Registration is currently <span style="color:var(--accent-green); font-weight:bold;">100% FREE</span></div>
             </div>
 
-            <!-- STEP 2: FORM -->
+            <!-- STEP 2: SIGNUP FORM (No Payment) -->
             <div id="step-2" class="hidden step-content">
-                <h2 style="color:white; margin-bottom:20px; text-align:center;">Your Details</h2>
+                <h2 style="color:white; margin-bottom:20px; text-align:center;">Create Free Account</h2>
                 
                 <label class="form-label">Full Name *</label>
                 <input type="text" id="reg-name" class="form-input" placeholder="Enter your name">
@@ -332,11 +322,11 @@
                 <label class="form-label">Email Address *</label>
                 <input type="email" id="reg-email" class="form-input" placeholder="name@example.com">
 
-                <label class="form-label">Mobile Number (WhatsApp) *</label>
-                <div style="display:flex; gap:10px;">
-                    <span style="background:#222; color:white; padding:12px; border-radius:8px; border:1px solid #333;">🇵🇰 +92</span>
-                    <input type="tel" id="reg-phone" class="form-input" placeholder="300 1234567">
-                </div>
+                <label class="form-label">Create Password *</label>
+                <input type="password" id="reg-pass" class="form-input" placeholder="Min. 6 characters">
+
+                <label class="form-label">Mobile Number *</label>
+                <input type="tel" id="reg-phone" class="form-input" placeholder="0300 1234567">
 
                 <label class="form-label">City *</label>
                 <input type="text" id="reg-city" class="form-input" placeholder="e.g. Lahore">
@@ -344,36 +334,8 @@
                 <label class="form-label">Age *</label>
                 <input type="number" id="reg-age" class="form-input" placeholder="e.g. 22">
 
-                <button class="btn-neon-full" style="width:100%; margin-top:10px;" onclick="validateAndNext()">Next</button>
+                <button class="btn-neon-full" style="width:100%; margin-top:10px;" onclick="registerUser()">Create Account & Login</button>
                 <div style="text-align:center; margin-top:15px; cursor:pointer; color:gray;" onclick="showStep(1)">Back</div>
-            </div>
-
-            <!-- STEP 3: PAYMENT & UPLOAD -->
-            <div id="step-3" class="hidden step-content">
-                <h2 style="color:white; margin-bottom:10px; text-align:center;">Payment Method</h2>
-                <p style="color:#aaa; text-align:center; margin-bottom:20px; font-size:0.9rem;">Transfer registration fee to verify your seat.</p>
-
-                <div style="background:black; border:1px solid var(--accent-green); border-radius:50px; padding:10px 20px; color:white; width:fit-content; margin:0 auto 20px; display:flex; gap:10px; align-items:center;">
-                    <i class="fa-solid fa-mobile-screen"></i> EasyPaisa / JazzCash
-                </div>
-
-                <div class="pay-box">
-                    <div style="color:#555; font-size:0.9rem;">Transfer to EasyPaisa / JazzCash</div>
-                    <div style="color:#000; font-weight:600; margin-top:5px;">Arez Khan</div>
-                    <div class="pay-number">0303 9617995</div>
-                    <button class="copy-btn" onclick="copyNum()">Copy</button>
-                </div>
-
-                <!-- FILE UPLOAD -->
-                <div class="upload-area">
-                    <input type="file" id="payment-screenshot" accept="image/*" onchange="handleFileSelect(event)">
-                    <i class="fa-solid fa-cloud-arrow-up" style="font-size:2rem; margin-bottom:10px;"></i>
-                    <div id="upload-text">UPLOAD PAYMENT SCREENSHOT (REQUIRED)</div>
-                    <div style="font-size:0.8rem; margin-top:5px; color:#444;" id="file-name">Tap to select image</div>
-                </div>
-
-                <button class="btn-neon-full" style="width:100%; background: #0f172a; color: white; border: 1px solid white;" onclick="finalizeRegistration()">Pay PKR 199 & Register</button>
-                <div style="text-align:center; margin-top:10px; color:gray; font-size:0.8rem;">Powered By <span style="font-weight:bold; color:white;">Zero Square</span></div>
             </div>
 
         </div>
@@ -399,7 +361,7 @@
 
             <div id="auth-buttons" style="display: flex; gap: 15px; align-items: center;">
                 <span class="nav-link" onclick="navigateTo('auth')" style="cursor: pointer;">Log in</span>
-                <button class="btn-main" onclick="navigateTo('auth')">Join Free</button>
+                <button class="btn-main" onclick="openRegistrationPopup()">Join Free</button>
             </div>
 
             <div id="user-profile" class="hidden" onclick="navigateTo('dashboard')" style="cursor: pointer;">
@@ -435,7 +397,8 @@
                     Don't just watch tutorials. Build real projects and launch your career with Zero Square.
                 </p>
                 <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                    <button onclick="navigateTo('courses')" style="background-color: #D4F614; color: black; padding: 14px 32px; font-size: 16px; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s;">Start Learning</button>
+                    <!-- UPDATED: Start Learning now opens Popup -->
+                    <button onclick="openRegistrationPopup()" style="background-color: #D4F614; color: black; padding: 14px 32px; font-size: 16px; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s;">Start Learning</button>
                     <button onclick="navigateTo('services')" style="background-color: transparent; color: white; border: 1px solid #333; padding: 14px 32px; font-size: 16px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: 0.3s;">View Services</button>
                 </div>
             </div>
@@ -455,7 +418,7 @@
             <div class="grid-container" id="home-courses-grid"></div>
         </section>
 
-        <!-- REVIEWS (IMPROVED - LESS BORING) -->
+        <!-- REVIEWS -->
         <section class="section" style="background: #0f172a;">
             <div class="section-header"><h2>Student Success Stories</h2></div>
             <div class="grid-container">
@@ -563,13 +526,13 @@
             </div>
         </section>
 
-        <!-- TEAM SECTION (ADDED MORE MEMBERS) -->
+        <!-- TEAM SECTION -->
         <section class="section" style="background: var(--bg-card);">
             <div class="section-header center"><h2>Meet Our Team</h2></div>
             <div class="grid-container">
                 <div class="team-card"><img src="Arez.png" class="team-img"><div class="team-name">Arez Khan</div><div class="team-role">Founder & CEO</div></div>
                 <div class="team-card"><img src="usman.jpeg" class="team-img"><div class="team-name">Usman Ali</div><div class="team-role">Head of Education</div></div>
-                <div class="team-card"><img src="hizam.jpeg" class="team-img"><div class="team-name">Hizam Ali</div><div class="team-role">Marketing Manager</div></div>
+                <div class="team-card"><img src="hizam.jpeg" class="team-img"><div class="team-name">Hizam Ali</div><div class="team-role">Lead and marketing manager</div></div>
                 
             </div>
         </section>
@@ -624,18 +587,18 @@
         <div class="section admin-container">
             <h2>Admin Dashboard</h2>
             
-            <!-- Webinar Registrations -->
+            <!-- NEW STUDENT REGISTRATIONS -->
             <div style="background:var(--bg-card); padding:20px; border-radius:12px; border:1px solid var(--border); margin-bottom:40px;">
-                <h3 style="margin-bottom:15px; color:var(--accent-green);">Webinar Registrations</h3>
+                <h3 style="margin-bottom:15px; color:var(--accent-green);">New Student Registrations</h3>
                 <div style="overflow-x:auto;">
                     <table class="admin-table">
                         <thead>
                             <tr>
                                 <th>Name</th>
+                                <th>Email</th>
                                 <th>Phone</th>
                                 <th>City</th>
                                 <th>Age</th>
-                                <th>Screenshot</th>
                             </tr>
                         </thead>
                         <tbody id="admin-reg-list">
@@ -830,71 +793,68 @@
             navigateTo('player');
         }
 
-        // --- POPUP & REGISTRATION LOGIC ---
-        window.addEventListener('load', () => { setTimeout(() => { document.getElementById('webinar-popup').style.display = 'flex'; }, 500); });
-        function closeWebinar() { document.getElementById('webinar-popup').style.display = 'none'; }
-        function showStep(step) {
-            document.getElementById('step-1').classList.add('hidden');
-            document.getElementById('step-2').classList.add('hidden');
-            document.getElementById('step-3').classList.add('hidden');
-            document.getElementById('step-' + step).classList.remove('hidden');
-        }
-        function validateAndNext() {
-            const name = document.getElementById('reg-name').value;
-            const phone = document.getElementById('reg-phone').value;
-            if(!name || !phone) alert("Please fill Name and Phone");
-            else showStep(3);
-        }
-        function copyNum() {
-            navigator.clipboard.writeText("03039617995");
-            alert("Number Copied: 03039617995");
-        }
+        // --- POPUP & REGISTRATION LOGIC (Updated for General Registration) ---
+        
+        // Open Popup on Load
+        window.addEventListener('load', () => { 
+            // Only open if not logged in
+            if(!auth.currentUser) {
+                setTimeout(() => { document.getElementById('webinar-popup').style.display = 'flex'; }, 500); 
+            }
+        });
 
-        // FILE HANDLING & SAVING TO DB
-        let selectedFileBase64 = "";
-
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if(file) {
-                document.getElementById('file-name').innerText = file.name;
-                document.getElementById('upload-text').style.color = "#D4F614";
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    selectedFileBase64 = e.target.result;
-                };
-                reader.readAsDataURL(file);
+        // Function to Open Registration manually (from Hero Button)
+        function openRegistrationPopup() {
+            if(auth.currentUser) {
+                navigateTo('courses'); // If already logged in, go to courses
+            } else {
+                document.getElementById('webinar-popup').style.display = 'flex';
+                showStep(1);
             }
         }
 
-        function finalizeRegistration() {
+        function closeWebinar() { document.getElementById('webinar-popup').style.display = 'none'; }
+        
+        function showStep(step) {
+            document.getElementById('step-1').classList.add('hidden');
+            document.getElementById('step-2').classList.add('hidden');
+            document.getElementById('step-' + step).classList.remove('hidden');
+        }
+        
+        function registerUser() {
             const name = document.getElementById('reg-name').value;
             const email = document.getElementById('reg-email').value;
+            const pass = document.getElementById('reg-pass').value;
             const phone = document.getElementById('reg-phone').value;
             const city = document.getElementById('reg-city').value;
             const age = document.getElementById('reg-age').value;
 
-            if(!selectedFileBase64) return alert("Please upload payment screenshot!");
+            if(!name || !email || !pass || !phone) return alert("Please fill all required fields");
 
-            const regData = {
-                name: name,
-                email: email,
-                phone: phone,
-                city: city,
-                age: age,
-                screenshot: selectedFileBase64,
-                timestamp: new Date().toString()
-            };
+            // 1. Create User in Firebase Auth (Signup & Auto-Login)
+            auth.createUserWithEmailAndPassword(email, pass).then((cred) => {
+                
+                // 2. Save User Data to Database
+                const userData = {
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    city: city,
+                    age: age,
+                    joined: new Date().toDateString()
+                };
 
-            // Save to Firebase
-            db.ref('webinar_registrations').push(regData).then(() => {
-                alert("Registration Successful! We will verify your payment and contact you.");
-                
-                // Optional: Still open WhatsApp as backup
-                const msg = `Hello! I have paid PKR 199 for the AI Workshop.%0A%0AName: ${name}%0APhone: ${phone}%0A%0APayment Screenshot Uploaded to Dashboard.`;
-                window.open(`https://wa.me/923039617995?text=${msg}`, '_blank');
-                
+                // Save to 'users' node for app logic
+                db.ref('users/' + cred.user.uid).set(userData);
+
+                // Save to 'webinar_registrations' node for Admin Panel view
+                db.ref('webinar_registrations').push(userData);
+
+                alert("Account Created Successfully! Welcome to Zero Square.");
                 closeWebinar();
-            }).catch(e => alert("Error: " + e.message));
+                navigateTo('dashboard');
+
+            }).catch(e => alert(e.message));
         }
 
         // ADMIN PANEL: Load Registrations
@@ -908,10 +868,10 @@
                         list.innerHTML += `
                             <tr>
                                 <td>${reg.name}</td>
+                                <td>${reg.email}</td>
                                 <td>${reg.phone}</td>
                                 <td>${reg.city}</td>
                                 <td>${reg.age}</td>
-                                <td><img src="${reg.screenshot}" style="width:50px; cursor:pointer; border:1px solid #333;" onclick="window.open(this.src)"></td>
                             </tr>
                         `;
                     });
