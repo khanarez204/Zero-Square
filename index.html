@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon"> 
     <title>Zero Square | Master New Skills Online</title>
     
     <!-- Fonts: Inter & Manrope -->
@@ -250,6 +249,32 @@
         .admin-table th { text-align: left; padding: 10px; border-bottom: 1px solid #333; color: var(--accent-green); }
         .admin-table td { padding: 10px; border-bottom: 1px solid #222; font-size: 0.9rem; }
 
+        /* --- AI CHATBOT STYLES --- */
+        #chat-bubble {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 60px; height: 60px; background: var(--accent-green);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; color: black; cursor: pointer; z-index: 2000;
+            box-shadow: 0 4px 15px rgba(212, 246, 20, 0.4); transition: 0.3s;
+        }
+        #chat-bubble:hover { transform: scale(1.1); }
+
+        #chat-window {
+            position: fixed; bottom: 100px; right: 30px;
+            width: 350px; height: 500px; background: var(--bg-card);
+            border: 1px solid var(--border); border-radius: 16px;
+            display: none; flex-direction: column; z-index: 2000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden;
+        }
+        .chat-header { background: #1a1a1a; padding: 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .chat-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .message { padding: 10px 14px; border-radius: 12px; font-size: 0.9rem; max-width: 80%; line-height: 1.4; }
+        .user-msg { background: var(--accent-green); color: black; align-self: flex-end; border-bottom-right-radius: 2px; }
+        .ai-msg { background: #222; color: white; align-self: flex-start; border-bottom-left-radius: 2px; }
+        .chat-input-area { padding: 15px; border-top: 1px solid var(--border); display: flex; gap: 10px; }
+        .chat-input-area input { flex: 1; background: #000; border: 1px solid var(--border); padding: 10px; border-radius: 8px; color: white; outline: none; }
+        .chat-send { background: var(--accent-green); border: none; padding: 10px; border-radius: 8px; color: black; }
+
         /* --- RESPONSIVE CSS --- */
         @media (max-width: 900px) {
             .hero-container, .founder-grid, .player-layout, .story-section { grid-template-columns: 1fr; text-align: center; flex-direction: column; }
@@ -267,12 +292,30 @@
             .w-benefits { flex-direction: column; align-items: center; }
             .w-footer { flex-direction: column; } 
             .btn-neon-full, .btn-dark-full { width: 100%; flex: none; margin-bottom: 10px; } 
+
+            #chat-window { width: 90%; right: 5%; bottom: 90px; height: 400px; }
         }
     </style>
 </head>
 <body>
 
     <div id="loading-overlay" class="hidden"><div class="spinner"></div></div>
+
+    <!-- AI Chatbot UI -->
+    <div id="chat-bubble" onclick="toggleChat()"><i class="fa-solid fa-comment-dots"></i></div>
+    <div id="chat-window">
+        <div class="chat-header">
+            <span style="font-weight:700; color:var(--accent-green);">Zero Square AI</span>
+            <button onclick="toggleChat()" style="background:none; border:none; color:white; font-size:1.2rem;">&times;</button>
+        </div>
+        <div class="chat-messages" id="chat-box">
+            <div class="message ai-msg">Hello! I'm your Zero Square assistant. How can I help you today?</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="user-input" placeholder="Type a message..." onkeypress="handleChatKey(event)">
+            <button class="chat-send" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
 
     <!-- NEW 2-STEP REGISTRATION POPUP (FREE) -->
     <div id="webinar-popup" class="webinar-overlay">
@@ -794,20 +837,17 @@
             navigateTo('player');
         }
 
-        // --- POPUP & REGISTRATION LOGIC (Updated for General Registration) ---
+        // --- POPUP & REGISTRATION LOGIC ---
         
-        // Open Popup on Load
         window.addEventListener('load', () => { 
-            // Only open if not logged in
             if(!auth.currentUser) {
                 setTimeout(() => { document.getElementById('webinar-popup').style.display = 'flex'; }, 500); 
             }
         });
 
-        // Function to Open Registration manually (from Hero Button)
         function openRegistrationPopup() {
             if(auth.currentUser) {
-                navigateTo('courses'); // If already logged in, go to courses
+                navigateTo('courses'); 
             } else {
                 document.getElementById('webinar-popup').style.display = 'flex';
                 showStep(1);
@@ -832,33 +872,16 @@
 
             if(!name || !email || !pass || !phone) return alert("Please fill all required fields");
 
-            // 1. Create User in Firebase Auth (Signup & Auto-Login)
             auth.createUserWithEmailAndPassword(email, pass).then((cred) => {
-                
-                // 2. Save User Data to Database
-                const userData = {
-                    name: name,
-                    email: email,
-                    phone: phone,
-                    city: city,
-                    age: age,
-                    joined: new Date().toDateString()
-                };
-
-                // Save to 'users' node for app logic
+                const userData = { name, email, phone, city, age, joined: new Date().toDateString() };
                 db.ref('users/' + cred.user.uid).set(userData);
-
-                // Save to 'webinar_registrations' node for Admin Panel view
                 db.ref('webinar_registrations').push(userData);
-
                 alert("Account Created Successfully! Welcome to Zero Square.");
                 closeWebinar();
                 navigateTo('dashboard');
-
             }).catch(e => alert(e.message));
         }
 
-        // ADMIN PANEL: Load Registrations
         function loadAdminRegistrations() {
             db.ref('webinar_registrations').on('value', snap => {
                 const list = document.getElementById('admin-reg-list');
@@ -866,20 +889,68 @@
                 const data = snap.val();
                 if(data) {
                     Object.values(data).reverse().forEach(reg => {
-                        list.innerHTML += `
-                            <tr>
-                                <td>${reg.name}</td>
-                                <td>${reg.email}</td>
-                                <td>${reg.phone}</td>
-                                <td>${reg.city}</td>
-                                <td>${reg.age}</td>
-                            </tr>
-                        `;
+                        list.innerHTML += `<tr><td>${reg.name}</td><td>${reg.email}</td><td>${reg.phone}</td><td>${reg.city}</td><td>${reg.age}</td></tr>`;
                     });
                 } else {
                     list.innerHTML = "<tr><td colspan='5'>No registrations yet.</td></tr>";
                 }
             });
+        }
+
+        // --- AI CHATBOT LOGIC (HUGGING FACE) ---
+        
+        const HF_TOKEN = "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"; // Get free token from Hugging Face
+        const MODEL_ID = "HuggingFaceH4/zephyr-7b-beta";
+
+        function toggleChat() {
+            const win = document.getElementById('chat-window');
+            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function handleChatKey(e) { if(e.key === 'Enter') sendMessage(); }
+
+        async function sendMessage() {
+            const input = document.getElementById('user-input');
+            const chatBox = document.getElementById('chat-box');
+            const text = input.value.trim();
+            
+            if(!text) return;
+
+            // User Message
+            chatBox.innerHTML += `<div class="message user-msg">${text}</div>`;
+            input.value = "";
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // AI Loading state
+            const loadingId = "loading-" + Date.now();
+            chatBox.innerHTML += `<div class="message ai-msg" id="${loadingId}">Typing...</div>`;
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            try {
+                const response = await fetch(`https://api-inference.huggingface.co/models/${MODEL_ID}`, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": `Bearer ${HF_TOKEN}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ inputs: `Context: You are a helpful assistant for Zero Square, an online learning platform. User asks: ${text}` })
+                });
+
+                const data = await response.json();
+                let aiText = "";
+
+                if(data.error) {
+                    aiText = "Sorry, I'm resting. Please try again in a moment.";
+                } else {
+                    aiText = data[0].generated_text.split("User asks:")[1] || data[0].generated_text;
+                }
+
+                document.getElementById(loadingId).innerText = aiText;
+
+            } catch (err) {
+                document.getElementById(loadingId).innerText = "Connection error. Please check your internet.";
+            }
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
 
         navigateTo('home');
