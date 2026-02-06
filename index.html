@@ -921,6 +921,9 @@
         // --- AI CHATBOT LOGIC (GOOGLE GEMINI - 100% WORKING) ---
         
         // Yahan apni Google Gemini API Key paste karein
+       // --- AI CHATBOT LOGIC (GOOGLE GEMINI - FIXED) ---
+        
+        // Yahan apni Google Gemini API Key paste karein
         const GEMINI_API_KEY = "AIzaSyDd0HO2lHqDUus3roXUs7wdE9q1DtgyDuY"; // <--- REPLACE THIS
         
         function toggleChat() {
@@ -948,8 +951,8 @@
             chatBox.scrollTop = chatBox.scrollHeight;
 
             try {
-                // Google Gemini API URL
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+                // MODEL NAME CHANGED TO 'gemini-pro' (Stable Version)
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
                 
                 const response = await fetch(url, {
                     method: "POST",
@@ -969,12 +972,17 @@
                 
                 // Response Parsing
                 if (data.error) {
+                    console.error("API Error:", data.error);
                     document.getElementById(loadingId).innerText = "Error: " + data.error.message;
                 } else {
-                    const aiText = data.candidates[0].content.parts[0].text;
-                    // Removing Markdown symbols if any (basic cleanup)
-                    const cleanText = aiText.replace(/\*\*/g, "").replace(/\*/g, ""); 
-                    document.getElementById(loadingId).innerText = cleanText;
+                    // Check if candidates exist
+                    if(data.candidates && data.candidates.length > 0) {
+                        const aiText = data.candidates[0].content.parts[0].text;
+                        const cleanText = aiText.replace(/\*\*/g, "").replace(/\*/g, ""); 
+                        document.getElementById(loadingId).innerText = cleanText;
+                    } else {
+                         document.getElementById(loadingId).innerText = "I didn't get a response. Please try again.";
+                    }
                 }
 
             } catch (err) {
