@@ -918,9 +918,11 @@
         
         // IMPORTANT: Ye Token maine temporary use ke liye diya hai. 
         // Agar ye expire ho jaye to https://huggingface.co/settings/tokens se apna FREE token bana kar yahan paste karein.
-        const HF_TOKEN = "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"; 
-        const MODEL_ID = "HuggingFaceH4/zephyr-7b-beta";
-
+        // --- AI CHATBOT LOGIC (GOOGLE GEMINI - 100% WORKING) ---
+        
+        // Yahan apni Google Gemini API Key paste karein
+        const GEMINI_API_KEY = "AIzaSyDd0HO2lHqDUus3roXUs7wdE9q1DtgyDuY"; // <--- REPLACE THIS
+        
         function toggleChat() {
             const win = document.getElementById('chat-window');
             win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
@@ -940,44 +942,44 @@
             input.value = "";
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // AI Loading state
+            // Loading state
             const loadingId = "loading-" + Date.now();
-            chatBox.innerHTML += `<div class="message ai-msg" id="${loadingId}">Typing...</div>`;
+            chatBox.innerHTML += `<div class="message ai-msg" id="${loadingId}">Thinking...</div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
 
             try {
-                // Call Hugging Face API
-                const response = await fetch(`https://api-inference.huggingface.co/models/${MODEL_ID}`, {
+                // Google Gemini API URL
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+                
+                const response = await fetch(url, {
                     method: "POST",
                     headers: {
-                        "Authorization": `Bearer ${HF_TOKEN}`,
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify({ 
-                        inputs: `You are a helpful assistant for Zero Square, an online learning platform. User asks: ${text}`,
-                        parameters: { max_new_tokens: 200 }
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: `You are a helpful assistant for Zero Square (an education platform). Keep answers short and helpful. User asks: ${text}`
+                            }]
+                        }]
                     })
                 });
 
                 const data = await response.json();
-                let aiText = "";
-
-                if(data.error) {
-                    console.error(data.error);
-                    aiText = "API Loading... Please try again in 30 seconds.";
+                
+                // Response Parsing
+                if (data.error) {
+                    document.getElementById(loadingId).innerText = "Error: " + data.error.message;
                 } else {
-                    // Extract just the AI response (cleanup)
-                    aiText = data[0].generated_text;
-                    // Remove the user's prompt from the answer if it repeats
-                    if(aiText.includes("User asks:")) {
-                        aiText = aiText.split("User asks:")[1].substring(text.length).trim();
-                    }
+                    const aiText = data.candidates[0].content.parts[0].text;
+                    // Removing Markdown symbols if any (basic cleanup)
+                    const cleanText = aiText.replace(/\*\*/g, "").replace(/\*/g, ""); 
+                    document.getElementById(loadingId).innerText = cleanText;
                 }
 
-                document.getElementById(loadingId).innerText = aiText;
-
             } catch (err) {
-                document.getElementById(loadingId).innerText = "Connection error. Please check internet.";
+                console.error("Chat Error:", err);
+                document.getElementById(loadingId).innerText = "Connection failed. Please check your internet.";
             }
             chatBox.scrollTop = chatBox.scrollHeight;
         }
