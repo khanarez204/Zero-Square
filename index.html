@@ -924,14 +924,43 @@
        // --- AI CHATBOT LOGIC (GOOGLE GEMINI - FIXED) ---
         
         // Yahan apni Google Gemini API Key paste karein
-        const GEMINI_API_KEY = "AIzaSyDd0HO2lHqDUus3roXUs7wdE9q1DtgyDuY"; // <--- REPLACE THIS
-        
+        const GEMINI_API_KEY = "AIzaSyC5AIdw7tidaKe4y2PDhBp-wTMQq5sKNY0"; // <--- Yahan Poori Key Dalein
+
+        // Default fallback (agar detect na ho)
+        let CURRENT_MODEL = "gemini-1.5-flash"; 
+
         function toggleChat() {
             const win = document.getElementById('chat-window');
             win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
+            // Chat khulte hi models check karo
+            if(win.style.display === 'flex') checkAvailableModels();
         }
 
         function handleChatKey(e) { if(e.key === 'Enter') sendMessage(); }
+
+        // Ye function Google se puchega ke kaunse models zinda hain
+        async function checkAvailableModels() {
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${GEMINI_API_KEY}`);
+                const data = await response.json();
+                
+                if(data.models) {
+                    // Filter for 'generateContent' supported models
+                    const validModel = data.models.find(m => 
+                        m.name.includes('gemini') && 
+                        m.supportedGenerationMethods.includes('generateContent')
+                    );
+
+                    if(validModel) {
+                        // 'models/gemini-1.5-flash' me se sirf 'gemini-1.5-flash' nikalo
+                        CURRENT_MODEL = validModel.name.replace("models/", "");
+                        console.log("Auto-Detected Model:", CURRENT_MODEL);
+                    }
+                }
+            } catch (e) {
+                console.error("Model check failed, using default.");
+            }
+        }
 
         async function sendMessage() {
             const input = document.getElementById('user-input');
@@ -940,54 +969,42 @@
             
             if(!text) return;
 
-            // User Message
+            // User UI
             chatBox.innerHTML += `<div class="message user-msg">${text}</div>`;
             input.value = "";
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // Loading state
+            // Loading UI
             const loadingId = "loading-" + Date.now();
-            chatBox.innerHTML += `<div class="message ai-msg" id="${loadingId}">Thinking...</div>`;
+            chatBox.innerHTML += `<div class="message ai-msg" id="${loadingId}">Checking...</div>`;
             chatBox.scrollTop = chatBox.scrollHeight;
 
             try {
-                // MODEL NAME CHANGED TO 'gemini-pro' (Stable Version)
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
+                // Dynamic Model URL
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/${CURRENT_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
                 
                 const response = await fetch(url, {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: `You are a helpful assistant for Zero Square (an education platform). Keep answers short and helpful. User asks: ${text}`
-                            }]
-                        }]
+                        contents: [{ parts: [{ text: text }] }]
                     })
                 });
 
                 const data = await response.json();
-                
-                // Response Parsing
+
                 if (data.error) {
-                    console.error("API Error:", data.error);
                     document.getElementById(loadingId).innerText = "Error: " + data.error.message;
+                    // Agar error aye to console check karne ka bolain
+                    console.log("Available Models List:", data);
                 } else {
-                    // Check if candidates exist
-                    if(data.candidates && data.candidates.length > 0) {
-                        const aiText = data.candidates[0].content.parts[0].text;
-                        const cleanText = aiText.replace(/\*\*/g, "").replace(/\*/g, ""); 
-                        document.getElementById(loadingId).innerText = cleanText;
-                    } else {
-                         document.getElementById(loadingId).innerText = "I didn't get a response. Please try again.";
-                    }
+                    const aiText = data.candidates[0].content.parts[0].text;
+                    const cleanText = aiText.replace(/\*\*/g, "").replace(/\*/g, ""); 
+                    document.getElementById(loadingId).innerText = cleanText;
                 }
 
             } catch (err) {
-                console.error("Chat Error:", err);
-                document.getElementById(loadingId).innerText = "Connection failed. Please check your internet.";
+                document.getElementById(loadingId).innerText = "Connection Error. Check API Key.";
             }
             chatBox.scrollTop = chatBox.scrollHeight;
         }
