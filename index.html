@@ -44,6 +44,15 @@
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent-green); }
 
+        /* Fix Autofill */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active{
+            -webkit-box-shadow: 0 0 0 30px #050505 inset !important;
+            -webkit-text-fill-color: white !important;
+        }
+
         /* Utility */
         .page-section { display: none; animation: fadeIn 0.5s ease-in-out; }
         .page-section.active { display: block; }
@@ -160,7 +169,7 @@
         .btn-big-neon:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(212, 246, 20, 0.4); }
         .founder-img-wrapper img { width: 100%; border-radius: 20px; border: 2px solid #333; box-shadow: 20px 20px 0px rgba(255,255,255,0.05); }
 
-        /* --- POPUP (FIXED) --- */
+        /* --- POPUP --- */
         .webinar-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0, 0, 0, 0.95); z-index: 3000; 
@@ -228,10 +237,9 @@
         }
         .form-input:focus { border-color: var(--accent-green); }
 
-        /* --- DASHBOARD (FIXED LAYOUT) --- */
+        /* --- DASHBOARD (MOBILE FRIENDLY FIX) --- */
         .dashboard-wrapper { display: flex; height: calc(100vh - 75px); overflow: hidden; background: #000; }
         
-        /* Fixed Sidebar */
         .dash-sidebar { 
             width: var(--sidebar-width); 
             background: #080808; 
@@ -247,21 +255,13 @@
         .dash-user-email { color: #666; font-size: 0.75rem; margin-bottom: 10px; display:block; }
         .dash-badge { background: rgba(212, 246, 20, 0.1); color: var(--accent-green); padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 700; border: 1px solid var(--accent-green); display: inline-block; }
         
-        /* Updated Sidebar Buttons (Aaghaz Style) */
         .dash-nav-item { 
             display: flex; align-items: center; gap: 12px; padding: 14px 16px; 
             border-radius: 10px; color: #999; cursor: pointer; transition: 0.2s; 
             margin-bottom: 8px; font-size: 0.9rem; font-weight: 500; 
         }
         .dash-nav-item:hover { background: #111; color: white; }
-        
-        /* Active State Fixed */
-        .dash-nav-item.active { 
-            background: rgba(255, 255, 255, 0.05); 
-            color: var(--accent-green); 
-            border: 1px solid #333;
-            font-weight: 600;
-        }
+        .dash-nav-item.active { background: rgba(255, 255, 255, 0.05); color: var(--accent-green); border: 1px solid #333; font-weight: 600; }
         
         .dash-content { flex: 1; background: #000; position: relative; overflow: hidden; display: flex; flex-direction: column; }
         
@@ -279,11 +279,8 @@
         .mc-thumb { width: 120px; height: 80px; border-radius: 10px; object-fit: cover; }
         .mc-info h4 { color: white; font-size: 1.1rem; margin-bottom: 10px; }
         
-        /* --- ABOUT PAGE (FIXED LAYOUT) --- */
-        .story-section { 
-            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; 
-            align-items: center; max-width: 1200px; margin: 0 auto; padding: 100px 5%;
-        }
+        /* --- ABOUT & SERVICES --- */
+        .story-section { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1200px; margin: 0 auto; padding: 100px 5%; }
         .story-img img { border-radius: 20px; border: 1px solid var(--border); box-shadow: 20px 20px 0 rgba(255,255,255,0.05); }
         .story-content h2 { font-size: 2.8rem; font-weight: 800; margin-bottom: 20px; color: white; line-height: 1.2; }
         .story-content p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 20px; }
@@ -321,7 +318,7 @@
         .admin-table th { text-align: left; padding: 10px; border-bottom: 1px solid #333; color: var(--accent-green); }
         .admin-table td { padding: 10px; border-bottom: 1px solid #222; font-size: 0.9rem; }
 
-        /* AI Chat, Dashboard, Player */
+        /* AI Chat */
         #view-ai-chat { height: 100%; width: 100%; position: relative; display: flex; flex-direction: column; background: #000; }
         .ai-bg-glow { position: absolute; bottom: -50%; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at center, rgba(88, 28, 245, 0.4) 0%, rgba(0,0,0,0) 70%); z-index: 0; pointer-events: none; }
         .ai-chat-main { flex: 1; z-index: 1; display: flex; flex-direction: column; padding: 20px; padding-bottom: 100px; overflow-y: auto; scroll-behavior: smooth; }
@@ -337,49 +334,28 @@
         .msg-user { background: #1a1a1a; color: white; align-self: flex-end; border: 1px solid #333; border-bottom-right-radius: 2px; }
         .msg-ai { background: rgba(88, 28, 245, 0.1); color: #e0e0e0; align-self: flex-start; border: 1px solid rgba(88, 28, 245, 0.3); border-bottom-left-radius: 2px; }
 
-        .player-layout { display: grid; grid-template-columns: 2.5fr 1fr; gap: 30px; max-width: 1500px; margin: 0 auto; padding: 30px 5%; }
-        .video-wrapper { background: black; border-radius: 12px; overflow: hidden; aspect-ratio: 16/9; border: 1px solid var(--border); }
-        .video-wrapper iframe { width: 100%; height: 100%; border: none; }
-        .curriculum-box { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border); height: fit-content; overflow: hidden; }
-        .curr-header { padding: 15px; background: #1a1a1a; font-weight: 700; border-bottom: 1px solid var(--border); }
-        .lesson-item { padding: 15px; border-bottom: 1px solid var(--border); cursor: pointer; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; }
-        .lesson-item:hover, .lesson-item.active-lesson { background: rgba(212, 246, 20, 0.1); color: white; border-left: 3px solid var(--accent-green); }
-        .check-icon { color: var(--accent-green); display: none; }
-        .lesson-item.completed .check-icon { display: block; }
-        .certificate-box { padding: 20px; text-align: center; border-top: 1px solid var(--border); display: none; }
-        .certificate-box.unlocked { display: block; animation: fadeIn 0.5s; }
-        
-        footer { background: black; border-top: 1px solid var(--border); padding: 60px 5% 20px; margin-top: auto; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-        .f-title { color: white; font-weight: 700; margin-bottom: 20px; display: block; }
-        .f-link { display: block; margin-bottom: 10px; color: var(--text-muted); }
-        .auth-wrapper { display: flex; justify-content: center; align-items: center; min-height: 80vh; }
-        .auth-box { background: var(--bg-card); padding: 40px; border-radius: 20px; width: 100%; max-width: 400px; border: 1px solid var(--border); }
-        .input-group input, .input-group textarea { width: 100%; padding: 12px; background: #000; border: 1px solid var(--border); border-radius: 8px; color: white; outline: none; margin-bottom: 15px; }
-        #loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(3,7,18,0.95); z-index: 9999; display: flex; justify-content: center; align-items: center; }
-        .spinner { border: 4px solid var(--bg-hover); border-top: 4px solid var(--accent-green); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .user-avatar-small { width: 35px; height: 35px; background: var(--accent-green); color: black; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-        .admin-table { width: 100%; border-collapse: collapse; margin-top: 20px; color: white; }
-        .admin-table th { text-align: left; padding: 10px; border-bottom: 1px solid #333; color: var(--accent-green); }
-        .admin-table td { padding: 10px; border-bottom: 1px solid #222; font-size: 0.9rem; }
-
         @media (max-width: 900px) {
             .hero-new { flex-direction: column; padding: 100px 5% 50px; text-align: center; }
             .hero-content-left { margin-bottom: 50px; width: 100%; }
             .hero-content-left h1 { font-size: 2.8rem; }
             .hero-visual-right { transform: none; grid-template-columns: repeat(2, 1fr); opacity: 1; width: 100%; }
             
-            /* Mobile Dashboard Sidebar Fix: Horizontal Scroll */
+            /* --- CRITICAL MOBILE DASHBOARD FIX --- */
+            .dashboard-wrapper { flex-direction: column; height: auto; overflow: visible; }
             .dash-sidebar { 
-                display: flex; flex-direction: row; width: 100%; border-right: none; 
-                border-bottom: 1px solid #222; overflow-x: auto; padding: 10px; white-space: nowrap;
+                width: 100%; height: auto; border-right: none; border-bottom: 1px solid #222; 
+                flex-direction: row; overflow-x: auto; padding: 10px; background: #000;
+                position: sticky; top: 75px; z-index: 100; white-space: nowrap; scrollbar-width: none;
             }
-            .dash-profile { display: none; } 
-            .dash-nav { display: flex; gap: 10px; }
-            .dash-nav-item { margin-bottom: 0; font-size: 0.8rem; }
+            .dash-sidebar::-webkit-scrollbar { display: none; }
+            .dash-profile { display: none; }
+            .dash-nav { display: flex; gap: 10px; width: 100%; }
+            .dash-nav-item { margin-bottom: 0; padding: 8px 15px; font-size: 0.8rem; flex-shrink: 0; border: 1px solid #333; background: #111; }
+            .dash-nav-item.active { background: var(--accent-green); color: black; border-color: var(--accent-green); }
             
-            .dash-content { margin-left: 0; padding: 15px; }
+            .dash-content { margin-left: 0; padding: 15px; height: auto; overflow: visible; }
+            #view-ai-chat { height: 80vh; }
+            
             .nav-actions, .search-bar { display: none !important; }
             .mobile-menu-btn { display: block !important; }
             .footer-grid { grid-template-columns: 1fr; }
@@ -504,15 +480,15 @@
                 <button class="btn-white-hero" onclick="navigateTo('courses')">EXPLORE AI PROGRAMS</button>
             </div>
             <div class="hero-visual-right">
-                <div class="hero-vid-thumb"><img src="grid2.jpg"></div>
+                <div class="hero-vid-thumb"><img src="Arez.png"></div>
                 <div class="hero-vid-thumb"><img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?w=400"></div>
-                <div class="hero-vid-thumb"><img src="grid3.jpg"></div>
-                <div class="hero-vid-thumb"><img src="grid4.jpg"></div>
-                <div class="hero-vid-thumb"><img src="grid5.jpg"></div>
-                <div class="hero-vid-thumb"><img src="grid1.jpg"></div>
-                <div class="hero-vid-thumb"><img src="grid2.jpg"></div>
-                <div class="hero-vid-thumb"><img src="grid3.jpg"></div>
-                <div class="hero-vid-thumb"><img src="grid5.jpg"></div>
+                <div class="hero-vid-thumb"><img src="hizam.jpeg"></div>
+                <div class="hero-vid-thumb"><img src="usman.jpeg"></div>
+                <div class="hero-vid-thumb"><img src="Arez.png"></div>
+                <div class="hero-vid-thumb"><img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400"></div>
+                <div class="hero-vid-thumb"><img src="hizam.jpeg"></div>
+                <div class="hero-vid-thumb"><img src="usman.jpeg"></div>
+                <div class="hero-vid-thumb"><img src="Arez.png"></div>
             </div>
             <div class="hero-green-fade"></div>
         </section>
@@ -536,7 +512,7 @@
                 </div>
                 <div class="res-card">
                     <div class="res-title">AI In Hands</div>
-                    <div class="res-img-box"><div class="book-cover"><img src="aiinhan.jpg"></div></div>
+                    <div class="res-img-box"><div class="book-cover"><img src="Arez.png"></div></div>
                     <button class="btn-res btn-dark-grey" onclick="navigateTo('courses')">Join Us Now</button>
                 </div>
                 <div class="res-card">
@@ -630,7 +606,7 @@
         </section>
     </div>
 
-    <!-- 4. ABOUT PAGE (TEAM RESTORED) -->
+    <!-- 4. ABOUT PAGE -->
     <div id="about-page" class="page-section">
         <section class="story-section section">
             <div class="story-img"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800"></div>
@@ -930,7 +906,7 @@
                         const safeVid = encodeURIComponent(c.video);
                         list.innerHTML += `<div class="my-course-card"><img src="${c.image}" class="mc-thumb"><div class="mc-info"><h4>${c.title}</h4><div class="progress-bar"><div class="progress-fill" style="width: 10%"></div></div><small>Enrolled: ${c.date}</small></div><button class="btn-main" style="width:auto; padding:8px 20px;" onclick="openPlayer('${c.title}', decodeURIComponent('${safeVid}'))">Continue</button></div>`;
                     });
-                } else list.innerHTML = "<p style='color:gray'>No courses enrolled.</p>";
+                } else list.innerHTML = "<p style='color:gray; padding:20px; text-align:center;'>No active courses found. Enroll in a course to get started.</p>";
             });
         }
 
@@ -1033,7 +1009,7 @@
         function handleAiKey(e) { if(e.key === 'Enter') sendAiMessage(); }
         
         async function checkAvailableModels() {
-            if(GEMINI_API_KEY === "PASTE_YOUR_NEW_KEY_HERE") {
+            if(GEMINI_API_KEY === "AIzaSyAAmDxw9qWYppJTE1m-GOQbxQvU452uNBA") {
                 console.error("Please paste your API Key in the code!");
                 return;
             }
