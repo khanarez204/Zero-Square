@@ -21,7 +21,6 @@
             --text-muted: #B0B0B0;
             --border: #222222;
             --radius: 12px;
-            --sidebar-width: 280px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -44,1049 +43,12 @@
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent-green); }
 
-        /* Utility */
-        .page-section { display: none; animation: fadeIn 0.5s ease-in-out; }
-        .page-section.active { display: block; }
-        .hidden { display: none !important; }
-        .highlight-text { color: var(--accent-green); }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* --- HEADER --- */
-        header {
-            background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(12px);
-            padding: 15px 5%; display: flex; align-items: center; justify-content: space-between;
-            position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border);
-            height: 75px;
-        }
-        .logo img { height: 40px; width: auto; object-fit: contain; }
-        
-        .search-bar {
-            flex: 1; max-width: 400px; margin: 0 20px;
-            background: var(--bg-card); border-radius: 50px;
-            padding: 10px 20px; display: flex; align-items: center;
-            border: 1px solid var(--border);
-        }
-        .search-bar input { border: none; background: transparent; outline: none; width: 100%; margin-left: 10px; color: white; }
-        .search-bar i { color: var(--text-muted); }
-        
-        .nav-actions { display: flex; align-items: center; gap: 25px; }
-        .nav-link { font-weight: 500; font-size: 14px; color: var(--text-muted); cursor: pointer; }
-        .nav-link:hover, .nav-link.active-link { color: white; }
-        
-        .btn-main {
-            background: var(--accent-green); color: black; padding: 10px 24px; border-radius: 50px; 
-            font-weight: 700; font-size: 14px; border: none;
-        }
-        .btn-main:hover { background: var(--accent-hover); transform: scale(1.05); }
-
-        /* Mobile Menu */
-        .mobile-menu-btn { display: none; font-size: 1.8rem; color: white; cursor: pointer; padding: 5px; }
-        .mobile-nav { 
-            position: fixed; top: 75px; left: 0; width: 100%; 
-            background: var(--bg-card); padding: 20px; 
-            display: none; flex-direction: column; gap: 15px; 
-            z-index: 2000; border-bottom: 1px solid var(--border);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        }
-        .mobile-nav.open { display: flex !important; animation: slideDown 0.3s ease-out; }
-        .m-link { color: white; font-size: 1.1rem; border-bottom: 1px solid var(--border); padding-bottom: 10px; cursor: pointer; }
-        @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-        /* --- HERO SECTION --- */
-        .hero-new {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 80px 5% 0px 5%;
-            background: radial-gradient(circle at bottom left, #0a290a 0%, #000000 60%);
-            min-height: 85vh; overflow: hidden; position: relative;
-        }
-        .hero-content-left { flex: 1; max-width: 600px; z-index: 10; position: relative; }
-        .hero-content-left h1 { font-size: 4rem; font-weight: 900; line-height: 1.1; margin-bottom: 20px; color: white; }
-        .hero-content-left p { color: #ccc; font-size: 1.1rem; margin-bottom: 40px; line-height: 1.6; max-width: 450px; }
-        .btn-white-hero { background: white; color: black; padding: 16px 38px; font-weight: 800; border-radius: 50px; border: none; font-size: 0.95rem; cursor: pointer; transition: 0.3s; }
-        .btn-white-hero:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(255,255,255,0.4); }
-
-        .hero-visual-right {
-            flex: 1.2; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;
-            transform: perspective(1000px) rotateY(-10deg) rotateX(5deg);
-            opacity: 0.8; mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-            z-index: 5;
-        }
-        .hero-vid-thumb { border-radius: 12px; overflow: hidden; aspect-ratio: 16/9; border: 1px solid #333; background: #111; position: relative; transition: 0.3s; }
-        .hero-vid-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
-        .hero-green-fade { position: absolute; bottom: 0; left: 0; width: 100%; height: 150px; background: linear-gradient(to top, #050505 10%, transparent 100%); z-index: 6; pointer-events: none; }
-
-        /* --- RESOURCES SECTION --- */
-        .resources-section { padding: 100px 5%; background: #000; text-align: center; border-bottom: 1px solid #111; }
-        .res-header { margin-bottom: 60px; }
-        .res-header h2 { font-size: 2.8rem; color: white; margin-bottom: 15px; font-weight: 700; }
-        .res-header span { color: var(--accent-green); }
-        .res-header p { color: #999; font-size: 1.1rem; }
-        .res-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; max-width: 1400px; margin: 0 auto; }
-        .res-card { background: #0a0a0a; border: 1px solid #222; border-radius: 20px; padding: 30px 20px; transition: 0.3s; display: flex; flex-direction: column; align-items: center; position: relative; overflow: hidden; }
-        .res-card:hover { border-color: var(--accent-green); transform: translateY(-8px); background: #0f0f0f; }
-        .res-title { color: white; font-weight: 700; margin-bottom: 25px; font-size: 1.2rem; }
-        .res-img-box { width: 100%; height: 240px; margin-bottom: 30px; display: flex; align-items: center; justify-content: center; }
-        .book-cover { width: 160px; height: 220px; background: #111; border-radius: 6px; box-shadow: -15px 15px 25px rgba(0,0,0,0.8), inset 3px 0 5px rgba(255,255,255,0.1); border-left: 4px solid #333; overflow: hidden; transition: 0.3s; }
-        .res-card:hover .book-cover { transform: scale(1.05) rotateY(-5deg); }
-        .book-cover img { width: 100%; height: 100%; object-fit: cover; }
-        .btn-res { width: 100%; padding: 14px; border-radius: 10px; font-weight: 700; border: none; cursor: pointer; font-size: 0.95rem; margin-top: auto; transition: 0.3s; }
-        .btn-dark-grey { background: #1a1a1a; color: white; border: 1px solid #333; }
-        .btn-dark-grey:hover { background: var(--accent-green); color: black; border-color: var(--accent-green); }
-
-        /* --- STATS --- */
-        .stats-bar { background-color: #000000; border-top: 1px solid #222; border-bottom: 1px solid #222; padding: 50px 5%; display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 30px; }
-
-        /* --- REVIEWS --- */
-        .reviews-section { padding: 80px 5%; background: #080808; }
-        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; }
-        .review-card { background: var(--bg-card); padding: 30px; border-radius: 16px; border: 1px solid var(--border); position: relative; }
-        .review-quote { color: var(--accent-green); font-size: 1.5rem; margin-bottom: 15px; }
-        .stars { color: #FACC15; margin-bottom: 15px; font-size: 0.9rem; }
-        .reviewer-info { display: flex; align-items: center; gap: 15px; margin-top: 20px; border-top: 1px solid #222; padding-top: 20px; }
-        .reviewer-img { width: 45px; height: 45px; border-radius: 50%; border: 2px solid var(--accent-green); }
-
-        /* --- FOUNDER SECTION --- */
-        .founder-section { padding: 100px 5%; background: linear-gradient(90deg, #001a00 0%, #050505 100%); border-bottom: 1px solid var(--border); }
-        .founder-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; max-width: 1200px; margin: 0 auto; align-items: center; }
-        .founder-text h1 { font-size: 3rem; font-weight: 900; line-height: 1.1; text-transform: uppercase; margin-bottom: 20px; color: white; }
-        .founder-text p { color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; margin-bottom: 30px; }
-        .strong-white { color: white; font-weight: 700; }
-        
-        .btn-big-neon {
-            background: var(--accent-green); color: black; padding: 18px 40px; font-size: 16px; font-weight: 800;
-            border-radius: 8px; border: none; text-transform: uppercase; cursor: pointer; display: inline-block;
-            box-shadow: 0 5px 20px rgba(212, 246, 20, 0.2); transition: 0.3s;
-        }
-        .btn-big-neon:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(212, 246, 20, 0.4); }
-        .founder-img-wrapper img { width: 100%; border-radius: 20px; border: 2px solid #333; box-shadow: 20px 20px 0px rgba(255,255,255,0.05); }
-
-        /* --- POPUP (FIXED) --- */
-        .webinar-overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0, 0, 0, 0.95); z-index: 3000; 
-            display: none; justify-content: center; align-items: center; 
-            backdrop-filter: blur(10px); animation: fadeIn 0.4s; padding: 10px;
-        }
-        .webinar-modal { 
-            background: #0d0d0d; border: 1px solid #333; 
-            width: 100%; max-width: 500px; 
-            border-radius: 20px; overflow: hidden; 
-            position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.9); 
-            max-height: 95vh; overflow-y: auto;
-        }
-        .close-webinar { 
-            position: absolute; top: 15px; right: 15px; 
-            background: rgba(255,255,255,0.1); border: none; color: white; 
-            width: 30px; height: 30px; border-radius: 50%; 
-            cursor: pointer; z-index: 100; font-size: 14px;
-        }
-        
-        .w-header-badges { text-align: center; margin-bottom: 10px; padding-top: 30px; }
-        .badge-red { background: #dc2626; color: white; padding: 4px 10px; font-size: 0.75rem; font-weight: 700; border-radius: 4px; margin-right: 8px; display: inline-block; }
-        .badge-yellow { background: rgba(234, 179, 8, 0.2); color: #eab308; border: 1px solid #eab308; padding: 3px 10px; font-size: 0.75rem; font-weight: 700; border-radius: 20px; display: inline-block; }
-        
-        .w-title { text-align: center; font-size: 1.5rem; font-weight: 800; color: white; margin-bottom: 5px; }
-        .w-sub { text-align: center; color: #999; font-size: 0.85rem; margin-bottom: 20px; padding: 0 20px; }
-        
-        .w-video-box { 
-            margin: 0 20px 20px; height: 180px; background: #000; border-radius: 10px; 
-            border: 1px solid #333; overflow: hidden; position: relative; 
-        }
-        .w-video-box img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
-        .w-play-btn { 
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 50px; height: 50px; background: white; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; color: black; font-size: 1.2rem; 
-        }
-        
-        .w-features-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; padding: 0 20px 20px; }
-        .feat-box { background: #1f2937; border: 1px solid #374151; padding: 10px; border-radius: 8px; text-align: center; }
-        .feat-icon { font-size: 1.2rem; color: var(--accent-green); margin-bottom: 5px; display: block; }
-        .feat-val { font-weight: 700; color: white; font-size: 0.9rem; display: block; }
-        .feat-label { font-size: 0.7rem; color: #9ca3af; text-transform: uppercase; }
-        
-        .w-checklist { padding: 0 25px 20px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; }
-        .w-check-item { color: white; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; }
-        .w-check-item i { color: var(--accent-green); }
-        
-        .w-actions { padding: 0 20px 20px; display: flex; gap: 10px; }
-        .btn-neon-popup { 
-            flex: 2; background: var(--accent-green); color: black; border: none; 
-            padding: 12px; font-weight: 700; border-radius: 8px; cursor: pointer; font-size: 1rem;
-        }
-        .btn-dark-popup { 
-            flex: 1; background: #1f2937; border: 1px solid #374151; color: white;
-            padding: 12px; font-weight: 600; border-radius: 8px; cursor: pointer; 
-        }
-        
-        .popup-content { padding: 30px; }
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .form-label { display: block; color: #ccc; font-size: 0.85rem; margin-bottom: 6px; font-weight: 600; margin-top: 15px; }
-        .form-input { 
-            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #333; 
-            background: #050505; color: white; outline: none; font-size: 0.95rem; 
-        }
-        .form-input:focus { border-color: var(--accent-green); }
-
-        /* --- DASHBOARD (ORIGINAL LAYOUT) --- */
-        .dashboard-wrapper { display: flex; height: calc(100vh - 75px); overflow: hidden; background: #000; }
-        
-        /* Fixed Sidebar */
-        .dash-sidebar { 
-            width: var(--sidebar-width); 
-            background: #080808; 
-            border-right: 1px solid #222; 
-            display: flex; flex-direction: column; 
-            padding: 25px 20px; 
-            flex-shrink: 0; 
-        }
-        
-        .dash-profile { text-align: center; padding: 20px; background: #111; border-radius: 16px; border: 1px solid #222; margin-bottom: 30px; }
-        .dash-avatar-circle { width: 60px; height: 60px; background: #222; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; margin: 0 auto 10px; border: 2px solid #333; }
-        .dash-user-name { color: white; font-size: 1rem; font-weight: 700; margin-bottom: 2px; }
-        .dash-user-email { color: #666; font-size: 0.75rem; margin-bottom: 10px; display:block; }
-        .dash-badge { background: rgba(212, 246, 20, 0.1); color: var(--accent-green); padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 700; border: 1px solid var(--accent-green); display: inline-block; }
-        
-        /* Sidebar Buttons */
-        .dash-nav-item { 
-            display: flex; align-items: center; gap: 12px; padding: 14px 16px; 
-            border-radius: 10px; color: #999; cursor: pointer; transition: 0.2s; 
-            margin-bottom: 8px; font-size: 0.9rem; font-weight: 500; 
-        }
-        .dash-nav-item:hover { background: #111; color: white; }
-        
-        /* Active State */
-        .dash-nav-item.active { 
-            background: rgba(255, 255, 255, 0.05); 
-            color: var(--accent-green); 
-            border: 1px solid #333;
-            font-weight: 600;
-        }
-        
-        .dash-content { flex: 1; background: #000; position: relative; overflow: hidden; display: flex; flex-direction: column; }
-        
-        #view-courses { padding: 40px; overflow-y: auto; height: 100%; flex: 1; }
-        .dash-welcome { margin-bottom: 30px; }
-        .dash-welcome h2 { font-size: 2rem; font-weight: 800; color: white; margin-bottom: 5px; }
-        .dash-welcome p { color: #888; }
-
-        .my-course-card { 
-            display: flex; gap: 20px; background: #0d0d0d; padding: 25px; 
-            border-radius: 14px; border: 1px solid #222; margin-bottom: 20px; 
-            align-items: center; transition: 0.3s;
-        }
-        .my-course-card:hover { border-color: var(--accent-green); transform: translateX(5px); }
-        .mc-thumb { width: 120px; height: 80px; border-radius: 10px; object-fit: cover; }
-        .mc-info h4 { color: white; font-size: 1.1rem; margin-bottom: 10px; }
-        
-        /* --- ABOUT PAGE --- */
-        .story-section { 
-            display: grid; grid-template-columns: 1fr 1fr; gap: 60px; 
-            align-items: center; max-width: 1200px; margin: 0 auto; padding: 100px 5%;
-        }
-        .story-img img { border-radius: 20px; border: 1px solid var(--border); box-shadow: 20px 20px 0 rgba(255,255,255,0.05); }
-        .story-content h2 { font-size: 2.8rem; font-weight: 800; margin-bottom: 20px; color: white; line-height: 1.2; }
-        .story-content p { font-size: 1.1rem; line-height: 1.8; color: var(--text-muted); margin-bottom: 20px; }
-        .story-content span { color: var(--accent-green); font-weight: 800; letter-spacing: 1px; display: block; margin-bottom: 10px; }
-
-        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; padding-bottom: 80px; }
-        .team-card { text-align: center; background: #0a0a0a; padding: 30px; border-radius: 16px; border: 1px solid #222; transition: 0.3s; }
-        .team-card:hover { border-color: var(--accent-green); transform: translateY(-5px); }
-        .team-img { width: 110px; height: 110px; border-radius: 50%; margin: 0 auto 15px; object-fit: cover; border: 2px solid var(--accent-green); padding: 3px; background:black; }
-        .team-name { color: white; font-weight: 700; font-size: 1.1rem; margin-bottom: 5px; }
-        .team-role { color: #888; font-size: 0.9rem; }
-
-        /* Other */
-        .section { padding: 80px 5%; }
-        .section-header { text-align: center; margin-bottom: 50px; }
-        .section-header h2 { font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; color: white; }
-        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; }
-        .service-card { background: var(--bg-card); padding: 30px; border-radius: 16px; border: 1px solid var(--border); transition: 0.3s; }
-        .service-card:hover { border-color: var(--accent-green); background: #151515; transform: translateY(-5px); }
-        .s-icon { width: 55px; height: 55px; background: rgba(212, 246, 20, 0.1); color: var(--accent-green); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 20px; }
-        .service-card h3 { font-size: 1.25rem; margin-bottom: 10px; color: white; font-weight: 700; }
-        .service-card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
-
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; }
-        .card { background: var(--bg-card); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); transition: 0.3s; display: flex; flex-direction: column; }
-        .card:hover { transform: translateY(-8px); border-color: var(--accent-green); }
-        .card-img { height: 180px; width: 100%; object-fit: cover; opacity: 0.9; }
-        .card-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
-        .card-cat { color: var(--accent-green); font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; }
-        .card h3 { font-size: 1.2rem; margin-bottom: 10px; font-weight: 600; color: white; }
-        .card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 20px; flex-grow: 1; }
-        .btn-card { width: 100%; padding: 10px; background: var(--accent-green); color: black; border: none; border-radius: 8px; font-weight: 700; margin-top: 10px; }
-        
-        .admin-table { width: 100%; border-collapse: collapse; margin-top: 20px; color: white; }
-        .admin-table th { text-align: left; padding: 10px; border-bottom: 1px solid #333; color: var(--accent-green); }
-        .admin-table td { padding: 10px; border-bottom: 1px solid #222; font-size: 0.9rem; }
-
-        /* AI Chat, Dashboard, Player */
-        #view-ai-chat { height: 100%; width: 100%; position: relative; display: flex; flex-direction: column; background: #000; }
-        .ai-bg-glow { position: absolute; bottom: -50%; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at center, rgba(88, 28, 245, 0.4) 0%, rgba(0,0,0,0) 70%); z-index: 0; pointer-events: none; }
-        .ai-chat-main { flex: 1; z-index: 1; display: flex; flex-direction: column; padding: 20px; padding-bottom: 100px; overflow-y: auto; scroll-behavior: smooth; }
-        .ai-welcome-screen { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%; padding: 20px; }
-        .ai-welcome-title { font-size: 2.5rem; font-weight: 800; color: white; margin-bottom: 10px; }
-        .ai-welcome-sub { color: #888; font-size: 1rem; }
-        .ai-messages-container { width: 100%; max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
-        .ai-input-wrapper { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 800px; z-index: 10; }
-        .ai-input-box { background: #111; border: 1px solid #333; border-radius: 16px; padding: 5px; display: flex; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .ai-input-box input { background: transparent; border: none; outline: none; color: white; flex: 1; padding: 15px; font-size: 1rem; }
-        .ai-send-btn { background: var(--accent-green); color: black; width: 40px; height: 40px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; font-size: 1rem; margin-right: 5px; cursor: pointer; transition: 0.2s; }
-        .msg-bubble { padding: 14px 20px; border-radius: 14px; font-size: 0.95rem; line-height: 1.6; max-width: 85%; }
-        .msg-user { background: #1a1a1a; color: white; align-self: flex-end; border: 1px solid #333; border-bottom-right-radius: 2px; }
-        .msg-ai { background: rgba(88, 28, 245, 0.1); color: #e0e0e0; align-self: flex-start; border: 1px solid rgba(88, 28, 245, 0.3); border-bottom-left-radius: 2px; }
-
-        .player-layout { display: grid; grid-template-columns: 2.5fr 1fr; gap: 30px; max-width: 1500px; margin: 0 auto; padding: 30px 5%; }
-        .video-wrapper { background: black; border-radius: 12px; overflow: hidden; aspect-ratio: 16/9; border: 1px solid var(--border); }
-        .video-wrapper iframe { width: 100%; height: 100%; border: none; }
-        .curriculum-box { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border); height: fit-content; overflow: hidden; }
-        .curr-header { padding: 15px; background: #1a1a1a; font-weight: 700; border-bottom: 1px solid var(--border); }
-        .lesson-item { padding: 15px; border-bottom: 1px solid var(--border); cursor: pointer; color: var(--text-muted); display: flex; justify-content: space-between; align-items: center; }
-        .lesson-item:hover, .lesson-item.active-lesson { background: rgba(212, 246, 20, 0.1); color: white; border-left: 3px solid var(--accent-green); }
-        .check-icon { color: var(--accent-green); display: none; }
-        .lesson-item.completed .check-icon { display: block; }
-        .certificate-box { padding: 20px; text-align: center; border-top: 1px solid var(--border); display: none; }
-        .certificate-box.unlocked { display: block; animation: fadeIn 0.5s; }
-        
-        footer { background: black; border-top: 1px solid var(--border); padding: 60px 5% 20px; margin-top: auto; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-        .f-title { color: white; font-weight: 700; margin-bottom: 20px; display: block; }
-        .f-link { display: block; margin-bottom: 10px; color: var(--text-muted); }
-        .auth-wrapper { display: flex; justify-content: center; align-items: center; min-height: 80vh; }
-        .auth-box { background: var(--bg-card); padding: 40px; border-radius: 20px; width: 100%; max-width: 400px; border: 1px solid var(--border); }
-        .input-group input, .input-group textarea { width: 100%; padding: 12px; background: #000; border: 1px solid var(--border); border-radius: 8px; color: white; outline: none; margin-bottom: 15px; }
-        #loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(3,7,18,0.95); z-index: 9999; display: flex; justify-content: center; align-items: center; }
-        .spinner { border: 4px solid var(--bg-hover); border-top: 4px solid var(--accent-green); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .user-avatar-small { width: 35px; height: 35px; background: var(--accent-green); color: black; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; }
-        .admin-table { width: 100%; border-collapse: collapse; margin-top: 20px; color: white; }
-        .admin-table th { text-align: left; padding: 10px; border-bottom: 1px solid #333; color: var(--accent-green); }
-        .admin-table td { padding: 10px; border-bottom: 1px solid #222; font-size: 0.9rem; }
-
-        @media (max-width: 900px) {
-            .hero-new { flex-direction: column; padding: 100px 5% 50px; text-align: center; }
-            .hero-content-left { margin-bottom: 50px; width: 100%; }
-            .hero-content-left h1 { font-size: 2.8rem; }
-            .hero-visual-right { transform: none; grid-template-columns: repeat(2, 1fr); opacity: 1; width: 100%; }
-            
-            /* Mobile Dashboard Sidebar Fix: Horizontal Scroll */
-            .dash-sidebar { 
-                display: flex; flex-direction: row; width: 100%; border-right: none; 
-                border-bottom: 1px solid #222; overflow-x: auto; padding: 10px; white-space: nowrap;
-            }
-            .dash-profile { display: none; } 
-            .dash-nav { display: flex; gap: 10px; }
-            .dash-nav-item { margin-bottom: 0; font-size: 0.8rem; }
-            
-            .dash-content { margin-left: 0; padding: 15px; }
-            .nav-actions, .search-bar { display: none !important; }
-            .mobile-menu-btn { display: block !important; }
-            .footer-grid { grid-template-columns: 1fr; }
-            .stats-bar { grid-template-columns: 1fr 1fr; }
-            .w-features-grid { grid-template-columns: 1fr 1fr; }
-            .btn-neon-popup, .btn-dark-popup { flex: none; width: 100%; margin-bottom: 10px; }
-            .w-actions { flex-direction: column; }
-            .story-section { grid-template-columns: 1fr; text-align: center; } 
-            .player-layout { grid-template-columns: 1fr; }
-            .form-grid { grid-template-columns: 1fr; }
-        }
-    </style>
-</head>
-<body>
-
-    <div id="loading-overlay" class="hidden"><div class="spinner"></div></div>
-
-    <!-- 1. POPUP (FIXED) -->
-    <div id="webinar-popup" class="webinar-overlay">
-        <div class="webinar-modal">
-            <button class="close-webinar" onclick="closeWebinar()"><i class="fa-solid fa-xmark"></i></button>
-            
-            <!-- Step 1: Offer -->
-            <div id="step-1">
-                <div class="w-header-badges">
-                    <span class="badge-red">● REGISTRATION OPEN</span>
-                    <span class="badge-yellow">✨ Limited Seats!</span>
-                </div>
-                <div class="w-title">Join <span style="color:var(--accent-green)">Zero Square</span> Today</div>
-                <div class="w-sub">Unlock access to all premium courses: Web Dev, AI, Graphic Design & More.</div>
-                
-                <div class="w-video-box">
-                    <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600" alt="Preview">
-                    <div class="w-play-btn"><i class="fa-solid fa-play"></i></div>
-                    <div style="position:absolute; bottom:10px; left:15px; font-weight:700; color:white; z-index:2;">Platform Preview</div>
-                </div>
-
-                <div class="w-features-grid">
-                    <div class="feat-box"><i class="fa-solid fa-infinity feat-icon"></i><span class="feat-val">Lifetime</span><span class="feat-label">ACCESS</span></div>
-                    <div class="feat-box"><i class="fa-solid fa-video feat-icon"></i><span class="feat-val">100+</span><span class="feat-label">LESSONS</span></div>
-                    <div class="feat-box"><i class="fa-solid fa-user-group feat-icon"></i><span class="feat-val">Free</span><span class="feat-label">COST</span></div>
-                </div>
-
-                <div class="w-checklist">
-                    <div class="w-check-item"><i class="fa-solid fa-circle-check"></i> Practical Learning</div>
-                    <div class="w-check-item"><i class="fa-solid fa-circle-check"></i> Mentor Support</div>
-                    <div class="w-check-item"><i class="fa-solid fa-circle-check"></i> Verified Certificate</div>
-                    <div class="w-check-item"><i class="fa-solid fa-circle-check"></i> Community Access</div>
-                </div>
-
-                <div class="w-actions">
-                    <button class="btn-neon-popup" onclick="showStep(2)">Join for Free <i class="fa-solid fa-arrow-right"></i></button>
-                    <button class="btn-dark-popup" onclick="closeWebinar()">Maybe Later</button>
-                </div>
-                <div style="text-align:center; padding-bottom:15px; font-size:0.75rem; color:#666;">Registration is currently <span style="color:var(--accent-green); font-weight:bold;">100% FREE</span></div>
-            </div>
-
-            <!-- Step 2: Form -->
-            <div id="step-2" class="hidden popup-content">
-                <h2 style="color:white; margin-bottom:20px; text-align:center;">Create Free Account</h2>
-                <div class="form-grid">
-                    <div><label class="form-label">Full Name *</label><input type="text" id="reg-name" class="form-input" placeholder="e.g. Ali Khan"></div>
-                    <div><label class="form-label">Email Address *</label><input type="email" id="reg-email" class="form-input" placeholder="ali@gmail.com"></div>
-                </div>
-                <label class="form-label">Create Password *</label><input type="password" id="reg-pass" class="form-input" placeholder="Min. 6 characters">
-                <div class="form-grid">
-                    <div><label class="form-label">Mobile Number</label><input type="tel" id="reg-phone" class="form-input" placeholder="0300..."></div>
-                    <div><label class="form-label">City</label><input type="text" id="reg-city" class="form-input" placeholder="Lahore"></div>
-                </div>
-                <label class="form-label">Age</label><input type="number" id="reg-age" class="form-input" placeholder="22">
-                <button class="btn-neon-popup" style="width:100%; margin-top:25px;" onclick="registerUser()">Create Account & Login</button>
-                <div style="text-align:center; margin-top:15px; cursor:pointer; color:gray;" onclick="showStep(1)">Back</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Header -->
-    <header>
-        <div class="logo" onclick="navigateTo('home')">
-            <img src="logo.png" alt="Logo">
-        </div>
-        <div class="search-bar">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="Search courses...">
-        </div>
-        <div class="nav-actions">
-            <span class="nav-link active-link" onclick="navigateTo('home')" id="link-home">Home</span>
-            <span class="nav-link" onclick="navigateTo('courses')" id="link-courses">Courses</span>
-            <span class="nav-link" onclick="navigateTo('services')" id="link-services">Services</span>
-            <span class="nav-link" onclick="navigateTo('about')" id="link-about">About</span>
-            <span class="nav-link hidden" id="link-admin" onclick="navigateTo('admin')" style="color: #D4F614; font-weight: 800;">Admin</span>
-            <div id="auth-buttons" style="display: flex; gap: 15px; align-items: center;">
-                <span class="nav-link" onclick="navigateTo('auth')" style="cursor: pointer;">Log in</span>
-                <button class="btn-main" onclick="openRegistrationPopup()">Join Free</button>
-            </div>
-            <div id="user-profile" class="hidden" onclick="navigateTo('dashboard')" style="cursor: pointer;">
-                <div class="user-avatar-small" id="header-avatar">U</div>
-            </div>
-        </div>
-        <div class="mobile-menu-btn" onclick="toggleMobileMenu()">
-            <i class="fa-solid fa-bars"></i>
-        </div>
-    </header>
-
-    <div id="mobile-menu" class="mobile-nav">
-        <span class="m-link" onclick="mobileNav('home')">Home</span>
-        <span class="m-link" onclick="mobileNav('courses')">Courses</span>
-        <span class="m-link" onclick="mobileNav('services')">Services</span>
-        <span class="m-link" onclick="mobileNav('about')">About</span>
-        <span class="m-link" onclick="mobileNav('auth')">Login / Join</span>
-        <span class="m-link hidden" id="m-dash" onclick="mobileNav('dashboard')">Dashboard</span>
-    </div>
-
-    <!-- 1. HOME PAGE -->
-    <div id="home-page" class="page-section active">
-        
-        <!-- Hero -->
-        <section class="hero-new">
-            <div class="hero-content-left">
-                <h1>Asia’s First AI <br> Startup Institute</h1>
-                <p>Learn how to use AI in real life and start a company people actually want.</p>
-                <button class="btn-white-hero" onclick="navigateTo('courses')">EXPLORE AI PROGRAMS</button>
-            </div>
-            <div class="hero-visual-right">
-                <div class="hero-vid-thumb"><img src="Arez.png"></div>
-                <div class="hero-vid-thumb"><img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?w=400"></div>
-                <div class="hero-vid-thumb"><img src="hizam.jpeg"></div>
-                <div class="hero-vid-thumb"><img src="usman.jpeg"></div>
-                <div class="hero-vid-thumb"><img src="Arez.png"></div>
-                <div class="hero-vid-thumb"><img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400"></div>
-                <div class="hero-vid-thumb"><img src="hizam.jpeg"></div>
-                <div class="hero-vid-thumb"><img src="usman.jpeg"></div>
-                <div class="hero-vid-thumb"><img src="Arez.png"></div>
-            </div>
-            <div class="hero-green-fade"></div>
-        </section>
-
-        <!-- Resources -->
-        <section class="resources-section">
-            <div class="res-header">
-                <h2>Free <span class="highlight-text">Resources</span></h2>
-                <p>Videos, eBooks, Guides, Templates, Downloads & more to help you succeed:</p>
-            </div>
-            <div class="res-grid">
-                <div class="res-card">
-                    <div class="res-title">Startup Building Program</div>
-                    <div class="res-img-box"><div class="book-cover"><img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=400"></div></div>
-                    <button class="btn-res btn-dark-grey" onclick="openRegistrationPopup()">Get Free Access</button>
-                </div>
-                <div class="res-card">
-                    <div class="res-title">Basics of AI</div>
-                    <div class="res-img-box"><div class="book-cover"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400"></div></div>
-                    <button class="btn-res btn-dark-grey" onclick="openRegistrationPopup()">Get Free Access</button>
-                </div>
-                <div class="res-card">
-                    <div class="res-title">AI In Hands</div>
-                    <div class="res-img-box"><div class="book-cover"><img src="Arez.png"></div></div>
-                    <button class="btn-res btn-dark-grey" onclick="navigateTo('courses')">Join Us Now</button>
-                </div>
-                <div class="res-card">
-                    <div class="res-title">FREE GPT-5</div>
-                    <div class="res-img-box"><div class="book-cover" style="background:#10a37f; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-robot" style="font-size:3rem; color:white;"></i></div></div>
-                    <button class="btn-res btn-dark-grey" onclick="navigateTo('dashboard')">Start Chatting</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Stats -->
-        <div class="stats-bar">
-            <div style="text-align: center;"><h3 style="font-size: 2.5rem; font-weight: 800; color: white; margin: 0 0 5px 0;">50K+</h3><p style="color: #9CA3AF; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; margin: 0;">Active Students</p></div>
-            <div style="text-align: center;"><h3 style="font-size: 2.5rem; font-weight: 800; color: white; margin: 0 0 5px 0;">1,200+</h3><p style="color: #9CA3AF; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; margin: 0;">Premium Courses</p></div>
-            <div style="text-align: center;"><h3 style="font-size: 2.5rem; font-weight: 800; color: white; margin: 0 0 5px 0;">500+</h3><p style="color: #9CA3AF; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; margin: 0;">Expert Instructors</p></div>
-            <div style="text-align: center;"><h3 style="font-size: 2.5rem; font-weight: 800; color: white; margin: 0 0 5px 0;">4.9/5</h3><p style="color: #9CA3AF; font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; margin: 0;">User Rating</p></div>
-        </div>
-
-        <!-- REVIEWS SECTION -->
-        <section class="reviews-section">
-            <div class="section-header"><h2>Student Success Stories</h2></div>
-            <div class="reviews-grid">
-                <div class="review-card">
-                    <div class="review-quote"><i class="fa-solid fa-quote-left"></i></div>
-                    <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <p style="color:var(--text-muted); line-height:1.6;">"I went from zero knowledge to a full-time freelancer in just 3 months. The project-based learning is a game changer!"</p>
-                    <div class="reviewer-info">
-                        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="reviewer-img">
-                        <div><h4 style="color:white; font-size:0.95rem;">Sarah Jenkins</h4><small style="color:var(--accent-green);">Freelance Developer</small></div>
-                    </div>
-                </div>
-                <div class="review-card">
-                    <div class="review-quote"><i class="fa-solid fa-quote-left"></i></div>
-                    <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i></div>
-                    <p style="color:var(--text-muted); line-height:1.6;">"The AI workshop opened my eyes to the future. Arez explains complex concepts so simply. Highly recommended!"</p>
-                    <div class="reviewer-info">
-                        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="reviewer-img">
-                        <div><h4 style="color:white; font-size:0.95rem;">David Smith</h4><small style="color:var(--accent-green);">AI Enthusiast</small></div>
-                    </div>
-                </div>
-                <div class="review-card">
-                    <div class="review-quote"><i class="fa-solid fa-quote-left"></i></div>
-                    <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                    <p style="color:var(--text-muted); line-height:1.6;">"Best investment I've made for my career. The support from the team is incredible, they actually care about your success."</p>
-                    <div class="reviewer-info">
-                        <img src="https://randomuser.me/api/portraits/women/65.jpg" class="reviewer-img">
-                        <div><h4 style="color:white; font-size:0.95rem;">Emily R.</h4><small style="color:var(--accent-green);">Graphic Designer</small></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- FOUNDER SECTION -->
-        <section class="founder-section">
-            <div class="founder-grid">
-                <div class="founder-text">
-                    <h1>HELLO I'M <span class="highlight-text">AREZ KHAN</span>. <br> I'VE BUILT <span class="highlight-text">ZERO SQUARE</span> FOR YOU.</h1>
-                    <p>Over the past 5 years, I’ve worked with multiple tech companies to build <strong class="strong-white">AI solutions</strong> and MVPs. I'm not just teaching outdated theory. I'm actively in the AI and startup game right now, learning what works.</p>
-                    <p>What makes me different is simple: <br> <strong class="strong-white">I teach practical skills that get you hired.</strong></p>
-                    <button class="btn-big-neon" onclick="navigateTo('courses')">JOIN NOW AT DISCOUNT PRICE</button>
-                </div>
-                <div class="founder-img-wrapper"><img src="Arez.png" alt="Arez Khan" class="founder-img"></div>
-            </div>
-        </section>
-    </div>
-
-    <!-- 2. COURSES PAGE -->
-    <div id="courses-page" class="page-section">
-        <section class="section">
-            <div class="section-header"><h2>All Courses</h2></div>
-            <div class="grid-container" id="all-courses-grid"></div>
-        </section>
-    </div>
-
-    <!-- 3. SERVICES PAGE -->
-    <div id="services-page" class="page-section">
-        <section class="section">
-            <div class="section-header center"><h2>Our Premium Services</h2></div>
-            <div class="services-grid">
-                <div class="service-card"><div class="s-icon"><i class="fa-solid fa-code"></i></div><h3>Web Development</h3><p>Full-stack custom websites built with React & Node.</p></div>
-                <div class="service-card"><div class="s-icon"><i class="fa-solid fa-pen-nib"></i></div><h3>Graphic Design</h3><p>Creative branding, logos and visual assets.</p></div>
-                <div class="service-card"><div class="s-icon"><i class="fa-solid fa-laptop-code"></i></div><h3>Frontend Dev</h3><p>Interactive pixel-perfect user interfaces.</p></div>
-                <div class="service-card"><div class="s-icon"><i class="fa-solid fa-robot"></i></div><h3>AI & ML</h3><p>Custom AI solutions & automation tools.</p></div>
-                <div class="service-card"><div class="s-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div><h3>SEO Optimization</h3><p>Boost your website ranking on Google.</p></div>
-                <div class="service-card"><div class="s-icon"><i class="fa-solid fa-bullhorn"></i></div><h3>Digital Marketing</h3><p>Social media & PPC campaigns.</p></div>
-                <div class="service-card"><div class="s-icon"><i class="fa-solid fa-layer-group"></i></div><h3>UI/UX Design</h3><p>User-centric wireframes and prototypes.</p></div>
-                <div class="service-card"><div class="s-icon"><i class="fa-solid fa-mobile-screen"></i></div><h3>App Dev</h3><p>iOS & Android apps with Flutter.</p></div>
-                <div class="service-card"><div class="s-icon"><i class="fa-solid fa-database"></i></div><h3>Data Analysis</h3><p>Turn data into actionable insights.</p></div>
-                <div class="service-card"><div class="s-icon"><i class="fa-solid fa-shield-halved"></i></div><h3>Cyber Security</h3><p>Protect your digital assets.</p></div>
-            </div>
-        </section>
-    </div>
-
-    <!-- 4. ABOUT PAGE (TEAM RESTORED) -->
-    <div id="about-page" class="page-section">
-        <section class="story-section section">
-            <div class="story-img"><img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800"></div>
-            <div class="story-content">
-                <span>WHO WE ARE</span>
-                <h2>We Are Zero Square</h2>
-                <p>Founded in 2024, Zero Square is an online learning platform dedicated to providing high-quality education to everyone, everywhere. We believe the future shouldn't require a visa.</p>
-                <p>For too long, the brightest minds in Asia had one path to the future: Silicon Valley. We're building a different path right here.</p>
-            </div>
-        </section>
-
-        <!-- TEAM -->
-        <section class="section" style="background: #0a0a0a;">
-            <div class="section-header center"><h2>Meet Our Team</h2></div>
-            <div class="team-grid">
-                <div class="team-card">
-                    <img src="Arez.png" class="team-img" alt="Arez">
-                    <div class="team-name">Arez Khan</div>
-                    <div class="team-role">Founder & CEO</div>
-                </div>
-                <div class="team-card">
-                    <img src="usman.jpeg" class="team-img" alt="Usman">
-                    <div class="team-name">Usman Ali</div>
-                    <div class="team-role">Head of Education</div>
-                </div>
-                <div class="team-card">
-                    <img src="hizam.jpeg" class="team-img" alt="Hizam">
-                    <div class="team-name">Hizam Ali</div>
-                    <div class="team-role">Lead Marketing Manager</div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <!-- 5. AUTH PAGE -->
-    <div id="auth-page" class="page-section">
-        <div class="auth-wrapper"><div class="auth-box">
-            <h2 style="margin-bottom: 20px;">Welcome</h2>
-            <div style="display:flex; gap:10px; margin-bottom:20px;">
-                <button class="btn-main" onclick="toggleAuth('login')" style="flex:1;">Log In</button>
-                <button class="btn-main" onclick="toggleAuth('signup')" style="flex:1; background:var(--bg-body);">Sign Up</button>
-            </div>
-            <form id="login-form"><div class="input-group"><label>Email</label><input type="email" id="l-email"></div><div class="input-group"><label>Password</label><input type="password" id="l-pass"></div><button type="submit" class="btn-main">Log In</button></form>
-            <form id="signup-form" class="hidden"><div class="input-group"><label>Name</label><input type="text" id="s-name"></div><div class="input-group"><label>Email</label><input type="email" id="s-email"></div><div class="input-group"><label>Password</label><input type="password" id="s-pass"></div><button type="submit" class="btn-main">Sign Up</button></form>
-        </div></div>
-    </div>
-
-    <!-- 6. DASHBOARD (FIXED) -->
-    <div id="dashboard-page" class="page-section">
-        <div class="dashboard-wrapper">
-            <div class="dash-sidebar">
-                <div class="dash-profile">
-                    <div class="dash-avatar-circle" id="dash-avatar-initials">U</div>
-                    <div class="dash-user-name" id="dash-username-side">User</div>
-                    <div class="dash-user-email" id="dash-email-side">email@example.com</div>
-                    <div class="dash-badge">Free Member</div>
-                </div>
-                <div class="dash-nav">
-                    <div class="dash-nav-item active" onclick="switchDashTab('courses')"><i class="fa-solid fa-house"></i> Dashboard</div>
-                    <div class="dash-nav-item" onclick="switchDashTab('courses')"><i class="fa-solid fa-database"></i> My Courses</div>
-                    <div class="dash-nav-item" onclick="switchDashTab('ai')"><i class="fa-solid fa-comment-dots"></i> AI Chat (GPT-5)</div>
-                     <div class="dash-nav-item" onclick="logout()" style="color:#ef4444; margin-top:20px;"><i class="fa-solid fa-right-from-bracket"></i> Logout</div>
-                </div>
-            </div>
-            <div class="dash-content">
-                <div id="view-courses">
-                    <div class="dash-welcome"><div class="dash-welcome-inner"><h2 id="dash-username">Welcome Back!</h2><p>Here are your enrolled courses.</p></div></div>
-                    <div id="my-courses-list"></div>
-                </div>
-                <div id="view-ai-chat" class="hidden">
-                    <div class="ai-bg-glow"></div>
-                    <div class="ai-chat-main">
-                        <div id="ai-welcome-screen" class="ai-welcome-screen">
-                            <div class="ai-welcome-title">Welcome to AI Chat</div>
-                            <div class="ai-welcome-sub">Start a conversation by typing your message below.</div>
-                        </div>
-                        <div class="ai-messages-container" id="ai-chat-box"></div>
-                    </div>
-                    <div class="ai-input-wrapper">
-                        <div class="ai-input-box">
-                            <i class="fa-solid fa-globe" style="color:#666; margin-left:10px;"></i>
-                            <input type="text" id="ai-user-input" placeholder="Message AI Chat..." onkeypress="handleAiKey(event)">
-                            <button class="ai-send-btn" onclick="sendAiMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 7. PLAYER PAGE -->
-    <div id="player-page" class="page-section">
-        <div class="player-layout">
-            <div>
-                <a onclick="navigateTo('dashboard')" style="color:var(--text-muted); cursor:pointer; display:block; margin-bottom:15px;"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
-                <div class="video-wrapper"><iframe id="main-player" src="" allowfullscreen></iframe></div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
-                    <h2 id="player-title">Course Title</h2>
-                    <button class="btn-main" onclick="markComplete()">Next Lesson <i class="fa-solid fa-chevron-right"></i></button>
-                </div>
-            </div>
-            <div class="curriculum-box">
-                <div class="curr-header">Course Content</div>
-                <div id="playlist-container"></div>
-                <div class="certificate-box" id="cert-box">
-                    <i class="fa-solid fa-trophy" style="font-size:2rem; color:var(--accent-green); margin-bottom:10px;"></i>
-                    <h4>Course Completed!</h4>
-                    <button class="btn-main" onclick="downloadCertificate()">Download Certificate</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 8. ADMIN PAGE -->
-    <div id="admin-page" class="page-section">
-        <div class="section admin-container">
-            <h2>Admin Dashboard</h2>
-            <div style="background:var(--bg-card); padding:20px; border-radius:12px; border:1px solid var(--border); margin-bottom:40px;">
-                <h3 style="margin-bottom:15px; color:var(--accent-green);">New Student Registrations</h3>
-                <div style="overflow-x:auto;">
-                    <table class="admin-table"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>City</th><th>Age</th></tr></thead><tbody id="admin-reg-list"></tbody></table>
-                </div>
-            </div>
-            <div class="admin-form">
-                <h3>Add New Course Series</h3>
-                <form id="upload-course-form">
-                    <div class="input-group"><label>Title</label><input type="text" id="c-title" required></div>
-                    <div class="input-group"><label>Category</label><input type="text" id="c-cat" required></div>
-                    <div class="input-group"><label>Image URL</label><input type="text" id="c-img" required></div>
-                    <div class="input-group"><label>YouTube Video Links (Comma Separated)</label><textarea id="c-vid" placeholder="e.g. link1, link2, link3" rows="4"></textarea></div>
-                    <div class="input-group"><label>Price</label><input type="text" id="c-price" value="$12.99"></div>
-                    <button type="submit" class="btn-main" style="width:auto;">Upload Course</button>
-                </form>
-            </div>
-            <h3>Manage Courses</h3>
-            <table class="admin-table"><tbody id="admin-course-list"></tbody></table>
-        </div>
-    </div>
-
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-brand"><span>Zero Square</span><p>The leading e-learning platform.</p></div>
-            <div class="f-col"><span class="f-title">Company</span><span class="f-link" onclick="navigateTo('about')" style="cursor:pointer">About Us</span></div>
-        </div>
-        <div style="text-align: center; border-top: 1px solid var(--border); padding-top: 20px; margin-top: 40px; color: var(--text-muted);"><p>&copy; 2024 Zero Square.</p></div>
-    </footer>
-
-    <!-- FIREBASE SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyACTKh1FPEeubC6HLRTshs2KxgRiLnTbHM",
-            authDomain: "zero-square.firebaseapp.com",
-            databaseURL: "https://zero-square-default-rtdb.firebaseio.com",
-            projectId: "zero-square",
-            storageBucket: "zero-square.firebasestorage.app",
-            messagingSenderId: "564427825486",
-            appId: "1:564427825486:web:9e9736e88d49a90eefbe1f",
-            measurementId: "G-8DBHBSTQK1"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.database();
-        const ADMIN_EMAIL = "admin@zerosquare.com";
-
-        function navigateTo(pageId) {
-            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
-            document.getElementById(pageId + '-page').classList.add('active');
-            window.scrollTo(0,0);
-            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active-link'));
-            const link = document.getElementById('link-' + pageId);
-            if(link) link.classList.add('active-link');
-        }
-
-        function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
-        function mobileNav(pageId) { 
-            document.getElementById('mobile-menu').classList.remove('open'); 
-            if(pageId === 'dashboard') switchDashTab('courses');
-            navigateTo(pageId); 
-        }
-        function toggleAuth(type) {
-            if(type === 'login') { document.getElementById('login-form').classList.remove('hidden'); document.getElementById('signup-form').classList.add('hidden'); }
-            else { document.getElementById('login-form').classList.add('hidden'); document.getElementById('signup-form').classList.remove('hidden'); }
-        }
-
-        document.getElementById('signup-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            auth.createUserWithEmailAndPassword(document.getElementById('s-email').value, document.getElementById('s-pass').value)
-            .then((cred) => {
-                db.ref('users/' + cred.user.uid).set({ name: document.getElementById('s-name').value });
-                alert("Account Created!"); navigateTo('dashboard');
-            }).catch(e => alert(e.message));
-        });
-
-        document.getElementById('login-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            auth.signInWithEmailAndPassword(document.getElementById('l-email').value, document.getElementById('l-pass').value)
-            .then(() => navigateTo('dashboard')).catch(e => alert("Invalid Login"));
-        });
-
-        function logout() { auth.signOut().then(() => window.location.reload()); }
-
-        const defaultCourses = []; 
-        let globalCourses = {};
-
-        auth.onAuthStateChanged(user => {
-            if(user) {
-                document.getElementById('auth-buttons').classList.add('hidden');
-                document.getElementById('user-profile').classList.remove('hidden');
-                document.getElementById('m-dash').classList.remove('hidden');
-                db.ref('users/' + user.uid).once('value').then(s => {
-                    if(s.val()) {
-                        const name = s.val().name;
-                        document.getElementById('dash-username').innerText = "Hello, " + name;
-                        document.getElementById('dash-username-side').innerText = name;
-                        document.getElementById('dash-avatar-initials').innerText = name.charAt(0).toUpperCase();
-                    }
-                });
-                document.getElementById('dash-email-side').innerText = user.email;
-                if(user.email === ADMIN_EMAIL) {
-                    document.getElementById('link-admin').classList.remove('hidden');
-                    loadAdminRegistrations();
-                }
-                loadEnrolled(user.uid);
-            } else {
-                document.getElementById('auth-buttons').classList.remove('hidden');
-                document.getElementById('user-profile').classList.add('hidden');
-                document.getElementById('m-dash').classList.add('hidden');
-            }
-        });
-
-        db.ref('courses').on('value', snapshot => {
-            const dbCourses = snapshot.val();
-            globalCourses = dbCourses || {};
-            let allCourses = [...defaultCourses];
-            const adminList = document.getElementById('admin-course-list');
-            if(adminList) adminList.innerHTML = "";
-            if(dbCourses) {
-                Object.keys(dbCourses).forEach(key => {
-                    const c = dbCourses[key];
-                    allCourses.push({...c, id: key});
-                    if(adminList) adminList.innerHTML += `<tr><td><img src="${c.image}" style="width:40px; border-radius:4px;"></td><td>${c.title}</td><td><button style="color:red; background:none; border:none;" onclick="deleteCourse('${key}')">Delete</button></td></tr>`;
-                });
-            }
-            renderCourses(allCourses);
-            if(auth.currentUser) loadEnrolled(auth.currentUser.uid);
-        });
-
-        function renderCourses(courses) {
-            const homeGrid = document.getElementById('home-courses-grid');
-            const allGrid = document.getElementById('all-courses-grid');
-            let html = "";
-            courses.forEach(c => {
-                html += `<div class="card"><div style="position:relative; height:180px;"><img src="${c.image}" class="card-img"></div><div class="card-body"><span class="card-cat">${c.category}</span><h3>${c.title}</h3><div class="card-footer"><span class="price">${c.price}</span></div><button class="btn-card" onclick="enroll(this, '${c.title}', '${c.video}', '${c.image}', '${c.id}')">Enroll Now</button></div></div>`;
-            });
-            if(homeGrid) homeGrid.innerHTML = html;
-            if(allGrid) allGrid.innerHTML = html;
-        }
-
-        document.getElementById('upload-course-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const rawLinks = document.getElementById('c-vid').value;
-            const cleanLinksArray = rawLinks.split(',').map(l => l.trim()).filter(l => l.length > 0);
-            const storedLinks = cleanLinksArray.join('|||');
-            db.ref('courses').push({
-                title: document.getElementById('c-title').value,
-                category: document.getElementById('c-cat').value,
-                image: document.getElementById('c-img').value,
-                video: storedLinks,
-                price: document.getElementById('c-price').value
-            });
-            alert("Course Series Uploaded!"); document.getElementById('upload-course-form').reset();
-        });
-
-        function deleteCourse(id) { if(confirm("Delete?")) db.ref('courses/'+id).remove(); }
-
-        function enroll(btn, title, vidString, img, id) {
-            const user = auth.currentUser;
-            if(!user) return alert("Please Login");
-            if(btn.innerText === "Start Course") { openPlayer(title, vidString); return; }
-            db.ref('users/' + user.uid + '/enrolled').push({
-                title: title, video: vidString, image: img, courseId: id, date: new Date().toDateString()
-            }).then(() => {
-                alert("Enrolled!"); btn.innerText = "Start Course"; btn.style.backgroundColor = "white"; btn.style.color = "black";
-            }).catch(e => { alert("Error enrolling: " + e.message); });
-        }
-
-        function loadEnrolled(uid) {
-            db.ref('users/' + uid + '/enrolled').on('value', snap => {
-                const list = document.getElementById('my-courses-list');
-                list.innerHTML = "";
-                if(snap.val()) {
-                    Object.values(snap.val()).forEach(c => {
-                        const safeVid = encodeURIComponent(c.video);
-                        list.innerHTML += `<div class="my-course-card"><img src="${c.image}" class="mc-thumb"><div class="mc-info"><h4>${c.title}</h4><div class="progress-bar"><div class="progress-fill" style="width: 10%"></div></div><small>Enrolled: ${c.date}</small></div><button class="btn-main" style="width:auto; padding:8px 20px;" onclick="openPlayer('${c.title}', decodeURIComponent('${safeVid}'))">Continue</button></div>`;
-                    });
-                } else list.innerHTML = "<p style='color:gray'>No courses enrolled.</p>";
-            });
-        }
-
-        function switchDashTab(tab) {
-            document.querySelectorAll('.dash-nav-item').forEach(el => el.classList.remove('active'));
-            const items = document.querySelectorAll('.dash-nav-item');
-            if(tab === 'courses') {
-                document.getElementById('view-courses').classList.remove('hidden');
-                document.getElementById('view-ai-chat').classList.add('hidden');
-                items[0].classList.add('active'); items[1].classList.add('active');
-            } else if (tab === 'ai') {
-                document.getElementById('view-courses').classList.add('hidden');
-                document.getElementById('view-ai-chat').classList.remove('hidden');
-                items[2].classList.add('active');
-            }
-        }
-
-        let currentPlaylist = []; let currentVideoIndex = 0; let completedVideos = 0;
-        function openPlayer(title, vidString) {
-            document.getElementById('player-title').innerText = title;
-            if(vidString.includes('|||')) currentPlaylist = vidString.split('|||');
-            else if (vidString.includes(',')) currentPlaylist = vidString.split(',').map(s => s.trim());
-            else currentPlaylist = [vidString];
-            currentVideoIndex = 0; completedVideos = 0;
-            renderPlaylist(); playVideo(0); navigateTo('player');
-        }
-
-        function renderPlaylist() {
-            const container = document.getElementById('playlist-container');
-            container.innerHTML = "";
-            document.getElementById('cert-box').classList.remove('unlocked');
-            currentPlaylist.forEach((link, index) => {
-                const activeClass = (index === currentVideoIndex) ? 'active-lesson' : '';
-                const completedClass = (index < completedVideos) ? 'completed' : '';
-                container.innerHTML += `<div class="lesson-item ${activeClass} ${completedClass}" onclick="playVideo(${index})"><span>Lesson ${index + 1}</span><i class="fa-solid fa-circle-check check-icon"></i></div>`;
-            });
-            if(completedVideos >= currentPlaylist.length) document.getElementById('cert-box').classList.add('unlocked');
-        }
-
-        function playVideo(index) {
-            currentVideoIndex = index;
-            const vidUrl = currentPlaylist[index];
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-            const match = vidUrl.match(regExp);
-            const cleanId = (match && match[2].length == 11) ? match[2] : vidUrl;
-            document.getElementById('main-player').src = "https://www.youtube.com/embed/" + cleanId;
-            renderPlaylist();
-        }
-
-        function markComplete() {
-            if(currentVideoIndex === completedVideos) completedVideos++;
-            if(currentVideoIndex < currentPlaylist.length - 1) playVideo(currentVideoIndex + 1);
-            else { renderPlaylist(); if(completedVideos >= currentPlaylist.length) alert("Congratulations! Course Completed."); }
-        }
-
-        function downloadCertificate() {
-            const userName = auth.currentUser ? (auth.currentUser.displayName || "Student") : "Student";
-            const courseName = document.getElementById('player-title').innerText;
-            alert(`Generating Certificate for ${userName}...\nCourse: ${courseName}\n\n(Demo Certificate)`);
-        }
-
-        window.addEventListener('load', () => { 
-            if(!auth.currentUser) setTimeout(() => { document.getElementById('webinar-popup').style.display = 'flex'; }, 500); 
-        });
-
-        function openRegistrationPopup() {
-            if(auth.currentUser) navigateTo('courses'); 
-            else { document.getElementById('webinar-popup').style.display = 'flex'; showStep(1); }
-        }
-        function closeWebinar() { document.getElementById('webinar-popup').style.display = 'none'; }
-        function showStep(step) {
-            document.getElementById('step-1').classList.add('hidden');
-            document.getElementById('step-2').classList.add('hidden');
-            document.getElementById('step-' + step).classList.remove('hidden');
-        }
-        function registerUser() {
-            const name = document.getElementById('reg-name').value;
-            const email = document.getElementById('reg-email').value;
-            const pass = document.getElementById('reg-pass').value;
-            if(!name || !email || !pass) return alert("Please fill fields");
-            auth.createUserWithEmailAndPassword(email, pass).then((cred) => {
-                cred.user.updateProfile({ displayName: name });
-                db.ref('users/' + cred.user.uid).set({ name, email, joined: new Date().toDateString() });
-                alert("Account Created!"); closeWebinar(); navigateTo('dashboard');
-            }).catch(e => alert(e.message));
-        }
-        function loadAdminRegistrations() {
-            db.ref('webinar_registrations').on('value', snap => {
-                const list = document.getElementById('admin-reg-list'); list.innerHTML = "";
-                if(snap.val()) Object.values(snap.val()).reverse().forEach(reg => { list.innerHTML += `<tr><td>${reg.name}</td><td>${reg.email}</td><td>${reg.phone}</td><td>${reg.city}</td><td>${reg.age}</td></tr>`; });
-            });
-        }
-
-        // --- AI CHATBOT LOGIC ---
-        // YAHAN APNI NAYI KEY PASTE KAREIN
-        const GEMINI_API_KEY = "PASTE_YOUR_NEW_KEY_HERE"; 
-        
-        let CURRENT_MODEL = "gemini-1.5-flash"; 
-
-        function handleAiKey(e) { if(e.key === 'Enter') sendAiMessage(); }
-        
-        async function checkAvailableModels() {
-            if(GEMINI_API_KEY === "PASTE_YOUR_NEW_KEY_HERE") {
-                console.error("Please paste your API Key in the code!");
-                return;
-            }
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${GEMINI_API_KEY}`);
-                const data = await response.json();
-                if(data.models) {
-                    const validModel = data.models.find(m => m.name.includes('gemini') && m.supportedGenerationMethods.includes('generateContent'));
-                    if(validModel) CURRENT_MODEL = validModel.name.replace("models/", "");
-                }
-            } catch (e) { console.error("Model check failed"); }
-        }
-        checkAvailableModels();
-
-        async function sendAiMessage() {
-            const input = document.getElementById('ai-user-input');
-            const chatBox = document.getElementById('ai-chat-box');
-            const text = input.value.trim();
-            if(!text) return;
-            
-            // Check for placeholder key
-            if(GEMINI_API_KEY === "PASTE_YOUR_NEW_KEY_HERE") {
-                alert("Please edit the code and paste your Google API Key!");
-                return;
-            }
-
-            document.getElementById('ai-welcome-screen').style.display = 'none';
-            chatBox.innerHTML += `<div class="msg-bubble msg-user">${text}</div>`;
-            input.value = ""; chatBox.scrollTop = chatBox.scrollHeight;
-            const loadingId = "loading-" + Date.now();
-            
-            chatBox.innerHTML += `<div class="msg-bubble msg-ai" id="${loadingId}">...</div>`;
-            chatBox.scrollTop = chatBox.scrollHeight;
-            try {
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/${CURRENT_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
-                const response = await fetch(url, {
-                    method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: text }] }] })
-                });
-                const data = await response.json();
-                if (data.error) document.getElementById(loadingId).innerText = "Error: " + data.error.message;
-                else {
-                    const aiText = data.candidates[0].content.parts[0].text;
-                    document.getElementById(loadingId).innerText = aiText.replace(/\*\*/g, "").replace(/\*/g, ""); 
-                }
-            } catch (err) { document.getElementById(loadingId).innerText = "Connection Error."; }
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
-        navigateTo('home');
-    </script>
-</body>
-</html>
+        /* Fix Autofill */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active{
+            -webkit-box-shadow: 0 0 0 30px #050505 inset !important;
             -webkit-text-fill-color: white !important;
         }
 
@@ -1124,6 +86,12 @@
             font-weight: 700; font-size: 14px; border: none;
         }
         .btn-main:hover { background: var(--accent-hover); transform: scale(1.05); }
+
+        .user-avatar-small {
+            width: 35px; height: 35px; background: #333; color: white; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            font-weight: 700; border: 1px solid var(--accent-green);
+        }
 
         /* Mobile Menu */
         .mobile-menu-btn { display: none; font-size: 1.8rem; color: white; cursor: pointer; padding: 5px; }
@@ -1274,48 +242,6 @@
         }
         .form-input:focus { border-color: var(--accent-green); }
 
-        /* --- DASHBOARD (MOBILE FRIENDLY FIX) --- */
-        .dashboard-wrapper { display: flex; height: calc(100vh - 75px); overflow: hidden; background: #000; }
-        
-        .dash-sidebar { 
-            width: var(--sidebar-width); 
-            background: #080808; 
-            border-right: 1px solid #222; 
-            display: flex; flex-direction: column; 
-            padding: 25px 20px; 
-            flex-shrink: 0; 
-        }
-        
-        .dash-profile { text-align: center; padding: 20px; background: #111; border-radius: 16px; border: 1px solid #222; margin-bottom: 30px; }
-        .dash-avatar-circle { width: 60px; height: 60px; background: #222; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; margin: 0 auto 10px; border: 2px solid #333; }
-        .dash-user-name { color: white; font-size: 1rem; font-weight: 700; margin-bottom: 2px; }
-        .dash-user-email { color: #666; font-size: 0.75rem; margin-bottom: 10px; display:block; }
-        .dash-badge { background: rgba(212, 246, 20, 0.1); color: var(--accent-green); padding: 4px 12px; border-radius: 20px; font-size: 10px; font-weight: 700; border: 1px solid var(--accent-green); display: inline-block; }
-        
-        .dash-nav-item { 
-            display: flex; align-items: center; gap: 12px; padding: 14px 16px; 
-            border-radius: 10px; color: #999; cursor: pointer; transition: 0.2s; 
-            margin-bottom: 8px; font-size: 0.9rem; font-weight: 500; 
-        }
-        .dash-nav-item:hover { background: #111; color: white; }
-        .dash-nav-item.active { background: rgba(255, 255, 255, 0.05); color: var(--accent-green); border: 1px solid #333; font-weight: 600; }
-        
-        .dash-content { flex: 1; background: #000; position: relative; overflow: hidden; display: flex; flex-direction: column; }
-        
-        #view-courses { padding: 40px; overflow-y: auto; height: 100%; flex: 1; }
-        .dash-welcome { margin-bottom: 30px; }
-        .dash-welcome h2 { font-size: 2rem; font-weight: 800; color: white; margin-bottom: 5px; }
-        .dash-welcome p { color: #888; }
-
-        .my-course-card { 
-            display: flex; gap: 20px; background: #0d0d0d; padding: 25px; 
-            border-radius: 14px; border: 1px solid #222; margin-bottom: 20px; 
-            align-items: center; transition: 0.3s;
-        }
-        .my-course-card:hover { border-color: var(--accent-green); transform: translateX(5px); }
-        .mc-thumb { width: 120px; height: 80px; border-radius: 10px; object-fit: cover; }
-        .mc-info h4 { color: white; font-size: 1.1rem; margin-bottom: 10px; }
-        
         /* --- ABOUT & SERVICES --- */
         .story-section { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; max-width: 1200px; margin: 0 auto; padding: 100px 5%; }
         .story-img img { border-radius: 20px; border: 1px solid var(--border); box-shadow: 20px 20px 0 rgba(255,255,255,0.05); }
@@ -1354,44 +280,48 @@
         .admin-table { width: 100%; border-collapse: collapse; margin-top: 20px; color: white; }
         .admin-table th { text-align: left; padding: 10px; border-bottom: 1px solid #333; color: var(--accent-green); }
         .admin-table td { padding: 10px; border-bottom: 1px solid #222; font-size: 0.9rem; }
+        
+        /* Auth Page */
+        .auth-wrapper {
+            display: flex; justify-content: center; align-items: center;
+            min-height: 80vh; background: radial-gradient(circle at center, #111 0%, #000 70%);
+        }
+        .auth-box {
+            background: #0d0d0d; border: 1px solid #222; padding: 40px; 
+            border-radius: 16px; width: 100%; max-width: 400px; text-align: center;
+        }
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; color: #999; font-size: 0.85rem; margin-bottom: 5px; }
+        .input-group input { 
+            width: 100%; padding: 10px; background: #000; border: 1px solid #333; 
+            color: white; border-radius: 6px; outline: none; 
+        }
+        .input-group input:focus { border-color: var(--accent-green); }
 
-        /* AI Chat */
-        #view-ai-chat { height: 100%; width: 100%; position: relative; display: flex; flex-direction: column; background: #000; }
-        .ai-bg-glow { position: absolute; bottom: -50%; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at center, rgba(88, 28, 245, 0.4) 0%, rgba(0,0,0,0) 70%); z-index: 0; pointer-events: none; }
-        .ai-chat-main { flex: 1; z-index: 1; display: flex; flex-direction: column; padding: 20px; padding-bottom: 100px; overflow-y: auto; scroll-behavior: smooth; }
-        .ai-welcome-screen { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 100%; padding: 20px; }
-        .ai-welcome-title { font-size: 2.5rem; font-weight: 800; color: white; margin-bottom: 10px; }
-        .ai-welcome-sub { color: #888; font-size: 1rem; }
-        .ai-messages-container { width: 100%; max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
-        .ai-input-wrapper { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 800px; z-index: 10; }
-        .ai-input-box { background: #111; border: 1px solid #333; border-radius: 16px; padding: 5px; display: flex; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .ai-input-box input { background: transparent; border: none; outline: none; color: white; flex: 1; padding: 15px; font-size: 1rem; }
-        .ai-send-btn { background: var(--accent-green); color: black; width: 40px; height: 40px; border-radius: 50%; border: none; display: flex; align-items: center; justify-content: center; font-size: 1rem; margin-right: 5px; cursor: pointer; transition: 0.2s; }
-        .msg-bubble { padding: 14px 20px; border-radius: 14px; font-size: 0.95rem; line-height: 1.6; max-width: 85%; }
-        .msg-user { background: #1a1a1a; color: white; align-self: flex-end; border: 1px solid #333; border-bottom-right-radius: 2px; }
-        .msg-ai { background: rgba(88, 28, 245, 0.1); color: #e0e0e0; align-self: flex-start; border: 1px solid rgba(88, 28, 245, 0.3); border-bottom-left-radius: 2px; }
+        /* Player */
+        .player-layout { display: grid; grid-template-columns: 2.5fr 1fr; gap: 30px; padding: 40px 5%; min-height: 90vh; }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 16px; overflow: hidden; border: 1px solid #333; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .curriculum-box { background: #0d0d0d; border: 1px solid #222; border-radius: 16px; padding: 20px; display: flex; flex-direction: column; height: fit-content; max-height: 80vh; overflow-y: auto; }
+        .curr-header { font-weight: 700; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #222; }
+        .lesson-item { 
+            display: flex; justify-content: space-between; align-items: center; 
+            padding: 12px; border-radius: 8px; margin-bottom: 8px; 
+            background: #151515; cursor: pointer; transition: 0.2s; font-size: 0.9rem; 
+        }
+        .lesson-item:hover { background: #222; }
+        .lesson-item.active-lesson { border: 1px solid var(--accent-green); color: var(--accent-green); }
+        .lesson-item.completed { color: #888; text-decoration: line-through; }
+        .check-icon { color: #333; }
+        .lesson-item.completed .check-icon { color: var(--accent-green); }
+        .certificate-box { text-align: center; padding: 20px; margin-top: 20px; border: 1px solid #333; border-radius: 12px; display: none; }
+        .certificate-box.unlocked { display: block; animation: fadeIn 0.5s; }
 
         @media (max-width: 900px) {
             .hero-new { flex-direction: column; padding: 100px 5% 50px; text-align: center; }
             .hero-content-left { margin-bottom: 50px; width: 100%; }
             .hero-content-left h1 { font-size: 2.8rem; }
             .hero-visual-right { transform: none; grid-template-columns: repeat(2, 1fr); opacity: 1; width: 100%; }
-            
-            /* --- CRITICAL MOBILE DASHBOARD FIX --- */
-            .dashboard-wrapper { flex-direction: column; height: auto; overflow: visible; }
-            .dash-sidebar { 
-                width: 100%; height: auto; border-right: none; border-bottom: 1px solid #222; 
-                flex-direction: row; overflow-x: auto; padding: 10px; background: #000;
-                position: sticky; top: 75px; z-index: 100; white-space: nowrap; scrollbar-width: none;
-            }
-            .dash-sidebar::-webkit-scrollbar { display: none; }
-            .dash-profile { display: none; }
-            .dash-nav { display: flex; gap: 10px; width: 100%; }
-            .dash-nav-item { margin-bottom: 0; padding: 8px 15px; font-size: 0.8rem; flex-shrink: 0; border: 1px solid #333; background: #111; }
-            .dash-nav-item.active { background: var(--accent-green); color: black; border-color: var(--accent-green); }
-            
-            .dash-content { margin-left: 0; padding: 15px; height: auto; overflow: visible; }
-            #view-ai-chat { height: 80vh; }
             
             .nav-actions, .search-bar { display: none !important; }
             .mobile-menu-btn { display: block !important; }
@@ -1410,7 +340,7 @@
 
     <div id="loading-overlay" class="hidden"><div class="spinner"></div></div>
 
-    <!-- 1. POPUP (FIXED) -->
+    <!-- 1. POPUP -->
     <div id="webinar-popup" class="webinar-overlay">
         <div class="webinar-modal">
             <button class="close-webinar" onclick="closeWebinar()"><i class="fa-solid fa-xmark"></i></button>
@@ -1488,7 +418,7 @@
                 <span class="nav-link" onclick="navigateTo('auth')" style="cursor: pointer;">Log in</span>
                 <button class="btn-main" onclick="openRegistrationPopup()">Join Free</button>
             </div>
-            <div id="user-profile" class="hidden" onclick="navigateTo('dashboard')" style="cursor: pointer;">
+            <div id="user-profile" class="hidden" onclick="handleProfileClick()" style="cursor: pointer;">
                 <div class="user-avatar-small" id="header-avatar">U</div>
             </div>
         </div>
@@ -1503,7 +433,6 @@
         <span class="m-link" onclick="mobileNav('services')">Services</span>
         <span class="m-link" onclick="mobileNav('about')">About</span>
         <span class="m-link" onclick="mobileNav('auth')">Login / Join</span>
-        <span class="m-link hidden" id="m-dash" onclick="mobileNav('dashboard')">Dashboard</span>
     </div>
 
     <!-- 1. HOME PAGE -->
@@ -1555,7 +484,7 @@
                 <div class="res-card">
                     <div class="res-title">FREE GPT-5</div>
                     <div class="res-img-box"><div class="book-cover" style="background:#10a37f; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-robot" style="font-size:3rem; color:white;"></i></div></div>
-                    <button class="btn-res btn-dark-grey" onclick="navigateTo('dashboard')">Start Chatting</button>
+                    <button class="btn-res btn-dark-grey" onclick="alert('Feature temporarily unavailable.')">Start Chatting</button>
                 </div>
             </div>
         </section>
@@ -1691,54 +620,11 @@
         </div></div>
     </div>
 
-    <!-- 6. DASHBOARD (FIXED) -->
-    <div id="dashboard-page" class="page-section">
-        <div class="dashboard-wrapper">
-            <div class="dash-sidebar">
-                <div class="dash-profile">
-                    <div class="dash-avatar-circle" id="dash-avatar-initials">U</div>
-                    <div class="dash-user-name" id="dash-username-side">User</div>
-                    <div class="dash-user-email" id="dash-email-side">email@example.com</div>
-                    <div class="dash-badge">Free Member</div>
-                </div>
-                <div class="dash-nav">
-                    <div class="dash-nav-item active" onclick="switchDashTab('courses')"><i class="fa-solid fa-house"></i> Dashboard</div>
-                    <div class="dash-nav-item" onclick="switchDashTab('courses')"><i class="fa-solid fa-database"></i> My Courses</div>
-                    <div class="dash-nav-item" onclick="switchDashTab('ai')"><i class="fa-solid fa-comment-dots"></i> AI Chat (GPT-5)</div>
-                     <div class="dash-nav-item" onclick="logout()" style="color:#ef4444; margin-top:20px;"><i class="fa-solid fa-right-from-bracket"></i> Logout</div>
-                </div>
-            </div>
-            <div class="dash-content">
-                <div id="view-courses">
-                    <div class="dash-welcome"><div class="dash-welcome-inner"><h2 id="dash-username">Welcome Back!</h2><p>Here are your enrolled courses.</p></div></div>
-                    <div id="my-courses-list"></div>
-                </div>
-                <div id="view-ai-chat" class="hidden">
-                    <div class="ai-bg-glow"></div>
-                    <div class="ai-chat-main">
-                        <div id="ai-welcome-screen" class="ai-welcome-screen">
-                            <div class="ai-welcome-title">Welcome to AI Chat</div>
-                            <div class="ai-welcome-sub">Start a conversation by typing your message below.</div>
-                        </div>
-                        <div class="ai-messages-container" id="ai-chat-box"></div>
-                    </div>
-                    <div class="ai-input-wrapper">
-                        <div class="ai-input-box">
-                            <i class="fa-solid fa-globe" style="color:#666; margin-left:10px;"></i>
-                            <input type="text" id="ai-user-input" placeholder="Message AI Chat..." onkeypress="handleAiKey(event)">
-                            <button class="ai-send-btn" onclick="sendAiMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 7. PLAYER PAGE -->
+    <!-- 6. PLAYER PAGE -->
     <div id="player-page" class="page-section">
         <div class="player-layout">
             <div>
-                <a onclick="navigateTo('dashboard')" style="color:var(--text-muted); cursor:pointer; display:block; margin-bottom:15px;"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+                <a onclick="navigateTo('courses')" style="color:var(--text-muted); cursor:pointer; display:block; margin-bottom:15px;"><i class="fa-solid fa-arrow-left"></i> Back to Courses</a>
                 <div class="video-wrapper"><iframe id="main-player" src="" allowfullscreen></iframe></div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
                     <h2 id="player-title">Course Title</h2>
@@ -1757,7 +643,7 @@
         </div>
     </div>
 
-    <!-- 8. ADMIN PAGE -->
+    <!-- 7. ADMIN PAGE (Separate from User Dashboard) -->
     <div id="admin-page" class="page-section">
         <div class="section admin-container">
             <h2>Admin Dashboard</h2>
@@ -1807,24 +693,33 @@
             appId: "1:564427825486:web:9e9736e88d49a90eefbe1f",
             measurementId: "G-8DBHBSTQK1"
         };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.database();
+        
+        // Initialize Firebase safely
+        if (typeof firebase !== 'undefined') {
+            firebase.initializeApp(firebaseConfig);
+            var auth = firebase.auth();
+            var db = firebase.database();
+        } else {
+            console.error("Firebase SDK not loaded");
+        }
+        
         const ADMIN_EMAIL = "admin@zerosquare.com";
 
         function navigateTo(pageId) {
             document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
-            document.getElementById(pageId + '-page').classList.add('active');
-            window.scrollTo(0,0);
-            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active-link'));
-            const link = document.getElementById('link-' + pageId);
-            if(link) link.classList.add('active-link');
+            const target = document.getElementById(pageId + '-page');
+            if (target) {
+                target.classList.add('active');
+                window.scrollTo(0,0);
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active-link'));
+                const link = document.getElementById('link-' + pageId);
+                if(link) link.classList.add('active-link');
+            }
         }
 
         function toggleMobileMenu() { document.getElementById('mobile-menu').classList.toggle('open'); }
         function mobileNav(pageId) { 
             document.getElementById('mobile-menu').classList.remove('open'); 
-            if(pageId === 'dashboard') switchDashTab('courses');
             navigateTo(pageId); 
         }
         function toggleAuth(type) {
@@ -1834,47 +729,54 @@
 
         document.getElementById('signup-form').addEventListener('submit', (e) => {
             e.preventDefault();
-            auth.createUserWithEmailAndPassword(document.getElementById('s-email').value, document.getElementById('s-pass').value)
+            const email = document.getElementById('s-email').value;
+            const pass = document.getElementById('s-pass').value;
+            const name = document.getElementById('s-name').value;
+            
+            auth.createUserWithEmailAndPassword(email, pass)
             .then((cred) => {
-                db.ref('users/' + cred.user.uid).set({ name: document.getElementById('s-name').value });
-                alert("Account Created!"); navigateTo('dashboard');
+                cred.user.updateProfile({ displayName: name });
+                db.ref('users/' + cred.user.uid).set({ name: name, email: email, joined: new Date().toDateString() });
+                alert("Account Created!"); navigateTo('home');
             }).catch(e => alert(e.message));
         });
 
         document.getElementById('login-form').addEventListener('submit', (e) => {
             e.preventDefault();
             auth.signInWithEmailAndPassword(document.getElementById('l-email').value, document.getElementById('l-pass').value)
-            .then(() => navigateTo('dashboard')).catch(e => alert("Invalid Login"));
+            .then(() => window.location.href = 'dashboard.html').catch(e => alert("Invalid Login"));
         });
 
         function logout() { auth.signOut().then(() => window.location.reload()); }
+        
+       // index.html mein ye dhoondein
+function handleProfileClick() {
+    // Is line ko update karein:
+    window.location.href = 'dashboard.html';
+}
 
         const defaultCourses = []; 
         let globalCourses = {};
 
         auth.onAuthStateChanged(user => {
             if(user) {
-                document.getElementById('auth-buttons').classList.add('hidden');
+                document.getElementById('auth-buttons').style.display = 'none';
                 document.getElementById('user-profile').classList.remove('hidden');
-                document.getElementById('m-dash').classList.remove('hidden');
+                
                 db.ref('users/' + user.uid).once('value').then(s => {
                     if(s.val()) {
                         const name = s.val().name;
-                        document.getElementById('dash-username').innerText = "Hello, " + name;
-                        document.getElementById('dash-username-side').innerText = name;
-                        document.getElementById('dash-avatar-initials').innerText = name.charAt(0).toUpperCase();
+                        document.getElementById('header-avatar').innerText = name.charAt(0).toUpperCase();
                     }
                 });
-                document.getElementById('dash-email-side').innerText = user.email;
+                
                 if(user.email === ADMIN_EMAIL) {
                     document.getElementById('link-admin').classList.remove('hidden');
                     loadAdminRegistrations();
                 }
-                loadEnrolled(user.uid);
             } else {
-                document.getElementById('auth-buttons').classList.remove('hidden');
+                document.getElementById('auth-buttons').style.display = 'flex';
                 document.getElementById('user-profile').classList.add('hidden');
-                document.getElementById('m-dash').classList.add('hidden');
             }
         });
 
@@ -1892,7 +794,6 @@
                 });
             }
             renderCourses(allCourses);
-            if(auth.currentUser) loadEnrolled(auth.currentUser.uid);
         });
 
         function renderCourses(courses) {
@@ -1925,43 +826,21 @@
 
         function enroll(btn, title, vidString, img, id) {
             const user = auth.currentUser;
-            if(!user) return alert("Please Login");
+            if(!user) return alert("Please Login to enroll.");
             if(btn.innerText === "Start Course") { openPlayer(title, vidString); return; }
+            
             db.ref('users/' + user.uid + '/enrolled').push({
                 title: title, video: vidString, image: img, courseId: id, date: new Date().toDateString()
             }).then(() => {
-                alert("Enrolled!"); btn.innerText = "Start Course"; btn.style.backgroundColor = "white"; btn.style.color = "black";
+                alert("Enrolled successfully!"); 
+                btn.innerText = "Start Course"; 
+                btn.style.backgroundColor = "white"; 
+                btn.style.color = "black";
             }).catch(e => { alert("Error enrolling: " + e.message); });
         }
 
-        function loadEnrolled(uid) {
-            db.ref('users/' + uid + '/enrolled').on('value', snap => {
-                const list = document.getElementById('my-courses-list');
-                list.innerHTML = "";
-                if(snap.val()) {
-                    Object.values(snap.val()).forEach(c => {
-                        const safeVid = encodeURIComponent(c.video);
-                        list.innerHTML += `<div class="my-course-card"><img src="${c.image}" class="mc-thumb"><div class="mc-info"><h4>${c.title}</h4><div class="progress-bar"><div class="progress-fill" style="width: 10%"></div></div><small>Enrolled: ${c.date}</small></div><button class="btn-main" style="width:auto; padding:8px 20px;" onclick="openPlayer('${c.title}', decodeURIComponent('${safeVid}'))">Continue</button></div>`;
-                    });
-                } else list.innerHTML = "<p style='color:gray; padding:20px; text-align:center;'>No active courses found. Enroll in a course to get started.</p>";
-            });
-        }
-
-        function switchDashTab(tab) {
-            document.querySelectorAll('.dash-nav-item').forEach(el => el.classList.remove('active'));
-            const items = document.querySelectorAll('.dash-nav-item');
-            if(tab === 'courses') {
-                document.getElementById('view-courses').classList.remove('hidden');
-                document.getElementById('view-ai-chat').classList.add('hidden');
-                items[0].classList.add('active'); items[1].classList.add('active');
-            } else if (tab === 'ai') {
-                document.getElementById('view-courses').classList.add('hidden');
-                document.getElementById('view-ai-chat').classList.remove('hidden');
-                items[2].classList.add('active');
-            }
-        }
-
         let currentPlaylist = []; let currentVideoIndex = 0; let completedVideos = 0;
+        
         function openPlayer(title, vidString) {
             document.getElementById('player-title').innerText = title;
             if(vidString.includes('|||')) currentPlaylist = vidString.split('|||');
@@ -1986,9 +865,11 @@
         function playVideo(index) {
             currentVideoIndex = index;
             const vidUrl = currentPlaylist[index];
+            // Enhanced regex for various Youtube URL formats
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
             const match = vidUrl.match(regExp);
-            const cleanId = (match && match[2].length == 11) ? match[2] : vidUrl;
+            const cleanId = (match && match[2].length >= 11) ? match[2] : vidUrl;
+            
             document.getElementById('main-player').src = "https://www.youtube.com/embed/" + cleanId;
             renderPlaylist();
         }
@@ -2002,7 +883,7 @@
         function downloadCertificate() {
             const userName = auth.currentUser ? (auth.currentUser.displayName || "Student") : "Student";
             const courseName = document.getElementById('player-title').innerText;
-            alert(`Generating Certificate for ${userName}...\nCourse: ${courseName}\n\n(Demo Certificate)`);
+            alert(`Generating Certificate for ${userName}...\nCourse: ${courseName}\n\n(This is a demo feature)`);
         }
 
         window.addEventListener('load', () => { 
@@ -2027,7 +908,7 @@
             auth.createUserWithEmailAndPassword(email, pass).then((cred) => {
                 cred.user.updateProfile({ displayName: name });
                 db.ref('users/' + cred.user.uid).set({ name, email, joined: new Date().toDateString() });
-                alert("Account Created!"); closeWebinar(); navigateTo('dashboard');
+                alert("Account Created!"); closeWebinar(); navigateTo('home');
             }).catch(e => alert(e.message));
         }
         function loadAdminRegistrations() {
@@ -2037,65 +918,7 @@
             });
         }
 
-        // --- AI CHATBOT LOGIC ---
-        // YAHAN APNI NAYI KEY PASTE KAREIN
-        const GEMINI_API_KEY = "PASTE_YOUR_NEW_KEY_HERE"; 
-        
-        let CURRENT_MODEL = "gemini-1.5-flash"; 
-
-        function handleAiKey(e) { if(e.key === 'Enter') sendAiMessage(); }
-        
-        async function checkAvailableModels() {
-            if(GEMINI_API_KEY === "AIzaSyAAmDxw9qWYppJTE1m-GOQbxQvU452uNBA") {
-                console.error("Please paste your API Key in the code!");
-                return;
-            }
-            try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${GEMINI_API_KEY}`);
-                const data = await response.json();
-                if(data.models) {
-                    const validModel = data.models.find(m => m.name.includes('gemini') && m.supportedGenerationMethods.includes('generateContent'));
-                    if(validModel) CURRENT_MODEL = validModel.name.replace("models/", "");
-                }
-            } catch (e) { console.error("Model check failed"); }
-        }
-        checkAvailableModels();
-
-        async function sendAiMessage() {
-            const input = document.getElementById('ai-user-input');
-            const chatBox = document.getElementById('ai-chat-box');
-            const text = input.value.trim();
-            if(!text) return;
-            
-            // Check for placeholder key
-            if(GEMINI_API_KEY === "PASTE_YOUR_NEW_KEY_HERE") {
-                alert("Please edit the code and paste your Google API Key!");
-                return;
-            }
-
-            document.getElementById('ai-welcome-screen').style.display = 'none';
-            chatBox.innerHTML += `<div class="msg-bubble msg-user">${text}</div>`;
-            input.value = ""; chatBox.scrollTop = chatBox.scrollHeight;
-            const loadingId = "loading-" + Date.now();
-            
-            chatBox.innerHTML += `<div class="msg-bubble msg-ai" id="${loadingId}">...</div>`;
-            chatBox.scrollTop = chatBox.scrollHeight;
-            try {
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/${CURRENT_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
-                const response = await fetch(url, {
-                    method: "POST", headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: text }] }] })
-                });
-                const data = await response.json();
-                if (data.error) document.getElementById(loadingId).innerText = "Error: " + data.error.message;
-                else {
-                    const aiText = data.candidates[0].content.parts[0].text;
-                    document.getElementById(loadingId).innerText = aiText.replace(/\*\*/g, "").replace(/\*/g, ""); 
-                }
-            } catch (err) { document.getElementById(loadingId).innerText = "Connection Error."; }
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-
+        // Initialize view
         navigateTo('home');
     </script>
 </body>
