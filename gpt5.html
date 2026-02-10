@@ -246,7 +246,7 @@
         const userInput = document.getElementById('userInput');
         const welcomeContent = document.getElementById('welcome-content');
 
-        async function sendMessage() {
+       async function sendMessage() {
             const text = userInput.value.trim();
             if (!text) return;
 
@@ -255,7 +255,6 @@
             userInput.value = '';
             userInput.style.height = 'auto';
 
-            // Loading state
             const loadingId = 'loading-' + Date.now();
             addMessage('<i class="fa-solid fa-spinner fa-spin"></i> Aaghaz is thinking...', 'ai', loadingId);
             scrollToBottom();
@@ -270,15 +269,25 @@
                 const data = await response.json();
                 document.getElementById(loadingId).remove();
 
-                if (data.candidates && data.candidates[0].content.parts[0].text) {
+                // Agar API ne koi error bheja ho
+                if (data.error) {
+                    addMessage("API Error: " + data.error.message, 'ai');
+                    console.error("Gemini Error:", data.error);
+                    return;
+                }
+
+                if (data.candidates && data.candidates[0].content) {
                     let aiText = data.candidates[0].content.parts[0].text;
                     addMessage(formatText(aiText), 'ai');
                 } else {
-                    addMessage("Sorry, I couldn't process that.", 'ai');
+                    // Agar response block hua ho safety ki wajah se
+                    addMessage("AI blocked the response due to safety filters or empty content.", 'ai');
+                    console.log("Full Data:", data);
                 }
             } catch (error) {
-                document.getElementById(loadingId).remove();
-                addMessage("Connection error. Try again.", 'ai');
+                if(document.getElementById(loadingId)) document.getElementById(loadingId).remove();
+                addMessage("Connection error: Make sure your internet is working.", 'ai');
+                console.error("Network Error:", error);
             }
         }
 
