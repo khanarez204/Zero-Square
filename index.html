@@ -93,8 +93,10 @@
             font-weight: 700; border: 1px solid var(--accent-green);
         }
 
-        /* Mobile Menu */
+        /* Mobile Menu & Profile Logic */
         .mobile-menu-btn { display: none; font-size: 1.8rem; color: white; cursor: pointer; padding: 5px; }
+        .mobile-profile-btn { display: none; cursor: pointer; } /* Hidden on desktop */
+        
         .mobile-nav { 
             position: fixed; top: 75px; left: 0; width: 100%; 
             background: var(--bg-card); padding: 20px; 
@@ -333,6 +335,23 @@
             .story-section { grid-template-columns: 1fr; text-align: center; } 
             .player-layout { grid-template-columns: 1fr; }
             .form-grid { grid-template-columns: 1fr; }
+
+            /* --- NEW MOBILE HEADER LOGIC --- */
+            header {
+                justify-content: space-between;
+                position: relative;
+            }
+            
+            /* Logic for Logged In User on Mobile */
+            body.is-logged-in .mobile-profile-btn {
+                display: block !important;
+                z-index: 10;
+            }
+            body.is-logged-in .logo {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
         }
     </style>
 </head>
@@ -401,6 +420,11 @@
 
     <!-- Header -->
     <header>
+        <!-- NEW: Mobile Profile Icon (Hidden by default, shown via CSS/JS when logged in) -->
+        <div class="mobile-profile-btn hidden" id="mobile-user-profile" onclick="handleProfileClick()">
+            <div class="user-avatar-small" id="mobile-avatar-text">U</div>
+        </div>
+
         <div class="logo" onclick="navigateTo('home')">
             <img src="logo.png" alt="Logo">
         </div>
@@ -478,13 +502,13 @@
                 </div>
                 <div class="res-card">
                     <div class="res-title">AI In Hands</div>
-                    <div class="res-img-box"><div class="book-cover"><img src="Arez.png"></div></div>
+                    <div class="res-img-box"><div class="book-cover"><img src="aiinhan.jpg"></div></div>
                     <button class="btn-res btn-dark-grey" onclick="navigateTo('courses')">Join Us Now</button>
                 </div>
                 <div class="res-card">
                     <div class="res-title">FREE GPT-5</div>
                     <div class="res-img-box"><div class="book-cover" style="background:#10a37f; display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-robot" style="font-size:3rem; color:white;"></i></div></div>
-                    <button class="btn-res btn-dark-grey" onclick="alert('Feature temporarily unavailable.')">Start Chatting</button>
+                    <button class="btn-res btn-dark-grey" onclick="window.location.href='gpt5.html'">Start Chatting</button>
                 </div>
             </div>
         </section>
@@ -749,24 +773,29 @@
 
         function logout() { auth.signOut().then(() => window.location.reload()); }
         
-       // index.html mein ye dhoondein
-function handleProfileClick() {
-    // Is line ko update karein:
-    window.location.href = 'dashboard.html';
-}
+        function handleProfileClick() {
+            window.location.href = 'dashboard.html';
+        }
 
         const defaultCourses = []; 
         let globalCourses = {};
 
         auth.onAuthStateChanged(user => {
             if(user) {
+                // User is logged in
+                document.body.classList.add('is-logged-in'); // Add class to body for CSS logic
                 document.getElementById('auth-buttons').style.display = 'none';
                 document.getElementById('user-profile').classList.remove('hidden');
+                
+                // Show mobile profile logic
+                document.getElementById('mobile-user-profile').classList.remove('hidden');
                 
                 db.ref('users/' + user.uid).once('value').then(s => {
                     if(s.val()) {
                         const name = s.val().name;
-                        document.getElementById('header-avatar').innerText = name.charAt(0).toUpperCase();
+                        const char = name.charAt(0).toUpperCase();
+                        document.getElementById('header-avatar').innerText = char;
+                        document.getElementById('mobile-avatar-text').innerText = char;
                     }
                 });
                 
@@ -775,8 +804,11 @@ function handleProfileClick() {
                     loadAdminRegistrations();
                 }
             } else {
+                // User is logged out
+                document.body.classList.remove('is-logged-in');
                 document.getElementById('auth-buttons').style.display = 'flex';
                 document.getElementById('user-profile').classList.add('hidden');
+                document.getElementById('mobile-user-profile').classList.add('hidden');
             }
         });
 
