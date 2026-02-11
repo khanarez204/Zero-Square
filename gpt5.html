@@ -3,136 +3,307 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Google Cloud Restrictions ke liye zaroori line -->
     <meta name="referrer" content="strict-origin-when-cross-origin">
-    <title>Aaghaz AI | Auto-Detect</title>
+    <title>Aaghaz | AI Chat</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body { background: #000; color: #fff; font-family: 'Manrope', sans-serif; display: flex; flex-direction: column; height: 100vh; margin: 0; }
-        .header { padding: 15px; border-bottom: 1px solid #333; text-align: center; font-weight: bold; color: #D4F614; display: flex; justify-content: space-between; align-items: center; }
-        .status { font-size: 0.8rem; color: #888; background: #111; padding: 5px 10px; border-radius: 20px; border: 1px solid #333; }
-        
-        .chat-box { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .msg { padding: 12px 16px; border-radius: 12px; max-width: 85%; line-height: 1.5; font-size: 0.95rem; }
-        .user { align-self: flex-end; background: #222; color: white; }
-        .ai { align-self: flex-start; background: rgba(212, 246, 20, 0.1); border: 1px solid #333; color: #e4e4e7; }
-        .system { align-self: center; background: #111; border: 1px solid #333; font-size: 0.8rem; color: #888; text-align: center; }
-        .error-msg { background: #450a0a; color: #fca5a5; border: 1px solid #7f1d1d; align-self: center; }
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        .input-area { padding: 20px; border-top: 1px solid #333; background: #000; display: flex; gap: 10px; }
-        input { flex: 1; background: #111; border: 1px solid #333; color: white; padding: 12px; border-radius: 8px; outline: none; }
-        button { background: #D4F614; border: none; padding: 0 20px; border-radius: 8px; font-weight: bold; cursor: pointer; color: black; }
-        button:disabled { background: #333; color: #666; cursor: not-allowed; }
+    <style>
+        /* --- THEME VARIABLES --- */
+        :root {
+            --bg-body: #000000;
+            --bg-sidebar: #050505;
+            --bg-card: #121212;
+            --accent: #D4F614; 
+            --text-main: #FFFFFF;
+            --text-muted: #9CA3AF;
+            --border: #27272a;
+            --sidebar-width: 260px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        
+        body { 
+            background-color: var(--bg-body); 
+            color: var(--text-main); 
+            height: 100vh;
+            display: flex;
+            overflow: hidden; 
+        }
+
+        /* --- MOBILE OVERLAY (Dark Background when menu opens) --- */
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); z-index: 998;
+            display: none; backdrop-filter: blur(3px);
+        }
+        .overlay.active { display: block; }
+
+        /* --- SIDEBAR DESIGN --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            display: flex; flex-direction: column;
+            padding: 20px;
+            flex-shrink: 0;
+            height: 100%;
+            z-index: 999;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .logo { font-size: 1.2rem; font-weight: 800; margin-bottom: 25px; display: flex; gap: 10px; align-items: center; color: white; }
+        .logo i { color: var(--accent); }
+
+        /* User Profile Card */
+        .user-card {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+        .user-avatar {
+            width: 50px; height: 50px; background: #222; color: #fff;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; font-weight: 600; margin: 0 auto 10px; border: 1px solid #333;
+        }
+        .user-name { font-weight: 700; font-size: 0.95rem; margin-bottom: 2px; }
+        .user-email { font-size: 0.75rem; color: #666; margin-bottom: 10px; word-break: break-all; }
+        .badge { 
+            background: #1e3a8a; color: #93c5fd; padding: 4px 12px; 
+            border-radius: 20px; font-size: 0.7rem; font-weight: 700; display: inline-block; 
+        }
+
+        /* Navigation */
+        .nav-menu { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+        .nav-item {
+            display: flex; align-items: center; gap: 12px; padding: 12px 15px;
+            border-radius: 8px; color: var(--text-muted); text-decoration: none;
+            font-size: 0.9rem; font-weight: 500; transition: 0.2s;
+        }
+        .nav-item:hover { background: #1a1a1a; color: white; }
+        .nav-item.active { 
+            background: rgba(212, 246, 20, 0.05); 
+            color: var(--accent); 
+            border-left: 3px solid var(--accent); 
+        }
+        .logout { color: #ef4444; margin-top: auto; }
+        .logout:hover { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+
+        /* --- MAIN CHAT AREA --- */
+        .chat-container {
+            flex: 1; position: relative; display: flex; flex-direction: column;
+            background: radial-gradient(circle at bottom center, #1a0b2e 0%, #000000 60%);
+            width: 100%;
+        }
+
+        /* Mobile Top Bar (Only visible on mobile) */
+        .mobile-top-bar {
+            display: none; /* Hidden on desktop */
+            align-items: center; justify-content: space-between;
+            padding: 15px 20px;
+            background: rgba(0,0,0,0.8);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+        .menu-btn { font-size: 1.4rem; color: white; cursor: pointer; }
+        .mobile-logo { font-weight: 800; font-size: 1.1rem; color: var(--accent); }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%);
+            text-align: center; width: 90%; padding: 20px; z-index: 1;
+        }
+        .welcome-title { font-size: 2.5rem; font-weight: 700; margin-bottom: 15px; }
+        .welcome-sub { color: #999; font-size: 1rem; line-height: 1.6; max-width: 500px; margin: 0 auto; }
+
+        /* Messages List */
+        .chat-window {
+            flex: 1; overflow-y: auto; padding: 20px 15%; 
+            display: flex; flex-direction: column; gap: 20px; z-index: 2;
+            padding-bottom: 120px; 
+        }
+        .message { display: flex; gap: 15px; max-width: 100%; line-height: 1.6; font-size: 0.95rem; }
+        .msg-avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: bold; font-size: 0.8rem; }
+        .user-msg { flex-direction: row-reverse; }
+        .user-msg .msg-content { background: #222; padding: 10px 16px; border-radius: 12px; border-top-right-radius: 2px; }
+        .ai-msg .msg-content { background: transparent; padding-top: 5px; color: #eee; }
+        .msg-avatar.ai { background: var(--accent); color: black; }
+        .msg-avatar.user { background: #333; color: white; }
+
+        /* Input Area (Floating) */
+        .input-wrapper {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            width: 70%; max-width: 800px; z-index: 10;
+        }
+        .input-box {
+            background: #0f0f0f; border: 1px solid #333; border-radius: 12px;
+            padding: 8px 15px; display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .input-box i.fa-globe { color: #555; font-size: 1.1rem; }
+        .input-box textarea {
+            flex: 1; background: transparent; border: none; outline: none;
+            color: white; resize: none; padding: 10px 0; font-size: 1rem; max-height: 100px;
+        }
+        .send-btn {
+            width: 35px; height: 35px; background: var(--accent); color: black;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            border: none; cursor: pointer; transition: 0.2s;
+        }
+        .send-btn:hover { transform: scale(1.1); }
+        .send-btn:disabled { background: #333; color: #666; cursor: not-allowed; }
+
+        /* WhatsApp Icon */
+        .whatsapp-float {
+            position: fixed; bottom: 30px; right: 30px;
+            background: #25D366; color: white; width: 50px; height: 50px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; cursor: pointer; z-index: 20; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* --- MOBILE RESPONSIVE (SLIDE BAR LOGIC) --- */
+        @media (max-width: 900px) {
+            .mobile-top-bar { display: flex; } /* Show Menu Bar */
+            
+            .sidebar { 
+                position: fixed; 
+                top: 0; left: 0; height: 100%; 
+                transform: translateX(-100%); /* Hide by default */
+                width: 280px;
+            }
+            
+            .sidebar.active { transform: translateX(0); } /* Slide in */
+            
+            .input-wrapper { width: 90%; bottom: 20px; }
+            .chat-window { padding: 20px; padding-top: 10px; }
+            .welcome-title { font-size: 1.8rem; }
+            .welcome-screen { top: 40%; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <span>Aaghaz AI</span>
-        <span class="status" id="modelStatus">Checking Models...</span>
-    </div>
+    <!-- OVERLAY FOR MOBILE -->
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-    <div class="chat-box" id="chat">
-        <div class="msg system" id="initMsg">Connecting to Google API to find working models...</div>
-    </div>
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo"><i class="fa-solid fa-bolt"></i> Aaghaz</div>
+        
+        <div class="user-card">
+            <div class="user-avatar">U</div>
+            <div class="user-name">User</div>
+            <div class="user-email">teamzerosquare@gmail.com</div>
+            <div class="badge">Free Member</div>
+        </div>
 
-    <div class="input-area">
-        <input type="text" id="userInput" placeholder="Type message..." disabled>
-        <button id="sendBtn" onclick="handleUserMessage()" disabled>Send</button>
-    </div>
+        <nav class="nav-menu">
+            <a href="#" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-layer-group"></i> Free Resources</a>
+            <a href="#" class="nav-item active"><i class="fa-solid fa-comment-dots"></i> AI Chat (GPT-5)</a>
+            <a href="#" class="nav-item"><i class="fa-regular fa-calendar"></i> Events</a>
+            <a href="#" class="nav-item"><i class="fa-solid fa-robot"></i> AI Tools</a>
+            <a href="#" class="nav-item logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </nav>
+    </aside>
 
+    <!-- MAIN CONTENT -->
+    <main class="chat-container">
+        
+        <!-- MOBILE TOP BAR (New Feature) -->
+        <div class="mobile-top-bar">
+            <i class="fa-solid fa-bars menu-btn" onclick="toggleSidebar()"></i>
+            <span class="mobile-logo">Aaghaz AI</span>
+            <div style="width: 24px;"></div> <!-- Spacer for balance -->
+        </div>
+
+        <!-- Welcome Screen -->
+        <div class="welcome-screen" id="welcomeScreen">
+            <div class="welcome-title">Welcome to AI Chat</div>
+            <div class="welcome-sub">Start a conversation by typing your message below. I'm here to help with any questions or tasks you have.</div>
+        </div>
+
+        <!-- Messages Area -->
+        <div class="chat-window" id="chatWindow"></div>
+
+        <!-- Input Area -->
+        <div class="input-wrapper">
+            <div class="input-box">
+                <i class="fa-solid fa-globe"></i>
+                <textarea id="userInput" rows="1" placeholder="Message AI Chat..." oninput="autoResize(this)"></textarea>
+                <button class="send-btn" id="sendBtn" onclick="sendMessage()"><i class="fa-solid fa-arrow-up"></i></button>
+            </div>
+        </div>
+
+        <!-- WhatsApp Icon -->
+        <div class="whatsapp-float"><i class="fa-brands fa-whatsapp"></i></div>
+
+    </main>
+
+    <!-- JAVASCRIPT (AUTO-DETECT LOGIC) -->
     <script>
-        // 👇👇 YAHAN APNI KEY PASTE KAREIN 👇👇
+        // 👇👇 PASTE YOUR KEY HERE 👇👇
         const API_KEY = "AIzaSyCgXWi5fsP2-Da2xbNOZMpbhGaggKFJvLE"; 
-        // ---------------------------------------
+        // -----------------------------
 
-        const chat = document.getElementById('chat');
-        const modelStatus = document.getElementById('modelStatus');
+        let ACTIVE_MODEL = "gemini-1.5-flash"; // Default fallback
+        const chatWindow = document.getElementById('chatWindow');
         const userInput = document.getElementById('userInput');
         const sendBtn = document.getElementById('sendBtn');
-        const initMsg = document.getElementById('initMsg');
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
 
-        let ACTIVE_MODEL = ""; // Ye auto-fill hoga
+        // Toggle Sidebar Function
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
 
-        // Step 1: Automatically find a working model
-        async function findWorkingModel() {
-            if(API_KEY.includes("PASTE")) {
-                showError("API Key missing in code.");
-                return;
-            }
+        function autoResize(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
+
+        // 1. Auto-Detect Logic (Silent)
+        async function initModel() {
+            if(API_KEY.includes("PASTE")) return; // Do nothing if no key
 
             try {
-                // Google se pucho: "Mere liye kaunse models available hain?"
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${API_KEY}`);
                 const data = await response.json();
 
-                if (data.error) {
-                    throw new Error(data.error.message);
-                }
-
                 if (data.models) {
-                    // Filter: Sirf wo models dhoondo jo Chat ("generateContent") support karte hain
-                    const chatModel = data.models.find(m => 
+                    const model = data.models.find(m => 
                         m.supportedGenerationMethods.includes("generateContent") && 
                         (m.name.includes("flash") || m.name.includes("pro"))
                     );
-
-                    if (chatModel) {
-                        // "models/gemini-1.5-flash" -> "gemini-1.5-flash" convert karo
-                        ACTIVE_MODEL = chatModel.name.replace("models/", "");
-                        
-                        // UI Update
-                        modelStatus.innerText = "🟢 Connected: " + ACTIVE_MODEL;
-                        modelStatus.style.color = "#D4F614";
-                        modelStatus.style.borderColor = "#D4F614";
-                        initMsg.innerText = "Ready! Using model: " + ACTIVE_MODEL;
-                        enableInput();
-                    } else {
-                        showError("No chat models found in your API list.");
-                    }
-                } else {
-                    showError("Empty model list received.");
+                    if(model) ACTIVE_MODEL = model.name.replace("models/", "");
                 }
-            } catch (error) {
-                console.error(error);
-                // Fallback: Agar list fail ho jaye, to purana 'gemini-pro' try karo
-                checkFallback();
+            } catch (e) {
+                console.log("Using Default Model");
             }
         }
 
-        // Fallback agar ListModels fail ho jaye (Permissions ki waja se)
-        async function checkFallback() {
-            ACTIVE_MODEL = "gemini-1.5-flash"; // Force try standard model
-            modelStatus.innerText = "⚠️ Fallback Mode";
-            initMsg.innerText = "List failed. Trying direct connection...";
-            enableInput();
-        }
-
-        function enableInput() {
-            userInput.disabled = false;
-            sendBtn.disabled = false;
-            userInput.focus();
-        }
-
-        function showError(msg) {
-            initMsg.innerText = "Error: " + msg;
-            initMsg.style.color = "#fca5a5";
-            initMsg.style.background = "#450a0a";
-        }
-
-        // Step 2: Message bhejna
-        async function handleUserMessage() {
+        // 2. Send Message Logic
+        async function sendMessage() {
             const text = userInput.value.trim();
             if (!text) return;
 
-            // UI
-            chat.innerHTML += `<div class="msg user">${text}</div>`;
+            // UI Updates
+            welcomeScreen.style.display = 'none';
+            addMessage(text, 'user');
             userInput.value = '';
-            chat.scrollTop = chat.scrollHeight;
+            userInput.style.height = 'auto';
+            sendBtn.disabled = true;
 
             const loadingId = 'load-' + Date.now();
-            chat.innerHTML += `<div class="msg ai" id="${loadingId}">...</div>`;
+            addMessage('Thinking...', 'ai', loadingId);
 
             try {
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${ACTIVE_MODEL}:generateContent?key=${API_KEY}`, {
@@ -145,28 +316,54 @@
                 document.getElementById(loadingId).remove();
 
                 if (data.error) {
-                    chat.innerHTML += `<div class="msg error-msg">${data.error.message}</div>`;
+                    addMessage("Error: " + data.error.message, 'ai');
                 } else {
-                    const aiText = data.candidates[0].content.parts[0].text;
-                    const formatted = aiText.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
-                    chat.innerHTML += `<div class="msg ai">${formatted}</div>`;
+                    const rawText = data.candidates[0].content.parts[0].text;
+                    const formatted = rawText.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+                    addMessage(formatted, 'ai');
                 }
 
             } catch (error) {
                 if(document.getElementById(loadingId)) document.getElementById(loadingId).remove();
-                chat.innerHTML += `<div class="msg error-msg">Network Error</div>`;
+                addMessage("Network Error. Check connection.", 'ai');
             }
-            chat.scrollTop = chat.scrollHeight;
+
+            sendBtn.disabled = false;
         }
 
-        // Run on Load
-        window.onload = findWorkingModel;
+        function addMessage(text, type, id=null) {
+            const div = document.createElement('div');
+            div.className = `message ${type}-msg`;
+            
+            const avatar = type === 'user' ? 'U' : '<i class="fa-solid fa-bolt"></i>';
+            const avatarClass = type; 
 
-        // Enter Key Support
+            let html = `
+                <div class="msg-avatar ${avatarClass}">${avatar}</div>
+                <div class="msg-content" ${id ? `id="${id}"` : ''}>${text}</div>
+            `;
+            
+            if(type === 'user') {
+                html = `
+                    <div class="msg-content">${text}</div>
+                    <div class="msg-avatar ${avatarClass}">${avatar}</div>
+                `;
+            }
+
+            div.innerHTML = html;
+            chatWindow.appendChild(div);
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        // Init
+        window.onload = initModel;
+        
         userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleUserMessage();
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
         });
-
     </script>
 </body>
 </html>
