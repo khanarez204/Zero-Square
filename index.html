@@ -42,6 +42,7 @@
         }
         html {
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
         body {
@@ -1371,7 +1372,6 @@
             border: 1px solid var(--border);
         }
 
-        /* ===== ADMIN PANEL ENHANCED ===== */
         .admin-header {
             display: flex;
             justify-content: space-between;
@@ -1624,7 +1624,6 @@
             margin-bottom: 6px;
         }
 
-        /* Lead Detail Modal */
         .lead-modal-overlay {
             position: fixed;
             inset: 0;
@@ -2194,6 +2193,7 @@
             display: none;
         }
 
+        /* ===== MOBILE NAV FIX: completely hidden when closed ===== */
         @media (max-width: 1024px) {
             .hero-layout {
                 grid-template-columns: 1fr;
@@ -2261,10 +2261,11 @@
             .hamburger {
                 display: flex;
             }
+
             nav {
                 position: fixed;
                 top: 0;
-                right: -100%;
+                right: 0;
                 width: 280px;
                 height: 100vh;
                 background: var(--elevated);
@@ -2272,13 +2273,21 @@
                 flex-direction: column;
                 justify-content: center;
                 gap: 8px;
-                transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+                transform: translateX(100%);
+                transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s, opacity 0.35s;
+                visibility: hidden;
+                opacity: 0;
                 z-index: 200;
                 padding: 24px 20px;
+                pointer-events: none;
             }
             nav.open {
-                right: 0;
+                transform: translateX(0);
+                visibility: visible;
+                opacity: 1;
+                pointer-events: all;
             }
+
             .nav-cta-desktop {
                 display: none;
             }
@@ -2959,7 +2968,7 @@
                     </div>
                 </div>
                 <div class="team-card reveal">
-                    <img src="abdullah.jpeg" alt="" class="team-card-img">
+                    <img src="" alt="Hizam Ali" class="team-card-img">
                     <div class="team-info">
                         <h3>Abdullah Khan Qazi</h3>
                         <div class="team-role">Managing Director</div>
@@ -2976,7 +2985,7 @@
         </section>
     </div>
 
-    <!-- ======== ADMIN PAGE (ENHANCED) ======== -->
+    <!-- ======== ADMIN PAGE ======== -->
     <div id="admin-page" class="page">
         <section class="section container" style="padding-top:140px">
 
@@ -3347,7 +3356,6 @@
             saveLeads(leads);
             document.getElementById('inquiry-form').reset();
             alert('✅ Consultation booked! Zero Square will be in touch shortly.');
-            // If admin is logged in, refresh the view
             if (isAdmin && document.getElementById('admin-page').classList.contains('active')) {
                 renderLeads();
             }
@@ -3375,10 +3383,8 @@
                 filtered = filtered.filter(l => l.service === serviceFilter);
             }
 
-            // Sort: newest first
             filtered.sort((a, b) => b.id - a.id);
 
-            // Update stats
             const total = leads.length;
             const newCount = leads.filter(l => l.status === 'new').length;
             const contactedCount = leads.filter(l => l.status === 'contacted').length;
@@ -3469,7 +3475,6 @@
         function modalUpdateStatus(status) {
             if (modalLeadId === null) return;
             updateLeadStatus(modalLeadId, status);
-            // Refresh modal view
             const leads = getLeads();
             const l = leads.find(item => item.id === modalLeadId);
             if (l) {
@@ -3487,7 +3492,6 @@
             closeLeadModal();
         }
 
-        // Click outside modal to close
         document.getElementById('lead-modal').addEventListener('click', function(e) {
             if (e.target === this) closeLeadModal();
         });
@@ -3693,14 +3697,12 @@
             }
         }
 
-        // Auto-open after 6s
         setTimeout(() => {
             if (!chatOpen) {
                 toggleChat();
             }
         }, 6000);
 
-        // ── Keyboard shortcut: Escape to close modals ──────
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeLeadModal();
