@@ -42,7 +42,6 @@
         }
         html {
             scroll-behavior: smooth;
-            overflow-x: hidden;
         }
 
         body {
@@ -1372,6 +1371,7 @@
             border: 1px solid var(--border);
         }
 
+        /* ===== ADMIN PANEL ENHANCED ===== */
         .admin-header {
             display: flex;
             justify-content: space-between;
@@ -1624,6 +1624,597 @@
             margin-bottom: 6px;
         }
 
+        /* ===== AI CHAT PAGE (WarsakAI) ===== */
+        #aichat-page.page {
+            display: none;
+        }
+        #aichat-page.page.active {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 72px);
+            margin-top: 72px;
+            overflow: hidden;
+        }
+        .aichat-shell {
+            flex: 1;
+            display: flex;
+            min-height: 0;
+            width: 100%;
+        }
+
+        /* Sidebar */
+        .aichat-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+        .aichat-sidebar-head {
+            padding: 18px;
+            border-bottom: 1px solid var(--border);
+        }
+        .aichat-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .aichat-brand-mark {
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
+            background: linear-gradient(135deg, var(--primary), var(--cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .aichat-brand-text {
+            font-size: 0.92rem;
+            font-weight: 800;
+            letter-spacing: -0.2px;
+        }
+        .aichat-brand-text span {
+            display: block;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--muted);
+            margin-top: 1px;
+            letter-spacing: 0.2px;
+        }
+        .aichat-newchat-btn {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+            border-radius: 11px;
+            background: var(--primary-dim);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            color: #a5b4fc;
+            font-weight: 700;
+            font-size: 0.82rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        .aichat-newchat-btn:hover {
+            background: rgba(99, 102, 241, 0.22);
+            color: #fff;
+        }
+        .aichat-sessions {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            min-height: 0;
+        }
+        .aichat-sessions::-webkit-scrollbar {
+            width: 4px;
+        }
+        .aichat-sessions::-webkit-scrollbar-thumb {
+            background: var(--subtle);
+            border-radius: 4px;
+        }
+        .aichat-session-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 10px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-bottom: 3px;
+            font-size: 0.81rem;
+            color: var(--muted);
+            transition: all 0.15s;
+        }
+        .aichat-session-item i.fa-comment {
+            font-size: 0.72rem;
+            flex-shrink: 0;
+        }
+        .aichat-session-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text);
+        }
+        .aichat-session-item.active {
+            background: var(--primary-dim);
+            color: var(--text);
+        }
+        .aichat-session-title {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .aichat-session-del {
+            opacity: 0;
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 0.68rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+        .aichat-session-item:hover .aichat-session-del {
+            opacity: 1;
+        }
+        .aichat-session-del:hover {
+            color: #f87171;
+            background: rgba(239, 68, 68, 0.12);
+        }
+        .aichat-sessions-empty {
+            padding: 24px 10px;
+            color: var(--muted);
+            font-size: 0.78rem;
+            text-align: center;
+            line-height: 1.6;
+        }
+        .aichat-sidebar-foot {
+            padding: 16px 18px;
+            border-top: 1px solid var(--border);
+            font-size: 0.7rem;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+        .aichat-sidebar-foot strong {
+            color: var(--text);
+        }
+
+        /* Mobile sidebar overlay */
+        .aichat-sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 72px 0 0 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 55;
+        }
+        .aichat-sidebar-overlay.open {
+            display: block;
+        }
+
+        /* Main panel */
+        .aichat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            min-height: 0;
+            position: relative;
+        }
+        .aichat-topbar {
+            height: 56px;
+            flex-shrink: 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 0 22px;
+        }
+        .aichat-mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.05rem;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .aichat-model-pill {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            background: var(--primary-dim);
+            color: #a5b4fc;
+            padding: 5px 11px;
+            border-radius: 8px;
+            border: 1px solid rgba(99, 102, 241, 0.22);
+        }
+        .aichat-status {
+            font-size: 0.72rem;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .aichat-status::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            background: var(--green);
+            border-radius: 50%;
+        }
+        .aichat-topbar-badge {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--amber);
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            padding: 5px 11px;
+            border-radius: 100px;
+            white-space: nowrap;
+        }
+
+        .aichat-body {
+            flex: 1;
+            overflow-y: auto;
+            min-height: 0;
+            padding: 32px 0 12px;
+        }
+        .aichat-body::-webkit-scrollbar {
+            width: 6px;
+        }
+        .aichat-body::-webkit-scrollbar-thumb {
+            background: var(--subtle);
+            border-radius: 4px;
+        }
+        .aichat-msglist {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Empty / welcome state */
+        .aichat-empty {
+            height: 100%;
+            min-height: 360px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px 24px 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        .aichat-empty-bg {
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 170px;
+            opacity: 0.7;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .aichat-empty > * {
+            position: relative;
+            z-index: 1;
+        }
+        .aichat-empty-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.25);
+            border-radius: 100px;
+            padding: 6px 14px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #a5b4fc;
+            margin-bottom: 22px;
+        }
+        .aichat-empty-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .aichat-empty h2 {
+            font-size: clamp(1.6rem, 3vw, 2.1rem);
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+        }
+        .aichat-empty p {
+            color: var(--muted);
+            max-width: 460px;
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+        .aichat-suggest-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            max-width: 600px;
+            width: 100%;
+        }
+        .aichat-suggest-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 16px;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: inherit;
+            transition: border-color 0.2s, transform 0.2s, background 0.2s;
+        }
+        .aichat-suggest-card:hover {
+            border-color: rgba(99, 102, 241, 0.35);
+            background: var(--elevated);
+            transform: translateY(-2px);
+        }
+        .aichat-suggest-card .sg-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
+            background: var(--primary-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+        .aichat-suggest-card .sg-text {
+            font-size: 0.81rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.4;
+        }
+
+        /* Messages */
+        .aichat-msg {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        .aichat-msg.user {
+            flex-direction: row-reverse;
+        }
+        .aichat-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 800;
+            flex-shrink: 0;
+            font-family: var(--font-mono);
+        }
+        .aichat-avatar.bot {
+            background: linear-gradient(135deg, var(--primary), var(--cyan));
+            color: #fff;
+        }
+        .aichat-avatar.user {
+            background: var(--elevated);
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-size: 0.8rem;
+        }
+        .aichat-msg-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .aichat-msg.user .aichat-msg-content {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .aichat-bubble-text {
+            font-size: 0.9rem;
+            line-height: 1.75;
+            color: var(--text);
+        }
+        .aichat-msg.user .aichat-bubble-text {
+            background: var(--elevated);
+            border: 1px solid var(--border);
+            padding: 11px 16px;
+            border-radius: 14px;
+            max-width: 480px;
+            display: inline-block;
+            line-height: 1.6;
+        }
+        .aichat-bubble-text strong {
+            color: var(--text);
+            font-weight: 700;
+        }
+        .aichat-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background: var(--primary);
+            margin-left: 2px;
+            vertical-align: -2px;
+            animation: aichat-blink 0.9s step-start infinite;
+        }
+        @keyframes aichat-blink {
+            50% {
+                opacity: 0;
+            }
+        }
+        .aichat-msg-meta {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 8px;
+        }
+        .aichat-icon-btn {
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 0.74rem;
+            padding: 5px 7px;
+            border-radius: 7px;
+            transition: all 0.15s;
+        }
+        .aichat-icon-btn:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .aichat-icon-btn.copied {
+            color: var(--green);
+        }
+
+        /* Input area */
+        .aichat-input-wrap {
+            border-top: 1px solid var(--border);
+            padding: 16px 24px 18px;
+            flex-shrink: 0;
+        }
+        .aichat-input-inner {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .aichat-input-box {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            background: var(--elevated);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 9px 9px 9px 18px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .aichat-input-box:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+        }
+        #aichat-textarea {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: none;
+            max-height: 160px;
+            line-height: 1.5;
+            padding: 8px 0;
+        }
+        #aichat-textarea::placeholder {
+            color: var(--muted);
+        }
+        .aichat-send-btn,
+        .aichat-stop-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 11px;
+            border: none;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+        .aichat-send-btn {
+            background: var(--primary);
+        }
+        .aichat-send-btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+        .aichat-send-btn:not(:disabled):hover {
+            background: #7577f3;
+            transform: scale(1.05);
+        }
+        .aichat-stop-btn {
+            background: var(--subtle);
+            display: none;
+        }
+        .aichat-stop-btn:hover {
+            background: #3a3a4d;
+        }
+        .aichat-disclaimer {
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--muted);
+            margin-top: 10px;
+        }
+
+        @media (max-width: 900px) {
+            .aichat-sidebar {
+                position: fixed;
+                top: 72px;
+                bottom: 0;
+                left: 0;
+                width: 264px;
+                z-index: 60;
+                transform: translateX(-100%);
+                transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .aichat-sidebar.open {
+                transform: translateX(0);
+            }
+            .aichat-mobile-toggle {
+                display: flex;
+                align-items: center;
+            }
+            .aichat-suggest-grid {
+                grid-template-columns: 1fr;
+            }
+            .aichat-topbar-badge span {
+                display: none;
+            }
+        }
+        @media (max-width: 480px) {
+            .aichat-msg.user .aichat-bubble-text {
+                max-width: 240px;
+            }
+            .aichat-input-wrap {
+                padding: 12px 14px 14px;
+            }
+            .aichat-body {
+                padding: 22px 0 8px;
+            }
+            .aichat-msglist {
+                padding: 0 14px;
+            }
+        }
+
+        /* Lead Detail Modal */
         .lead-modal-overlay {
             position: fixed;
             inset: 0;
@@ -2193,7 +2784,6 @@
             display: none;
         }
 
-        /* ===== MOBILE NAV FIX: completely hidden when closed ===== */
         @media (max-width: 1024px) {
             .hero-layout {
                 grid-template-columns: 1fr;
@@ -2261,11 +2851,10 @@
             .hamburger {
                 display: flex;
             }
-
             nav {
                 position: fixed;
                 top: 0;
-                right: 0;
+                right: -100%;
                 width: 280px;
                 height: 100vh;
                 background: var(--elevated);
@@ -2273,21 +2862,13 @@
                 flex-direction: column;
                 justify-content: center;
                 gap: 8px;
-                transform: translateX(100%);
-                transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s, opacity 0.35s;
-                visibility: hidden;
-                opacity: 0;
+                transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
                 z-index: 200;
                 padding: 24px 20px;
-                pointer-events: none;
             }
             nav.open {
-                transform: translateX(0);
-                visibility: visible;
-                opacity: 1;
-                pointer-events: all;
+                right: 0;
             }
-
             .nav-cta-desktop {
                 display: none;
             }
@@ -2481,6 +3062,7 @@
                 <button class="nav-link active" id="ln-home" onclick="go('home')">Home</button>
                 <button class="nav-link" id="ln-services" onclick="go('services')">Services</button>
                 <button class="nav-link" id="ln-about" onclick="go('about')">About</button>
+                <button class="nav-link" id="ln-aichat" onclick="go('aichat')"><i class="fa-solid fa-robot" style="margin-right:4px;"></i> AI Chat</button>
                 <button class="nav-link" id="ln-admin" onclick="go('admin')"><i class="fa-solid fa-lock" style="margin-right:4px;"></i> Admin</button>
                 <a href="#contact" class="btn btn-primary nav-cta-mobile" onclick="closeNav()">Book Free Call <i class="fa-solid fa-arrow-right" style="font-size:0.75rem"></i></a>
             </nav>
@@ -2968,7 +3550,7 @@
                     </div>
                 </div>
                 <div class="team-card reveal">
-                    <img src="" alt="Hizam Ali" class="team-card-img">
+                    <img src="abdullah.jpeg" alt="" class="team-card-img">
                     <div class="team-info">
                         <h3>Abdullah Khan Qazi</h3>
                         <div class="team-role">Managing Director</div>
@@ -2985,7 +3567,48 @@
         </section>
     </div>
 
-    <!-- ======== ADMIN PAGE ======== -->
+    <!-- ======== AI CHAT PAGE (WarsakAI) ======== -->
+    <div id="aichat-page" class="page">
+        <div class="aichat-shell">
+            <div class="aichat-sidebar-overlay" id="aichat-sidebar-overlay" onclick="toggleAISidebar()"></div>
+            <aside class="aichat-sidebar" id="aichat-sidebar">
+                <div class="aichat-sidebar-head">
+                    <div class="aichat-brand">
+                        <div class="aichat-brand-mark">AI</div>
+                        <div class="aichat-brand-text">WarsakAI<span>by Zero Square</span></div>
+                    </div>
+                    <button class="aichat-newchat-btn" onclick="newAIChat()"><i class="fa-solid fa-plus"></i> New chat</button>
+                </div>
+                <div class="aichat-sessions" id="aichat-sessions"></div>
+                <div class="aichat-sidebar-foot">
+                    <strong>KPK's first student-built AI</strong><br>
+                    Designed & developed by a student at Cadet College Warsak.
+                </div>
+            </aside>
+
+            <div class="aichat-main">
+                <div class="aichat-topbar">
+                    <button class="aichat-mobile-toggle" onclick="toggleAISidebar()" aria-label="Toggle chat history"><i class="fa-solid fa-bars"></i></button>
+                    <div class="aichat-model-pill">WarsakAI · v1</div>
+                    <div class="aichat-status">Online</div>
+                    <div class="aichat-topbar-badge"><i class="fa-solid fa-graduation-cap"></i> <span>Built at Cadet College Warsak</span></div>
+                </div>
+                <div class="aichat-body" id="aichat-body"></div>
+                <div class="aichat-input-wrap">
+                    <div class="aichat-input-inner">
+                        <div class="aichat-input-box">
+                            <textarea id="aichat-textarea" rows="1" placeholder="Message WarsakAI..." oninput="autoSizeTextarea(this)" onkeydown="aiTextareaKeydown(event)"></textarea>
+                            <button class="aichat-send-btn" id="aichat-send-btn" onclick="handleAISend()" disabled aria-label="Send"><i class="fa-solid fa-arrow-up"></i></button>
+                            <button class="aichat-stop-btn" id="aichat-stop-btn" onclick="stopAIStream()" aria-label="Stop generating"><i class="fa-solid fa-stop"></i></button>
+                        </div>
+                        <div class="aichat-disclaimer">WarsakAI is an experimental student project and can make mistakes — built for demo purposes.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======== ADMIN PAGE (ENHANCED) ======== -->
     <div id="admin-page" class="page">
         <section class="section container" style="padding-top:140px">
 
@@ -3155,6 +3778,7 @@
                     <span onclick="go('home')">Home</span>
                     <span onclick="go('services')">Services</span>
                     <span onclick="go('about')">Our Team</span>
+                    <span onclick="go('aichat')">AI Chat</span>
                     <a href="#contact">Contact</a>
                 </div>
                 <div class="footer-col">
@@ -3258,6 +3882,25 @@
             runTransition(() => {
                 document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
                 document.getElementById(page + '-page').classList.add('active');
+                
+                // --- FIX: HIDE FOOTER AND CONTACT ON AI CHAT PAGE ---
+                const contactSection = document.getElementById('contact');
+                const footerSection = document.querySelector('footer');
+                const globalChatBubble = document.getElementById('chat-bubble');
+                const globalChatWindow = document.getElementById('chat-window');
+
+                if (page === 'aichat') {
+                    if(contactSection) contactSection.style.display = 'none';
+                    if(footerSection) footerSection.style.display = 'none';
+                    if(globalChatBubble) globalChatBubble.style.display = 'none';
+                    if(globalChatWindow) globalChatWindow.classList.remove('open');
+                } else {
+                    if(contactSection) contactSection.style.display = 'block';
+                    if(footerSection) footerSection.style.display = 'block';
+                    if(globalChatBubble) globalChatBubble.style.display = 'flex';
+                }
+                // ----------------------------------------------------
+
                 document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
                 const ln = document.getElementById('ln-' + page);
                 if (ln) ln.classList.add('active');
@@ -3266,6 +3909,7 @@
                 setTimeout(() => { ScrollTrigger.refresh();
                     initReveal(); }, 100);
                 if (page === 'admin') renderLeads();
+                if (page === 'aichat') initAIChat();
             });
         }
 
@@ -3356,6 +4000,7 @@
             saveLeads(leads);
             document.getElementById('inquiry-form').reset();
             alert('✅ Consultation booked! Zero Square will be in touch shortly.');
+            // If admin is logged in, refresh the view
             if (isAdmin && document.getElementById('admin-page').classList.contains('active')) {
                 renderLeads();
             }
@@ -3383,8 +4028,10 @@
                 filtered = filtered.filter(l => l.service === serviceFilter);
             }
 
+            // Sort: newest first
             filtered.sort((a, b) => b.id - a.id);
 
+            // Update stats
             const total = leads.length;
             const newCount = leads.filter(l => l.status === 'new').length;
             const contactedCount = leads.filter(l => l.status === 'contacted').length;
@@ -3475,6 +4122,7 @@
         function modalUpdateStatus(status) {
             if (modalLeadId === null) return;
             updateLeadStatus(modalLeadId, status);
+            // Refresh modal view
             const leads = getLeads();
             const l = leads.find(item => item.id === modalLeadId);
             if (l) {
@@ -3492,6 +4140,7 @@
             closeLeadModal();
         }
 
+        // Click outside modal to close
         document.getElementById('lead-modal').addEventListener('click', function(e) {
             if (e.target === this) closeLeadModal();
         });
@@ -3518,85 +4167,350 @@
             URL.revokeObjectURL(url);
         }
 
+        // ── AI CHAT (WarsakAI) ───────────────────────────────
+        const USE_REAL_API = false;
+
+        let aiChats = [];
+        let activeChatId = null;
+        let aiStreaming = false;
+        let aiStreamTimer = null;
+
+        const aiSuggestions = [
+            { icon: '🎓', text: "What makes you KPK's first student-built AI?" },
+            { icon: '🚀', text: 'Tell me about Zero Square\u2019s AI services' },
+            { icon: '🧠', text: 'Help me brainstorm a project idea' },
+            { icon: '🏔️', text: 'What is Cadet College Warsak known for?' }
+        ];
+
+        function loadAIChats() {
+            try {
+                aiChats = JSON.parse(localStorage.getItem('wsk_chats') || '[]');
+            } catch (e) {
+                aiChats = [];
+            }
+        }
+
+        function saveAIChats() {
+            localStorage.setItem('wsk_chats', JSON.stringify(aiChats));
+        }
+
+        function initAIChat() {
+            loadAIChats();
+            if (!activeChatId || !aiChats.find(c => c.id === activeChatId)) {
+                activeChatId = aiChats.length ? aiChats[0].id : null;
+            }
+            renderAISidebar();
+            renderAIBody();
+            const sendBtn = document.getElementById('aichat-send-btn');
+            if (sendBtn) sendBtn.disabled = true;
+        }
+
+        function escapeHtml(str) {
+            const d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
+
+        function newAIChat() {
+            activeChatId = null;
+            renderAISidebar();
+            renderAIBody();
+            closeAISidebarMobile();
+            const ta = document.getElementById('aichat-textarea');
+            if (ta) ta.focus();
+        }
+
+        function selectAIChat(id) {
+            if (aiStreaming) return;
+            activeChatId = id;
+            renderAISidebar();
+            renderAIBody();
+            closeAISidebarMobile();
+        }
+
+        function deleteAIChat(id, e) {
+            e.stopPropagation();
+            if (!confirm('Delete this chat?')) return;
+            aiChats = aiChats.filter(c => c.id !== id);
+            saveAIChats();
+            if (activeChatId === id) activeChatId = aiChats.length ? aiChats[0].id : null;
+            renderAISidebar();
+            renderAIBody();
+        }
+
+        function getActiveAIChat() {
+            return aiChats.find(c => c.id === activeChatId) || null;
+        }
+
+        function renderAISidebar() {
+            const wrap = document.getElementById('aichat-sessions');
+            if (!wrap) return;
+            if (!aiChats.length) {
+                wrap.innerHTML = `<div class="aichat-sessions-empty">No chats yet.<br>Start a new conversation below.</div>`;
+                return;
+            }
+            wrap.innerHTML = aiChats.map(c => `
+                <div class="aichat-session-item ${c.id === activeChatId ? 'active' : ''}" onclick="selectAIChat(${c.id})">
+                    <i class="fa-solid fa-comment"></i>
+                    <span class="aichat-session-title">${escapeHtml(c.title || 'New chat')}</span>
+                    <button class="aichat-session-del" onclick="deleteAIChat(${c.id}, event)" aria-label="Delete chat"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `).join('');
+        }
+
+        function aiEmptyStateHTML() {
+            return `
+            <div class="aichat-empty">
+                <svg class="aichat-empty-bg" viewBox="0 0 600 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0,200 L70,95 L130,150 L210,55 L270,140 L340,75 L410,155 L480,65 L550,145 L600,200 Z" fill="none" stroke="rgba(99,102,241,0.18)" stroke-width="1.5"/>
+                    <path d="M0,200 L60,160 L120,185 L190,130 L260,180 L330,140 L400,185 L470,125 L540,180 L600,200 Z" fill="none" stroke="rgba(6,182,212,0.12)" stroke-width="1.5"/>
+                </svg>
+                <div class="aichat-empty-badge"><i class="fa-solid fa-graduation-cap"></i> KPK's First Student-Built AI · Cadet College Warsak</div>
+                <div class="aichat-empty-avatar">AI</div>
+                <h2>Ask WarsakAI anything</h2>
+                <p>An AI assistant prototype designed and built by a student at Cadet College Warsak. Ask about Zero Square, brainstorm an idea, or just say hello.</p>
+                <div class="aichat-suggest-grid">
+                    ${aiSuggestions.map(s => `
+                        <button class="aichat-suggest-card" onclick="sendAISuggestion(${JSON.stringify(s.text)})">
+                            <div class="sg-icon">${s.icon}</div>
+                            <div class="sg-text">${escapeHtml(s.text)}</div>
+                        </button>
+                    `).join('')}
+                </div>
+            </div>`;
+        }
+
+        function renderAIBody() {
+            const body = document.getElementById('aichat-body');
+            if (!body) return;
+            const chat = getActiveAIChat();
+            if (!chat || !chat.messages.length) {
+                body.innerHTML = aiEmptyStateHTML();
+                return;
+            }
+            body.innerHTML = `<div class="aichat-msglist" id="aichat-msglist"></div>`;
+            const list = document.getElementById('aichat-msglist');
+            chat.messages.forEach((m, idx) => {
+                const isLastBot = m.role === 'bot' && idx === chat.messages.length - 1;
+                list.appendChild(buildAIMsgNode(m, isLastBot));
+            });
+            scrollAIBody();
+        }
+
+        function formatAIText(t) {
+            return escapeHtml(t)
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>');
+        }
+
+        function buildAIMsgNode(m, withActions) {
+            const div = document.createElement('div');
+            div.className = `aichat-msg ${m.role === 'user' ? 'user' : 'bot'}`;
+            const avatar = m.role === 'user'
+                ? `<div class="aichat-avatar user"><i class="fa-solid fa-user"></i></div>`
+                : `<div class="aichat-avatar bot">AI</div>`;
+            div.innerHTML = `
+                ${avatar}
+                <div class="aichat-msg-content">
+                    <div class="aichat-bubble-text">${formatAIText(m.text)}</div>
+                </div>
+            `;
+            if (withActions && m.role === 'bot' && !aiStreaming) {
+                addAIMsgActions(div, m);
+            }
+            return div;
+        }
+
+        function addAIMsgActions(node, m) {
+            const content = node.querySelector('.aichat-msg-content');
+            const meta = document.createElement('div');
+            meta.className = 'aichat-msg-meta';
+            meta.innerHTML = `
+                <button class="aichat-icon-btn" onclick="copyAIMessage(this, ${JSON.stringify(m.text)})" title="Copy"><i class="fa-solid fa-copy"></i></button>
+                <button class="aichat-icon-btn" onclick="regenerateAIMessage()" title="Regenerate"><i class="fa-solid fa-rotate-right"></i></button>
+            `;
+            content.appendChild(meta);
+        }
+
+        function copyAIMessage(btn, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                btn.classList.add('copied');
+                btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.innerHTML = '<i class="fa-solid fa-copy"></i>';
+                }, 1500);
+            });
+        }
+
+        function regenerateAIMessage() {
+            if (aiStreaming) return;
+            const chat = getActiveAIChat();
+            if (!chat) return;
+            const lastUser = [...chat.messages].reverse().find(m => m.role === 'user');
+            if (!lastUser) return;
+            generateAIResponse(lastUser.text, chat);
+        }
+
+        function sendAISuggestion(text) {
+            const ta = document.getElementById('aichat-textarea');
+            ta.value = text;
+            autoSizeTextarea(ta);
+            handleAISend();
+        }
+
+        function autoSizeTextarea(el) {
+            el.style.height = 'auto';
+            el.style.height = Math.min(el.scrollHeight, 160) + 'px';
+            const sendBtn = document.getElementById('aichat-send-btn');
+            if (sendBtn) sendBtn.disabled = !el.value.trim() || aiStreaming;
+        }
+
+        function aiTextareaKeydown(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleAISend();
+            }
+        }
+
+        function scrollAIBody() {
+            const body = document.getElementById('aichat-body');
+            if (body) body.scrollTop = body.scrollHeight;
+        }
+
+        function toggleAISidebar() {
+            document.getElementById('aichat-sidebar').classList.toggle('open');
+            document.getElementById('aichat-sidebar-overlay').classList.toggle('open');
+        }
+
+        function closeAISidebarMobile() {
+            if (window.innerWidth <= 900) {
+                document.getElementById('aichat-sidebar').classList.remove('open');
+                document.getElementById('aichat-sidebar-overlay').classList.remove('open');
+            }
+        }
+
+        function toggleAISendStop(streaming) {
+            const sendBtn = document.getElementById('aichat-send-btn');
+            const stopBtn = document.getElementById('aichat-stop-btn');
+            const ta = document.getElementById('aichat-textarea');
+            if (sendBtn) sendBtn.style.display = streaming ? 'none' : 'flex';
+            if (stopBtn) stopBtn.style.display = streaming ? 'flex' : 'none';
+            if (sendBtn && !streaming && ta) sendBtn.disabled = !ta.value.trim();
+        }
+
+        function handleAISend() {
+            const ta = document.getElementById('aichat-textarea');
+            const text = ta.value.trim();
+            if (!text || aiStreaming) return;
+            ta.value = '';
+            autoSizeTextarea(ta);
+
+            let chat = getActiveAIChat();
+            if (!chat) {
+                chat = { id: Date.now(), title: text.slice(0, 42), messages: [] };
+                aiChats.unshift(chat);
+                activeChatId = chat.id;
+            }
+            chat.messages.push({ role: 'user', text, time: timeStr() });
+            saveAIChats();
+            renderAISidebar();
+            renderAIBody();
+            generateAIResponse(text, chat);
+        }
+
+        function showAIThinking() {
+            const list = document.getElementById('aichat-msglist');
+            if (!list) return;
+            const div = document.createElement('div');
+            div.className = 'aichat-msg bot';
+            div.id = 'aichat-thinking';
+            div.innerHTML = `
+                <div class="aichat-avatar bot">AI</div>
+                <div class="aichat-msg-content">
+                    <div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
+                </div>
+            `;
+            list.appendChild(div);
+            scrollAIBody();
+        }
+
+        function removeAIThinking() {
+            const t = document.getElementById('aichat-thinking');
+            if (t) t.remove();
+        }
+
+        function getAIReply(raw) {
+            const text = raw.trim();
+            const lower = text.toLowerCase();
+            const intents = [
+                { k: ['who are you', 'your name', 'what are you'], r: () => `I'm **WarsakAI** — KPK's first student-built AI assistant prototype! 🎓` },
+                { k: ['who made you', 'developer'], r: () => `I was developed by a student at **Cadet College Warsak**.` },
+                { k: ['hello', 'hi'], r: () => `Hey! 👋 I'm WarsakAI. How can I help you?` }
+            ];
+            for (const intent of intents) { if (intent.k.some(kw => lower.includes(kw))) return intent.r(); }
+            return `I'm a lightweight prototype for now. Try asking about Zero Square or Cadet College Warsak!`;
+        }
+
+        function streamAIReply(fullText, chat) {
+            aiStreaming = true;
+            toggleAISendStop(true);
+            const msgObj = { role: 'bot', text: '', time: timeStr() };
+            chat.messages.push(msgObj);
+            const node = buildAIMsgNode(msgObj, false);
+            document.getElementById('aichat-msglist').appendChild(node);
+            const textEl = node.querySelector('.aichat-bubble-text');
+            const words = fullText.split(/(\s+)/);
+            let i = 0;
+            aiStreamTimer = setInterval(() => {
+                if (i >= words.length) { clearInterval(aiStreamTimer); aiStreaming = false; toggleAISendStop(false); saveAIChats(); addAIMsgActions(node, msgObj); return; }
+                msgObj.text += words[i];
+                textEl.innerHTML = formatAIText(msgObj.text) + '<span class="aichat-cursor"></span>';
+                i++;
+                scrollAIBody();
+            }, 16);
+        }
+
+        function stopAIStream() {
+            if (!aiStreamTimer) return;
+            clearInterval(aiStreamTimer);
+            aiStreaming = false;
+            toggleAISendStop(false);
+            saveAIChats();
+            renderAIBody();
+        }
+
+        async function generateAIResponse(userText, chat) {
+            showAIThinking();
+            await new Promise(r => setTimeout(r, 600));
+            const reply = getAIReply(userText);
+            removeAIThinking();
+            streamAIReply(reply, chat);
+        }
+
         // ── Admin Auth ────────────────────────────────────────
         function showAdmin() { document.getElementById('admin-modal').style.display = 'flex'; }
-
         function closeAdmin() { document.getElementById('admin-modal').style.display = 'none'; }
-
         function loginAdmin() {
             const pass = document.getElementById('admin-pass').value;
             if (pass === 'zero2024') {
-                isAdmin = true;
-                closeAdmin();
-                renderLeads();
-                go('admin');
+                isAdmin = true; closeAdmin(); renderLeads(); go('admin');
                 document.getElementById('admin-pass').value = '';
-            } else {
-                alert('❌ Invalid credentials. Please try again.');
-                document.getElementById('admin-pass').value = '';
-                document.getElementById('admin-pass').focus();
-            }
+            } else { alert('❌ Invalid credentials.'); }
         }
-
-        function logoutAdmin() {
-            isAdmin = false;
-            go('home');
-        }
+        function logoutAdmin() { isAdmin = false; go('home'); }
 
         // ── CHATBOT ──────────────────────────────────────────
         const chatResponses = {
-            greetings: ['hello', 'hi', 'hey', 'good morning', 'good afternoon', 'good evening', 'howdy'],
-            services: ['services', 'what do you do', 'offer', 'help', 'service', 'capabilities'],
-            pricing: ['price', 'pricing', 'cost', 'how much', 'rates', 'fee', 'plan', 'budget'],
-            seo: ['seo', 'search engine', 'rank', 'ranking', 'google', 'organic'],
-            marketing: ['marketing', 'ads', 'paid', 'meta', 'facebook', 'instagram', 'linkedin', 'google ads', 'ppc',
-                'campaign'
-            ],
-            web: ['website', 'web', 'develop', 'react', 'nextjs', 'design', 'build', 'landing page'],
-            ai: ['ai', 'artificial intelligence', 'chatbot', 'bot', 'automation', 'voice agent', 'call agent'],
-            ecommerce: ['shopify', 'ecommerce', 'e-commerce', 'store', 'shop', 'product'],
-            contact: ['contact', 'reach', 'email', 'phone', 'call', 'talk', 'book', 'consultation', 'free call'],
-            about: ['about', 'team', 'who', 'founded', 'company', 'agency', 'arez', 'usman', 'hizam'],
-            results: ['results', 'roi', 'roas', 'success', 'case study', 'growth', 'performance'],
-            location: ['location', 'where', 'country', 'pakistan', 'asia', 'office'],
-            thanks: ['thank', 'thanks', 'appreciate', 'great', 'awesome', 'perfect', 'cool'],
-            bye: ['bye', 'goodbye', 'see you', 'later', 'ciao'],
+            greetings: ['hello', 'hi', 'hey'],
+            services: ['services', 'what do you do'],
+            contact: ['contact', 'reach', 'email'],
         };
-
         const botReplies = {
-            greetings: () =>
-                `👋 Hey there! I'm ZeroBot, Zero Square's AI assistant. I'm here to help you explore how we can grow your business. What would you like to know?`,
-            services: () =>
-                `We offer 9 core services:\n\n🚀 Digital Marketing & Paid Ads\n🔍 SEO Optimization\n💻 Website Development\n🛍️ Shopify & E-Commerce\n🤖 AI Chatbot Development\n📞 AI Voice Call Agents\n🎨 Branding & Design\n📱 Social Media Marketing\n💡 E-Commerce Consulting\n\nWhich one interests you most?`,
-            pricing: () =>
-                `We have flexible plans:\n\n**Starter** — Free forever (great for exploring)\n**Pro** — $159/mo (unlimited campaigns + AI tools)\n**Enterprise** — Custom pricing for large teams\n\nAll plans come with a free strategy consultation. Want to book one?`,
-            seo: () =>
-                `Our SEO service covers everything:\n\n• Technical SEO audits\n• Keyword research & content strategy\n• Backlink building\n• Core Web Vitals optimization\n\nMost clients see ranking improvements within 60 days. Want details?`,
-            marketing: () =>
-                `We run high-ROI campaigns across Meta, Google, and LinkedIn. Every dollar is tracked to real revenue — no vanity metrics.\n\nOur clients average a **6× ROAS**. Ready to see what we can do for your brand?`,
-            web: () =>
-                `We build fast, modern websites using React & Next.js — optimized for conversion, SEO, and performance from day one.\n\nYour website should be your best salesperson. Want us to make that happen?`,
-            ai: () =>
-                `AI is at the core of what we do! We build:\n\n🤖 Custom AI chatbots (like me!)\n📞 AI voice call agents (24/7 lead qualification)\n⚡ AI automation workflows\n\nThese run 24/7, never take breaks, and handle 90% of queries. Interested?`,
-            ecommerce: () =>
-                `We help Shopify stores scale without limits — from custom theme development to conversion optimization and retention systems.\n\nHigh-volume store? We have a dedicated E-Commerce Consulting service too.`,
-            contact: () =>
-                `Ready to talk? Here's how to reach us:\n\n📧 teamzerosquare@gmail.com\n📞 +92 303 9617995\n\nOr scroll down to fill out the contact form for a free consultation — we respond within 24 hours! 🚀`,
-            about: () =>
-                `Zero Square was founded by **Arez Khan** with a mission to combine human creativity and AI automation to outperform legacy agencies.\n\nOur core team:\n👤 Arez Khan — Founder & CEO\n👤 M. Usman — Managing Director\n👤 Hizam Ali — Marketing Director\n\nBased in Asia, serving clients on 3 continents.`,
-            results: () =>
-                `Our track record:\n\n📊 50+ projects completed\n😊 20+ happy clients\n✅ 95% client satisfaction\n📈 6× average ROAS delivered\n\nMost clients see measurable results within the first 30 days.`,
-            location: () =>
-                `Zero Square is based at our Asia Digital HQ, serving brands across Asia, Europe, and the Americas. We work 100% remotely so geography is never a barrier.`,
-            thanks: () => `Happy to help! 😊 Is there anything else you'd like to know about Zero Square's services?`,
-            bye: () => `Thanks for chatting! If you ever want to talk growth, we're always here. Have a great day! 🚀`,
-            default: () => {
-                const topics = ['our services', 'pricing', 'SEO', 'AI chatbots', 'digital marketing', 'web development',
-                    'how to contact us'
-                ];
-                const pick = topics[Math.floor(Math.random() * topics.length)];
-                return `I'm not sure I caught that! 🤔 I can help you with things like ${pick}, or anything else about Zero Square. What would you like to explore?`;
-            }
+            greetings: () => `👋 Hey! I'm ZeroBot. What would you like to know?`,
+            services: () => `We offer SEO, Ads, Web Dev, and AI solutions.`,
+            contact: () => `Reach us at teamzerosquare@gmail.com!`,
+            default: () => `I can help with services, pricing, or contact info!`
         };
 
         function detectIntent(msg) {
@@ -3607,68 +4521,23 @@
             return 'default';
         }
 
-        function timeStr() {
-            return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
+        function timeStr() { return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); }
 
         function addMsg(text, sender) {
             const msgs = document.getElementById('chat-msgs');
             const div = document.createElement('div');
             div.className = `msg ${sender}`;
-            const formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
-            div.innerHTML = `<div class="msg-bubble">${formatted}</div><div class="msg-time">${timeStr()}</div>`;
+            div.innerHTML = `<div class="msg-bubble">${text.replace(/\n/g, '<br>')}</div><div class="msg-time">${timeStr()}</div>`;
             msgs.appendChild(div);
             msgs.scrollTop = msgs.scrollHeight;
-        }
-
-        function addTyping() {
-            const msgs = document.getElementById('chat-msgs');
-            const div = document.createElement('div');
-            div.className = 'msg bot';
-            div.id = 'typing-msg';
-            div.innerHTML =
-                `<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
-            msgs.appendChild(div);
-            msgs.scrollTop = msgs.scrollHeight;
-        }
-
-        function removeTyping() {
-            const t = document.getElementById('typing-msg');
-            if (t) t.remove();
-        }
-
-        function addQuickBtns(options) {
-            const msgs = document.getElementById('chat-msgs');
-            const div = document.createElement('div');
-            div.className = 'msg bot';
-            div.innerHTML =
-                `<div class="chat-quick-btns">${options.map(o => `<button class="quick-btn" onclick="quickSend('${o}')">${o}</button>`).join('')}</div>`;
-            msgs.appendChild(div);
-            msgs.scrollTop = msgs.scrollHeight;
-        }
-
-        function quickSend(text) {
-            document.querySelectorAll('.chat-quick-btns').forEach(el => el.closest('.msg').remove());
-            handleUserMsg(text);
         }
 
         function handleUserMsg(text) {
             addMsg(text, 'user');
-            addTyping();
-            const intent = detectIntent(text);
-            const delay = 600 + Math.random() * 700;
             setTimeout(() => {
-                removeTyping();
-                const reply = (botReplies[intent] || botReplies.default)();
+                const reply = (botReplies[detectIntent(text)] || botReplies.default)();
                 addMsg(reply, 'bot');
-                if (intent === 'services') {
-                    setTimeout(() => addQuickBtns(['SEO', 'Paid Ads', 'AI Chatbot', 'Web Dev', 'Pricing']), 300);
-                } else if (intent === 'greetings') {
-                    setTimeout(() => addQuickBtns(['Our Services', 'Pricing', 'How to contact']), 300);
-                } else if (['services', 'seo', 'marketing', 'web', 'ai', 'ecommerce'].includes(intent)) {
-                    setTimeout(() => addQuickBtns(['Book free call', 'Pricing', 'About the team']), 300);
-                }
-            }, delay);
+            }, 600);
         }
 
         function sendChat() {
@@ -3686,29 +4555,10 @@
                 notifDismissed = true;
                 document.querySelector('.chat-notif').style.display = 'none';
                 if (document.getElementById('chat-msgs').children.length === 0) {
-                    setTimeout(() => {
-                        addMsg(
-                            "👋 Hi! I'm ZeroBot — Zero Square's AI assistant. I can tell you about our digital marketing services, pricing, team, and more. How can I help you today?",
-                            'bot');
-                        setTimeout(() => addQuickBtns(['Our Services', 'Pricing', 'About the team', 'Contact us']),
-                            400);
-                    }, 300);
+                    addMsg("👋 Hi! I'm ZeroBot. How can I help you grow today?", 'bot');
                 }
             }
         }
-
-        setTimeout(() => {
-            if (!chatOpen) {
-                toggleChat();
-            }
-        }, 6000);
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeLeadModal();
-                closeAdmin();
-            }
-        });
     </script>
 </body>
 </html>
