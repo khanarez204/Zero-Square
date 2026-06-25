@@ -4179,7 +4179,7 @@
             { icon: '🎓', text: "What makes you KPK's first student-built AI?" },
             { icon: '🚀', text: 'Tell me about Zero Square\u2019s AI services' },
             { icon: '🧠', text: 'Help me brainstorm a project idea' },
-            { icon: '🏔️', text: 'What is Cadet College Warsak known for?' }
+            { icon: '🏔️', text: 'What is Zerosqaure known for?' }
         ];
 
         function loadAIChats() {
@@ -4268,7 +4268,7 @@
                 <div class="aichat-empty-badge"><i class="fa-solid fa-graduation-cap"></i> KPK's First Student-Built AI · Cadet College Warsak</div>
                 <div class="aichat-empty-avatar">AI</div>
                 <h2>Ask WarsakAI anything</h2>
-                <p>An AI assistant prototype designed and built by a student at Cadet College Warsak. Ask about Zero Square, brainstorm an idea, or just say hello.</p>
+                <p>An AI assistant prototype designed and built by a programmer at Zerosquare . Ask about Zero Square, brainstorm an idea, or just say hello.</p>
                 <div class="aichat-suggest-grid">
                     ${aiSuggestions.map(s => `
                         <button class="aichat-suggest-card" onclick="sendAISuggestion(${JSON.stringify(s.text)})">
@@ -4444,9 +4444,9 @@
             const text = raw.trim();
             const lower = text.toLowerCase();
             const intents = [
-                { k: ['who are you', 'your name', 'what are you'], r: () => `I'm **WarsakAI** — KPK's first student-built AI assistant prototype! 🎓` },
-                { k: ['who made you', 'developer'], r: () => `I was developed by a student at **Cadet College Warsak**.` },
-                { k: ['hello', 'hi'], r: () => `Hey! 👋 I'm WarsakAI. How can I help you?` }
+                { k: ['who are you', 'your name', 'what are you'], r: () => `I'm **ZeroAI** — KPK's first student-built AI assistant prototype! 🎓` },
+                { k: ['who made you', 'developer'], r: () => `I was developed by a programmer at **zerosquare**.` },
+                { k: ['hello', 'hi'], r: () => `Hey! 👋 I'm ZeroAI. How can I help you?` }
             ];
             for (const intent of intents) { if (intent.k.some(kw => lower.includes(kw))) return intent.r(); }
             return `I'm a lightweight prototype for now. Try asking about Zero Square or Cadet College Warsak!`;
