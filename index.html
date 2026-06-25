@@ -1624,7 +1624,7 @@
             margin-bottom: 6px;
         }
 
-        /* ===== AI CHAT PAGE (WarsakAI) ===== */
+        /* ===== AI CHAT PAGE (ZeroAI) ===== */
         #aichat-page.page {
             display: none;
         }
@@ -3567,7 +3567,7 @@
         </section>
     </div>
 
-    <!-- ======== AI CHAT PAGE (WarsakAI) ======== -->
+    <!-- ======== AI CHAT PAGE (ZeroAI) ======== -->
     <div id="aichat-page" class="page">
         <div class="aichat-shell">
             <div class="aichat-sidebar-overlay" id="aichat-sidebar-overlay" onclick="toggleAISidebar()"></div>
@@ -3575,33 +3575,33 @@
                 <div class="aichat-sidebar-head">
                     <div class="aichat-brand">
                         <div class="aichat-brand-mark">AI</div>
-                        <div class="aichat-brand-text">WarsakAI<span>by Zero Square</span></div>
+                        <div class="aichat-brand-text">ZeroAI<span>by Zero Square</span></div>
                     </div>
                     <button class="aichat-newchat-btn" onclick="newAIChat()"><i class="fa-solid fa-plus"></i> New chat</button>
                 </div>
                 <div class="aichat-sessions" id="aichat-sessions"></div>
                 <div class="aichat-sidebar-foot">
                     <strong>KPK's first student-built AI</strong><br>
-                    Designed & developed by a student at Cadet College Warsak.
+                    Designed & developed by a programmer at Zerosquare.
                 </div>
             </aside>
 
             <div class="aichat-main">
                 <div class="aichat-topbar">
                     <button class="aichat-mobile-toggle" onclick="toggleAISidebar()" aria-label="Toggle chat history"><i class="fa-solid fa-bars"></i></button>
-                    <div class="aichat-model-pill">WarsakAI · v1</div>
+                    <div class="aichat-model-pill">ZeroAI · v1</div>
                     <div class="aichat-status">Online</div>
-                    <div class="aichat-topbar-badge"><i class="fa-solid fa-graduation-cap"></i> <span>Built at Cadet College Warsak</span></div>
+                    <div class="aichat-topbar-badge"><i class="fa-solid fa-graduation-cap"></i> <span>Built at Zerosquare</span></div>
                 </div>
                 <div class="aichat-body" id="aichat-body"></div>
                 <div class="aichat-input-wrap">
                     <div class="aichat-input-inner">
                         <div class="aichat-input-box">
-                            <textarea id="aichat-textarea" rows="1" placeholder="Message WarsakAI..." oninput="autoSizeTextarea(this)" onkeydown="aiTextareaKeydown(event)"></textarea>
+                            <textarea id="aichat-textarea" rows="1" placeholder="Message ZeroAI..." oninput="autoSizeTextarea(this)" onkeydown="aiTextareaKeydown(event)"></textarea>
                             <button class="aichat-send-btn" id="aichat-send-btn" onclick="handleAISend()" disabled aria-label="Send"><i class="fa-solid fa-arrow-up"></i></button>
                             <button class="aichat-stop-btn" id="aichat-stop-btn" onclick="stopAIStream()" aria-label="Stop generating"><i class="fa-solid fa-stop"></i></button>
                         </div>
-                        <div class="aichat-disclaimer">WarsakAI is an experimental student project and can make mistakes — built for demo purposes.</div>
+                        <div class="aichat-disclaimer">ZeroAI is an experimental student project and can make mistakes — built for demo purposes.</div>
                     </div>
                 </div>
             </div>
